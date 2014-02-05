@@ -1,0 +1,67 @@
+-- author: LiXizhi
+-- date: 2008.10.14
+
+NPL Language Service
+------------------------
+NPL Language Service is a visual studio package (VsPackage) for NPL syntax highlighting. It is based on WowAddonStudio by microsoft. 
+
+---++ Debug NPL Language Service
+Start external program: E:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe
+Command line arguments: /rootsuffix Exp
+
+---++ Deployment
+After release build in vs, simply double click: 
+ParaEngine\Dev\Deploy\NPLLanguageService.vsix
+or ParaEngine\Dev\NPLDebugEngine\VsNPL\NPLLanguageService\bin\Release\NPLLanguageService.vsix
+
+---++ Code Completion
+The language service support code completion and documentation display. 
+They are loaded from XML file. The code is here:
+LoadXmlDocumentation()@LanguageService.cs and XmlDocumentationLoader.cs
+
+By default, the vspackage generate documentation for all XML files under install dir
+C:\Documents and Settings\Xizhi\Local Settings\Application Data\Microsoft\VisualStudio\10.0Exp\Extensions\ParaEngine\NPLLanguageService\1.0\Documentation\*.xml
+
+These files maps to files in Documentation/*.xml folder. Select property and then change Build action to Content, and Include in VISX to true. 
+
+---++ Changes
+2014.2.5
+	- lexer.cs and parser.cs are generated using vs 2010 SDK's mplex.exe mppg.exe and hard coded instead of generated. 
+	- compiled against visual studio 2013.
+
+2011.2.21
+	- fixed a bug that the page down and redo button is not usable.
+
+2010.5.18
+	- LanguageService:::ValidateBreakpointLocation is implemented so that we can set breakpoint at any text location. 
+	- Outling is supported again by disable OutlineSourceWindow
+
+2010.5.16
+	- NPL Language Service is now ported from vs 2008 to vs 2010, which can be easily deployed using vsix extension. 
+	- Changing namespaces to ParaEngine.Tools, and removed unused dependencies(now only a single program). 
+
+2008.10.21
+	- we now support namespace (ns) attribute to variables, so that a table can reside in a nested namespace. such as <variable name="Class1" type="Class1" ns="MyCompany.MyProject.Class1"/>
+		more information please see VsNPL.LuaLauguageService.XmlDocumentationLoader.AddTableDeclaration();
+
+2008.10.14 [obsoleted in vs 2010]
+	- download the WowAddonStudio source from SVN from codeplex
+	- install visual studio 2008 SDK. 
+	- Generate a PLK for product name and version, etc. Embed the PLK in resource file. and modify the LuaLanguageServicePackage.cs accordingly. 
+	- Edit the project property to add debug command in debug mode: /ranu /rootsuffix Exp /novsip
+	- Edit the project property to add post build event to generate reg file for deployment
+		"C:\Program Files\Microsoft Visual Studio 2008 SDK\VisualStudioIntegration\Tools\bin\RegPkg.exe" /regfile:DeployVsNPL.reg /codebase "$(TargetDir)LuaLanguageService.dll"
+	- change the default registry root to [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\9.0")] since we are deploying to isolated shell. 
+	- Added Documentation/NplDocumetation.xml
+	- VSPackages is set to load whenever a solution exists. 
+	  [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82")] // = VSConstants.UICONTEXT_SolutionExists.ToString()
+	- Fixed: we need to regenerate all GUIDs in order for language service to load correctly. 
+	- Now that debug and release mode are compiled with different GUID.
+	- DeployVsNPL.reg is used to create the SetupVsNPL project: needs to replace following key values
+		- [TARGETDIR]LuaLanguageService.dll
+		- [SystemFolder]mscoree.dll
+	- SetupVsNPL project is implemented which is based on the tutorial of http://msdn.microsoft.com/en-us/library/bb458038.aspx
+	- Note: if *.xml documentation file is not valid, it may render the entire code sense invalid for any lua files. 
+
+	- NPLDocumentation will be added in future. 
+	

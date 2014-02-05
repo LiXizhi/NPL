@@ -1,0 +1,18 @@
+<SnippetCollection>
+    <Language Lang="Lua" Guid="{73DA124B-2CC5-4F79-A0DB-B11B6AAA2BE5}">
+        <SnippetDir>
+            <OnOff>On</OnOff>
+            <Installed>true</Installed>
+            <Locale>1033</Locale>
+            <DirPath>%InstallRoot%\Snippets\%LCID%\Lua\</DirPath>	
+            <LocalizedName>Lua</LocalizedName>
+        </SnippetDir>
+        <SnippetDir>
+            <OnOff>On</OnOff>
+            <Installed>true</Installed>
+            <Locale>1033</Locale>
+            <DirPath>%InstallRoot%\Snippets\%LCID%\Wow\</DirPath>	
+            <LocalizedName>World of Warcraft</LocalizedName>
+        </SnippetDir>
+    </Language>
+</SnippetCollection>

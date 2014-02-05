@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<doc>
+  <tables>
+    <table name="string">
+      <function name="format">
+        <summary>Return a formatted string using values passed in.</summary>
+        <parameter name="formatstring"/>
+        <parameter name="value"/>
+      </function>
+      <function name="gsub">
+        <summary>Globally substitute pattern for replacement in string.</summary>
+        <parameter name="string"/>
+        <parameter name="pattern"/>
+        <parameter name="replacement"/>
+        <parameter name="limitCount" optional="true"/>
+      </function>
+      <function name="find">
+        <summary>Look for match of pattern in string, optionally from specific location or using plain substring.</summary>
+        <parameter name="string"/>
+        <parameter name="pattern"/>
+        <parameter name="initpos" optional="true"/>
+        <parameter name="plain" optional="true"/>
+      </function>
+      <function name="len">
+        <summary>Return length of the string.</summary>
+        <parameter name="string"/>
+      </function>
+      <function name="lower">
+        <summary>Return string with all upper case changed to lower case.</summary>
+        <parameter name="string"/>
+      </function>
+      <function name="match">
+        <summary>Similar to string.find but only returns the matches, not the string positions.</summary>
+        <parameter name="string"/>
+        <parameter name="pattern"/>
+        <parameter name="initpos" optional="true"/>
+      </function>
+      <function name="sub">
+        <summary>Return a substring of string starting at index</summary>
+        <parameter name="string"/>
+        <parameter name="index"/>
+        <parameter name="endIndex" optional="true"/>
+      </function>
+      <function name="upper">
+        <summary>Return string with all lower case changed to upper case.</summary>
+        <parameter name="string"/>
+      </function>
+    </table>
+  </tables>
+  <variables>
+    <variable name="string" type="string" />
+  </variables>
+</doc>

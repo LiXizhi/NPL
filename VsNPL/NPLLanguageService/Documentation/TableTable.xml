@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<doc>
+  <tables>
+    <table name="table">
+      <function name="foreach">
+        <summary>Execute function for each element in table.</summary>
+        <parameter name="table" />
+        <parameter name="function" />
+      </function>
+      <function name="concat">
+        <summary>Concatenate the elements of a table together to form a string. Each element must be able to be coerced into a string.</summary>
+        <parameter name="table" />
+      </function>
+      <function name="getn">
+        <summary>Return the size of the table when seen as a list. This is deprecated, it is replaced by the # operator. Instead of table.getn(table), use #(table).</summary>
+        <parameter name="table" />
+      </function>
+      <function name="ipairs">
+        <summary>Returns an iterator of type integer to traverse a table.</summary>
+        <parameter name="table" />
+      </function>
+      <function name="pairs">
+        <summary>Returns an iterator to traverse a table.</summary>
+        <parameter name="table" />
+      </function>
+      <function name="sort">
+        <summary>Sort the elements in the table in-place, optionally using a custom comparator.</summary>
+        <parameter name="table" />
+        <parameter name="comp" optional="true"/>
+      </function>
+      <function name="insert">
+        <summary>Insert value into the table at position pos (defaults to end of table)</summary>
+        <parameter name="table" />
+        <parameter name="pos" optional="true" />
+        <parameter name="value" />
+      </function>
+      <function name="remove">
+        <summary>Remove and return the table element at position pos (defaults to last entry in table)</summary>
+        <parameter name="table" />
+        <parameter name="pos" optional="true" />
+      </function>
+    </table>
+  </tables>
+  <variables>
+    <variable name="table" type="table" />
+  </variables>
+</doc>

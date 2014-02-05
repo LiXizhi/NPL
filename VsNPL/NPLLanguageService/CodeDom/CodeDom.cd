@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ParaEngine.Tools.Lua.CodeDom.LuaFileCodeModel">
+    <Position X="2.5" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="AddAttribute" Hidden="true" />
+      <Method Name="AddClass" Hidden="true" />
+      <Method Name="AddDelegate" Hidden="true" />
+      <Method Name="AddEnum" Hidden="true" />
+      <Method Name="AddInterface" Hidden="true" />
+      <Method Name="AddNamespace" Hidden="true" />
+      <Method Name="AddStruct" Hidden="true" />
+      <Property Name="Children" Hidden="true" />
+      <Field Name="chunk" Hidden="true" />
+      <Field Name="codeElementFromPointObject" Hidden="true" />
+      <Property Name="Collection" Hidden="true" />
+      <Field Name="currentEditingPoint" Hidden="true" />
+      <Property Name="EndPoint" Hidden="true" />
+      <Property Name="FullName" Hidden="true" />
+      <Method Name="GetEndPoint" Hidden="true" />
+      <Method Name="GetStartPoint" Hidden="true" />
+      <Method Name="Initialize" Hidden="true" />
+      <Field Name="isDirty" Hidden="true" />
+      <Method Name="IsInRange" Hidden="true" />
+      <Property Name="Kind" Hidden="true" />
+      <Method Name="LuaFileCodeModel" Hidden="true" />
+      <Field Name="modelInitialized" Hidden="true" />
+      <Property Name="ModelInitialized" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Field Name="provider" Hidden="true" />
+      <Field Name="rootElement" Hidden="true" />
+      <Property Name="StartPoint" Hidden="true" />
+      <Field Name="textBuffer" Hidden="true" />
+      <Method Name="WalkMembers" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAABQQgABASaHQAAhmRCQMgAAgpQWIIABARAQAAgg=</HashCode>
+      <FileName>CodeDom\LuaFileCodeModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.CodeDom.ASTTranslator">
+    <Position X="0.5" Y="5.75" Width="2.5" />
+    <Members>
+      <Method Name="AddElementToParent" Hidden="true" />
+      <Method Name="ASTTranslator" Hidden="true" />
+      <Method Name="CreateTable" Hidden="true" />
+      <Method Name="CreateVirtualFunction" Hidden="true" />
+      <Field Name="dte" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Method Name="RecurseAssignmentNode" Hidden="true" />
+      <Method Name="RecurseFieldInTable" Hidden="true" />
+      <Method Name="RecurseFunctionDeclarationNode" Hidden="true" />
+      <Method Name="RecurseFunctionNode" Hidden="true" />
+      <Method Name="RecurseNode" Hidden="true" />
+      <Method Name="RecurseStatement" Hidden="true" />
+      <Field Name="rootClass" Hidden="true" />
+      <Field Name="rootElement" Hidden="true" />
+      <Method Name="TraceDump" Hidden="true" />
+      <Method Name="TraceRecurseElements" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAACGAAAAABABAAAEAAECgAAAABAEIQEQAUAAAA=</HashCode>
+      <FileName>CodeDom\ASTTranslator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.CodeDom.LuaCodeDomNavigator">
+    <Position X="6.75" Y="4.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAKAABAAAAASAAAAEggQAAIAAoQAAAAQAAAA=</HashCode>
+      <FileName>CodeDom\LuaCodeDomNavigator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.CodeDom.Providers.LuaCodeDomProvider">
+    <Position X="5.25" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="dte" Hidden="true" />
+      <Method Name="LuaCodeDomProvider" Hidden="true" />
+      <Field Name="projectItem" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAQAABAAAAQAAAAQAAAAAAABAAAAAAAAgAQAAAAAAAA=</HashCode>
+      <FileName>CodeDom\Providers\LuaCodeDomProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="EnvDTE.FileCodeModel">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Method Name="AddAttribute" Hidden="true" />
+      <Method Name="AddClass" Hidden="true" />
+      <Method Name="AddDelegate" Hidden="true" />
+      <Method Name="AddEnum" Hidden="true" />
+      <Method Name="AddInterface" Hidden="true" />
+      <Method Name="AddNamespace" Hidden="true" />
+      <Method Name="AddStruct" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

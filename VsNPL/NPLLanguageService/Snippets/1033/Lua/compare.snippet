@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>compare</Title>
+			<Shortcut>compare</Shortcut>
+			<Description>Code snippet for comparing two values</Description>
+			<Author>Microsoft Corporation</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>leftvalue</ID>
+					<ToolTip>Left value to evaluate</ToolTip>
+					<Default>left</Default>
+				</Literal>
+				<Literal>
+					<ID>rightvalue</ID>
+					<ToolTip>Right value to evaluate</ToolTip>
+					<Default>right</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="lua">
+<![CDATA[if ($leftvalue$ < $rightvalue$) then $end$
+	elseif ($leftvalue$ == $rightvalue$) then
+	else
+	end]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

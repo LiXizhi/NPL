@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CanNotCreateWindow" xml:space="preserve">
+    <value>Can not create tool window.</value>
+  </data>
+  <data name="CannotCreateWindow1" xml:space="preserve">
+    <value>Cannot create tool window.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ClearFiltersButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ClearFiltersButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CodeOutlineViewCommandName" xml:space="preserve">
+    <value>Code Outline View</value>
+  </data>
+  <data name="CodeOutlineViewCommandToolTipText" xml:space="preserve">
+    <value>Show Code Outline View</value>
+  </data>
+  <data name="CodeWindowCommandBarName" xml:space="preserve">
+    <value>Code Window</value>
+  </data>
+  <data name="ErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ErrorIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ErrorPrefix" xml:space="preserve">
+    <value>Error:</value>
+  </data>
+  <data name="InvalidElementParentMessage" xml:space="preserve">
+    <value>Element cannot be nested within CodeElement scope.</value>
+  </data>
+  <data name="InvalidFunctionElementMessage" xml:space="preserve">
+    <value>Type of element must be LuaCodeFunction type.</value>
+  </data>
+  <data name="InvalidFunctionParentMessage" xml:space="preserve">
+    <value>Function cannot be nested within CodeElement scope.</value>
+  </data>
+  <data name="OldFunctionNotFoundMessage" xml:space="preserve">
+    <value>Function not found with name '{0}'.</value>
+  </data>
+  <data name="RefactoringContextMenuName" xml:space="preserve">
+    <value>Refactor</value>
+  </data>
+  <data name="RenameAllowedMessage" xml:space="preserve">
+    <value>Rename allowed.</value>
+  </data>
+  <data name="RenameCommandName" xml:space="preserve">
+    <value>Rename...</value>
+  </data>
+  <data name="RenameConflictDefinitionText" xml:space="preserve">
+    <value>Conflict with {0} {1} in {2}.</value>
+  </data>
+  <data name="RenameConflictFoundCaption" xml:space="preserve">
+    <value>Found conflicts</value>
+  </data>
+  <data name="RenameConflictFoundMessage" xml:space="preserve">
+    <value>WowAddonStudio has found that the refactoring has some conflicts with the existing code.
+You can look through the list of conflicts and fix them by manually editing, choose 'Cancel'.</value>
+  </data>
+  <data name="RenameConflictsToolTipText" xml:space="preserve">
+    <value>Double click to navigate.</value>
+  </data>
+  <data name="RenameNewNameEmptyMessage" xml:space="preserve">
+    <value>New name of element cannot be empty!</value>
+  </data>
+  <data name="RenameNotAllowedMessage" xml:space="preserve">
+    <value>Rename is not allowed for selected object.</value>
+  </data>
+  <data name="RenameStartedMessage" xml:space="preserve">
+    <value>Renaming element: {0}</value>
+  </data>
+  <data name="RootElementCannotBeFoundMessage" xml:space="preserve">
+    <value>RootElement for '{0}' cannot be found.</value>
+  </data>
+  <data name="StatusPrefix" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="SymbolReservedMessage" xml:space="preserve">
+    <value>Symbol is a reserved keyword, rename not allowed.</value>
+  </data>
+  <data name="ToolWindowTitle" xml:space="preserve">
+    <value>NPL Outline</value>
+  </data>
+  <data name="ToolWindowTitle1" xml:space="preserve">
+    <value>Source Outliner</value>
+  </data>
+  <data name="TreeViewIcons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TreeViewIcons.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewMenuCommandBarName" xml:space="preserve">
+    <value>View</value>
+  </data>
+</root>

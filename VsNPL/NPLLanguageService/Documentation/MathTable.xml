@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<doc>
+  <tables>
+    <table name="math">
+      <function name="abs">
+        <summary>Returns the absolute value of the number.</summary>
+        <parameter name="value" />
+        <returns>The absolute value of the number.</returns>
+      </function>
+      <function name="acos">
+        <summary>Returns the arc cosine of the value in degrees.</summary>
+        <parameter name="value" />
+        <returns>The arc cosine of the value in degrees.</returns>
+      </function>
+      <function name="asin">
+        <summary>Returns the arc sine of the value in degrees.</summary>
+        <parameter name="value" />
+        <returns>The arc sine of the value in degrees.</returns>
+      </function>
+      <function name="atan">
+        <summary>Returns the arc tangent of the value in degrees.</summary>
+        <parameter name="value" />
+        <returns>The arc tangent of the value in degrees.</returns>
+      </function>
+      <function name="atan2">
+        <summary>Returns the arc tangent of Y/X in degrees.</summary>
+        <parameter name="y" />
+        <parameter name="x" />
+        <returns>The arc tangent of Y/X in degrees.</returns>
+      </function>
+      <function name="ceil">
+        <summary>Returns the ceiling of value.</summary>
+        <parameter name="value" />
+        <returns>The ceiling of value.</returns>
+      </function>
+      <function name="cos">
+        <summary>Returns the cosine of the degree value.</summary>
+        <parameter name="degrees" />
+        <returns>The cosine of the degree value.</returns>
+      </function>
+      <function name="deg">
+        <summary>Returns the degree equivalent of the radian value.</summary>
+        <parameter name="radians" />
+        <returns>The degree equivalent of the radian value.</returns>
+      </function>
+      <function name="exp">
+        <summary>Returns the exponent of value.</summary>
+        <parameter name="value" />
+        <returns>The exponent of value.</returns>
+      </function>
+      <function name="floor">
+        <summary>Returns the floor of value.</summary>
+        <parameter name="value" />
+        <returns>The floor of value.</returns>
+      </function>
+      <function name="frexp">
+        <summary>Extract mantissa and exponent from a floating point number.</summary>
+        <parameter name="num" />
+      </function>
+      <function name="ldexp">
+        <summary>Load exponent of a floating point number.</summary>
+        <parameter name="value" />
+        <parameter name="exponent" />
+      </function>
+      <function name="log">
+        <summary>Returns the natural logarithm (log base e) of value.</summary>
+        <parameter name="value" />
+        <returns>The natural logarithm (log base e) of value.</returns>
+      </function>
+      <function name="log10">
+        <summary>Returns the base-10 logarithm of value.</summary>
+        <parameter name="value" />
+        <returns>The base-10 logarithm of value.</returns>
+      </function>
+      <function name="max">
+        <summary>Returns the numeric maximum of the input values.</summary>
+        <parameter name="value" />
+        <parameter name="values" optional="true" />
+        <returns>The numeric maximum of the input values.</returns>
+      </function>
+      <function name="min">
+        <summary>Returns the numeric minimum of the input values.</summary>
+        <parameter name="value" />
+        <parameter name="values" optional="true" />
+        <returns>The numeric minimum of the input values.</returns>
+      </function>
+      <function name="fmod">
+        <summary>Returns floating point modulus of value.</summary>
+        <parameter name="value" />
+        <parameter name="modulus" />
+        <returns>Floating point modulus of value.</returns>
+      </function>
+      <function name="rad">
+        <summary>Returns the radian equivalent of the degree value.</summary>
+        <parameter name="degrees" />
+        <returns>The radian equivalent of the degree value.</returns>
+      </function>
+      <function name="random">
+        <summary>Returns a random number (optionally bounded integer value)</summary>
+        <parameter name="lower" optional="true" />
+        <parameter name="upper" optional="true" />
+        <returns>A random number (optionally bounded integer value)</returns>
+      </function>
+      (seed)   - 
+      <function name="randomseed">
+        <summary>Seed the pseudo random number generator</summary>
+        <parameter name="seed" />
+      </function>
+      <function name="sin">
+        <summary>Returns the sine of the degree value.</summary>
+        <parameter name="degree" />
+        <returns>The sine of the degree value.</returns>
+      </function>
+      <function name="sqrt">
+        <summary>Returns the square root of value.</summary>
+        <parameter name="value" />
+        <returns>The square root of value.</returns>
+      </function>
+      <function name="tan">
+        <summary>Returns the tangent of the degree value.</summary>
+        <parameter name="degrees" />
+        <returns>Returns the tangent of the degree value.</returns>
+      </function>
+    </table>
+  </tables>
+  <variables>
+    <variable name="math" type="math" />
+  </variables>
+</doc>
+

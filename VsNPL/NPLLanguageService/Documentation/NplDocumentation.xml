@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<doc>
+  <tables>
+    <!-- http://pedn.paraengine.com/NPL - inherits attributes added manually -->
+    <table name="ParaUI">
+      <function name="CreateUIObject">
+        <summary>Create a UI Object</summary>
+        <parameter name="type" />
+        <parameter name="name" />
+      </function>
+      <function name="Destroy">
+        <summary>Destroy a given UI object</summary>
+        <parameter name="name" />
+      </function>
+    </table>
+
+    <table name="commonlib">
+      <function name="log">
+        <summary>write any object, table, string, formatted text to log</summary>
+        <parameter name="object" />
+        <parameter name="format_values" optional="true"/>
+      </function>
+      <function name="echo">
+        <summary>write any object, table, string, formatted text to log </summary>
+        <parameter name="object" />
+      </function>
+    </table>
+
+    <table name="XPath">
+      <function name="selectNodes">
+        <summary> XPath uses path expressions to select nodes in an XML document. </summary>
+        <parameter name="xmlLuaTable" />
+        <parameter name="xpath"/>
+        <returns>a table array of nodes</returns>
+      </function>
+      <function name="eachNode">
+        <summary>return an iterator of selected nodes in the XML document.</summary>
+        <parameter name="xmlLuaTable" />
+        <parameter name="xpath"/>
+        <parameter name="object" />
+        <returns>a iterator function </returns>
+      </function>
+    </table>
+    
+  </tables>
+  <globals>
+    <!-- Generated based on http://pedn.paraengine.com/NPL -->
+    <function name="log">
+      <summary>output to log.txt</summary>
+      <parameter name="text" />
+    </function>
+  </globals>
+  <variables>
+    <variable name="ParaUI" type="ParaUI"/>
+    <variable name="commonlib" type="commonlib"/>
+    <variable name="XPath" type="XPath" ns="commonlib.XPath"/>
+  </variables>
+</doc>

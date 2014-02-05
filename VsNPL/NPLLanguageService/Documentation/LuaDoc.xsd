@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LuaDoc"
+    targetNamespace="http://microsoft.com/luadoc/2008/LuaDoc.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://microsoft.com/luadoc/2008/LuaDoc.xsd"
+    xmlns:mstns="http://microsoft.com/luadoc/2008/LuaDoc.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="doc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="tables" minOccurs="0" maxOccurs="1" nillable="false">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="table">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="function" type="function" minOccurs="0" maxOccurs="unbounded" />
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="inherits" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="globals" minOccurs="0" maxOccurs="1" nillable="false">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="function" type="function" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="variables" minOccurs="0" maxOccurs="1" nillable="false">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="variable" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence />
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="type" type="xs:string" use="required" />
+                  <xs:attribute name="ns" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="variableKey">
+      <xs:selector xpath=".//mstns:variable" />
+      <xs:field xpath="@type" />
+    </xs:key>
+    <xs:key name="tableKey">
+      <xs:selector xpath=".//mstns:table" />
+      <xs:field xpath="@name" />
+    </xs:key>
+    <!--<xs:keyref name="variabletable" refer="variableKey">
+      <xs:selector xpath=".//mstns:table" />
+      <xs:field xpath="@name" />
+    </xs:keyref>-->
+  </xs:element>
+  <xs:complexType name="function">
+    <xs:sequence>
+      <xs:element name="summary" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true">
+      </xs:element>
+      <xs:element name="details" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true">
+      </xs:element>
+      <xs:element name="returns" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true">
+      </xs:element>
+      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+          </xs:sequence>
+          <xs:attribute name="name" type="xs:string" use="required" />
+          <xs:attribute name="optional" type="xs:boolean" use="optional" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>

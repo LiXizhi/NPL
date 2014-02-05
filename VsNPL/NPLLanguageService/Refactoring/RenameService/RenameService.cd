@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.RenameService.FunctionRenameStrategy" Collapsed="true">
+    <Position X="7" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAEAAIAAAAAAAAAAAAAAAAAAAAEAAAgAA=</HashCode>
+      <FileName>Refactoring\RenameService\FunctionRenameStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.RenameService.VariableRenameStrategy" Collapsed="true">
+    <Position X="4.5" Y="2" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AADAAAAAAAAAACAIAAAAEBAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Refactoring\RenameService\VariableRenameStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.RenameService.BaseRenameStrategy">
+    <Position X="5.25" Y="3.75" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAIACQAAAAAAAAACAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Refactoring\RenameService\BaseRenameStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.RenameService.MultiRenameResult">
+    <Position X="0.5" Y="5.75" Width="3" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACAAAAACAAAAAVAACIAAAAAAAgCgAAAICAAgKAAAAAA=</HashCode>
+      <FileName>Refactoring\RenameService\MultiRenameResult.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.RenameService.CodeElementRenameContext">
+    <Position X="5.5" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Refactoring\RenameService\CodeElementRenameContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.RenameService.RefactorRenameAdapter">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <Members>
+      <Field Name="container" Hidden="true" />
+      <Field Name="dte" Hidden="true" />
+      <Method Name="GetRootElement" Hidden="true" />
+      <Method Name="IsLuaFile" Hidden="true" />
+      <Method Name="IsPhysicalFile" Hidden="true" />
+      <Field Name="languageService" Hidden="true" />
+      <Field Name="luaProjectItems" Hidden="true" />
+      <Field Name="refactoringService" Hidden="true" />
+      <Method Name="RefactorRenameAdapter" Hidden="true" />
+      <Method Name="RenameAllReferences" Hidden="true" />
+      <Method Name="WalkProject" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BAQAQQgAAAAAAAAAgAAABARAAAAgAAAACAQCAAACgAA=</HashCode>
+      <FileName>Refactoring\RenameService\RefactorRenameAdapter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ParaEngine.Tools.Lua.Refactoring.IRenameResult">
+    <Position X="0.5" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAEAAAAAAAAAAAgCgAAAIAAAgIAAAAAA=</HashCode>
+      <FileName>Refactoring\IRenameResult.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ParaEngine.Tools.Lua.Refactoring.IRefactoringService">
+    <Position X="3.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Refactoring\IRefactoringService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ParaEngine.Tools.Lua.Refactoring.RenameService.IRenameStrategy">
+    <Position X="6" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Refactoring\RenameService\IRenameStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

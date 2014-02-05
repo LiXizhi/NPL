@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.UndoManager.RefactorUndoService">
+    <Position X="5.25" Y="3.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="ServiceProvider" Type="System.IServiceProvider">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.232" Y="0.735" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAQAACAABAAAAAAAAAABEAAAAAAAAQAAAQBQAAA=</HashCode>
+      <FileName>Refactoring\UndoManager\RefactorUndoService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="undoUnits" />
+      <Property Name="ServiceProvider" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ParaEngine.Tools.Lua.Refactoring.UndoManager.RenameUndoUnit">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Members>
+      <Method Name="RenameUndoUnit" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="renameResult" Type="ParaEngine.Tools.Lua.Refactoring.IRenameResult">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.703" Y="0.758" Height="0.16" Width="1.045" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAACAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Refactoring\UndoManager\RenameUndoUnit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="renameResult" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Collections.Generic.List&lt;T&gt;" Collapsed="true">
+    <Position X="8.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="ParaEngine.Tools.Lua.Refactoring.UndoManager.ILuaUndoService">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAABAAAAAAAAAABAAAAAAAAAQAAAABAAAA=</HashCode>
+      <FileName>Refactoring\UndoManager\ILuaUndoService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ServiceProvider" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="ParaEngine.Tools.Lua.Refactoring.UndoManager.ILuaUndoUnit">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Refactoring\UndoManager\ILuaUndoUnit.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.IServiceProvider" Collapsed="true">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="ParaEngine.Tools.Lua.Refactoring.IRenameResult">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAEAAAAAAAAAAAgCgAAAIAAAgIAAIAAA=</HashCode>
+      <FileName>Refactoring\IRenameResult.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

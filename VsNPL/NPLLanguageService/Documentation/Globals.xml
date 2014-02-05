@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<doc>
+  <globals>
+    <function name="assert">
+      <summary>Asserts a value is non-nil, otherwise shows dialog and outputs debug diagnostic information if you have a debugger attached to wow.exe.</summary>
+      <parameter name="value">The value to be asserted.</parameter>
+    </function>
+    <function name="collectgarbage">
+      <summary>
+        Forces garbage collection.
+      </summary>
+      <parameter name="opt" />
+    </function>
+    <function name="getfenv">
+      <summary>
+        Returns the table representing the stack frame of the given function or stack level.
+      </summary>
+      <parameter name="param">
+        A function or an integer representing the stack level.
+      </parameter>
+      <returns>
+        A table representing the stack frame.
+      </returns>
+    </function>
+    <function name="next">
+      <summary>
+        Returns the next key, value pair of the table, allowing you to walk over the table.
+      </summary>
+      <parameter name="table" />
+      <parameter name="index" optional="true" />
+    </function>
+    <function name="pcall">
+      <summary>
+        Returns a boolean value indicating successful execution of func and the error message or func's results as additional values.
+      </summary>
+      <parameter name="func" />
+      <parameter name="arg1" />
+      <parameter name="arg2" />
+      <returns>
+        If the call to the function (that was passed to pcall) succeeded, returns true. If an error occured, returns false.
+      </returns>
+    </function>
+    <function name="setfenv">
+      <summary>
+        Sets the table representing the stack frame of the given function or stack level.
+      </summary>
+      <parameter name="param">
+          A function or an integer representing the stack level.
+      </parameter>
+      <parameter name="table">
+        
+          A table representing the stack frame.
+        
+      </parameter>
+    </function>
+    <function name="type">
+      <summary>
+        Returns the type of a variable as a string, "number", "string", "table", "function" or "userdata".
+      </summary>
+      <parameter name="var" />
+      <returns>
+        Returns the type of a variable.
+      </returns>
+    </function>
+    <function name="unpack">
+      <summary>
+        Returns the contents of its argument as separate values.
+      </summary>
+      <parameter name="table"></parameter>
+      <returns>
+        The contents of the argument as separate values.
+      </returns>
+    </function>
+  </globals>
+</doc>
+
