@@ -1,0 +1,8 @@
+.svn*
+*.max
+*.psd
+*.bak
+*.sdf
+*.suo
+*/obj/
+*/Debug/
