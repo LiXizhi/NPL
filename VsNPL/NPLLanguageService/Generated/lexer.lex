@@ -102,6 +102,7 @@ Whitespace      [ \t\r\f\v\n]
 
 [a-zA-Z_][a-zA-Z0-9_]*    { return GetIdToken(yytext); }
 [0-9]*([.][0-9])?[0-9]*   { return (int)Tokens.NUMBER; }
+0[xX][0-9a-fA-F]+		  { return (int)Tokens.NUMBER; }
 /* {String}				  { return (int)Tokens.STRING; } */
 \+                        { return (int)Tokens.PLUS;    }
 \-                        { return (int)Tokens.MINUS;    }

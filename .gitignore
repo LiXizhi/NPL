@@ -4,5 +4,6 @@
 *.bak
 *.sdf
 *.suo
-*/obj/
-*/Debug/
+obj/
+bin/
+Debug/

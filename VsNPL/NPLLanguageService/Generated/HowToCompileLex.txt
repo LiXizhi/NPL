@@ -1,0 +1,9 @@
+Author:LiXizhi
+Date:2015.3.1
+
+C# project does not support custom build step like C++, we do this manually to compile lexer.lex and parser.y
+
+Copy lexer.lex to vs SDK's bin folder and run MPLex.exe lexer.lex
+D:\Program Files (x86)\Microsoft Visual Studio 12.0\VSSDK\VisualStudioIntegration\Tools\Bin\MPLex.exe
+
+Copy generated lexer.cs back to source folder, and it is done. 
