@@ -12,7 +12,7 @@ namespace ParaEngine.Tools.Lua.VsEditor
 		//public static readonly int cmdidDelete = 0x11;
         //public static readonly int cmdidRedo = 73;
         //public static readonly int cmdidUndo = 71; // Microsoft.VisualStudio.VSConstants.VSStd2KCmdID.UNDO;
-        // public static readonly int ECMD_SHOWCONTEXTMENU = 102;
+        public static readonly int ECMD_SHOWCONTEXTMENU = 102;
         private static readonly Dictionary<int, string> commands = new Dictionary<int, string>();
 
         
@@ -68,9 +68,9 @@ namespace ParaEngine.Tools.Lua.VsEditor
 		/// </returns>
         public static bool IsRightClick(Guid cmdGroup, uint cmd)
         {
-            // Deleted by LiXizhi, this fixed a bug that page download and redo is not usable.  
-            // return ((cmdGroup == CMDSETID_StandardCommandSet2K) && (cmd == ECMD_SHOWCONTEXTMENU));
-            return false;
+            // Deleted by LiXizhi, this fixed a bug that page down and redo is not usable.  
+            return ((cmdGroup == CMDSETID_StandardCommandSet2K) && (cmd == ECMD_SHOWCONTEXTMENU));
+            // return false;
         }
     }
 }

@@ -336,7 +336,6 @@
     <Compile Include="SourceOutliner\ResultsTable.cs" />
     <Compile Include="SourceOutliner\SourceOutlinerToolWindow.cs" />
     <Compile Include="VsEditor\VSIDECommands.cs" />
-    <Resource Include="Generated\HowToCompileLex.txt" />
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>

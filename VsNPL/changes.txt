@@ -10,6 +10,7 @@ Start external program: E:\Program Files\Microsoft Visual Studio 10.0\Common7\ID
 Command line arguments: /rootsuffix Exp
 
 ---++ Deployment
+Increase major version number in "source.extension.vsixmanifest"
 After release build in vs, simply double click: 
 ParaEngine\Dev\Deploy\NPLLanguageService.vsix
 or ParaEngine\Dev\NPLDebugEngine\VsNPL\NPLLanguageService\bin\Release\NPLLanguageService.vsix
@@ -19,10 +20,21 @@ The language service support code completion and documentation display.
 They are loaded from XML file. The code is here:
 LoadXmlDocumentation()@LanguageService.cs and XmlDocumentationLoader.cs
 
-By default, the vspackage generate documentation for all XML files under install dir
-C:\Documents and Settings\Xizhi\Local Settings\Application Data\Microsoft\VisualStudio\10.0Exp\Extensions\ParaEngine\NPLLanguageService\1.0\Documentation\*.xml
+By default, the vspackage will generate code completion info from all XML files under ${SolutionDir}/Documentation/ directory
 
-These files maps to files in Documentation/*.xml folder. Select property and then change Build action to Content, and Include in VISX to true. 
+You can put your per solution code completion files at that folder. 
+See example files in Documentation/*.xml folder. Select property and then change Build action to Content, and Include in VISX to true. 
+
+---++ TODO 
+2015.7.10
+	- search in solution:  // LiXizhi: codeModel is always null, need to register a code model somewhere. 
+	- NPL outliner tool window reenabled in menu.view.other_windows.NPL outliner. 
+		FileCodeModel is created dynamically. see: https://msdn.microsoft.com/en-us/library/bb165063.aspx
+		Please note that FileCodeModel is only created when Lua/NPL outliner window is visible, so that we can disable this feature when editing large files. 
+
+2014.2.5
+	- mouse over for quickinfo, goto definition, auto completion can all be done with AuthoringScope and in ParseSource method. 
+	See the AutoCompletion.dgml for reference. We may implement these functions in future. 
 
 ---++ Changes
 2014.2.5

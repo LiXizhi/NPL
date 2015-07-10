@@ -55,6 +55,7 @@ namespace ParaEngine.NPLLanguageService
 #else
     [ProvideService(typeof (ILuaLanguageService), ServiceName = "NPL Language Service")]
 #endif
+    
     // Provide the language service for the .lua extension
     [ProvideLanguageExtension(typeof(LanguageService), Configuration.Extension)]
     // Provide and configure the language service features
@@ -70,9 +71,10 @@ namespace ParaEngine.NPLLanguageService
         CodeSenseDelay = 1000)]
     // This attribute registers a tool window exposed by this package.
     // It will initially be docked at the toolbox window location.
-    //[ProvideToolWindow(typeof(SourceOutlineToolWindow), Width = 300, Height = 450, Style = VsDockStyle.Tabbed)]
+    [ProvideToolWindow(typeof(SourceOutlineToolWindow), Style = VsDockStyle.Tabbed)]
+    
     //This attribute is needed to let the shell know that this package exposes some menus.
-    // [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     
     // VSPackages can be set to autoload when a particular user interface (UI) context exists.For example, a VSPackage can be set to load whenever a solution exists. 
     [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82")] // = VSConstants.UICONTEXT_SolutionExists.ToString()
@@ -120,28 +122,27 @@ namespace ParaEngine.NPLLanguageService
             }
 
             ////Create Editor Factory. Note that the base Package class will call Dispose on it.
-            //base.RegisterEditorFactory(new EditorFactory(this));
+            // base.RegisterEditorFactory(new EditorFactory(this));
 
-            //// Add our command handlers for menu (commands must exist in the .vsct file)
-            //OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            //if (null != mcs)
-            //{
-            //    // Create the command for the tool window
-            //    CommandID toolwndCommandID = new CommandID(GuidList.guidNPLLanguageServiceCmdSet, (int)PkgCmdIDList.cmdidMyNPLOutlineTool);
-            //    MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
-            //    mcs.AddCommand(menuToolWin);
-            //}
-
+            // Add our command handlers for menu (commands must exist in the .vsct file)
+            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            if (null != mcs)
+            {
+                // Create the command for the tool window
+                CommandID toolwndCommandID = new CommandID(GuidList.guidNPLLanguageServiceCmdSet, (int)PkgCmdIDList.cmdidMyNPLOutlineTool);
+                MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
+                mcs.AddCommand(menuToolWin);
+            }
 
             componentManager = (IOleComponentManager)GetService(typeof(SOleComponentManager));
             // Register callback for Language Service interface that returns the language service itself
             IServiceContainer serviceContainer = this;
             serviceContainer.AddService(typeof(ILuaLanguageService), OnCreateLuaLanguageService, true);
-            // serviceContainer.AddService(typeof(IRefactoringService), OnCreateRefactoringService, true);
+            serviceContainer.AddService(typeof(IRefactoringService), OnCreateRefactoringService, true);
 
             // Initialize the DTE and the code outline file manager, and hook up events.
-            //InitializeSourceOutlinerToolWindow();
-            //serviceContainer.AddService(typeof(SourceOutlineToolWindow), sourceOutlinerWindow, true);
+            InitializeSourceOutlinerToolWindow();
+            serviceContainer.AddService(typeof(SourceOutlineToolWindow), sourceOutlinerWindow, true);
 
             CreateCustomServices(serviceContainer);
         }
@@ -164,19 +165,19 @@ namespace ParaEngine.NPLLanguageService
             sourceOutlinerWindow = (SourceOutlineToolWindow)FindToolWindow(typeof(SourceOutlineToolWindow), 0, true);
             sourceOutlinerWindow.Package = this;
 
-            //OLECRINFO[] crinfo = new OLECRINFO[1];
-            //crinfo[0].cbSize = (uint)Marshal.SizeOf(typeof(OLECRINFO));
-            //crinfo[0].grfcrf = (uint)_OLECRF.olecrfNeedIdleTime | (uint)_OLECRF.olecrfNeedPeriodicIdleTime
-            //                   | (uint)_OLECRF.olecrfNeedAllActiveNotifs | (uint)_OLECRF.olecrfNeedSpecActiveNotifs;
-            //crinfo[0].grfcadvf = (uint)_OLECADVF.olecadvfModal | (uint)_OLECADVF.olecadvfRedrawOff |
-            //                     (uint)_OLECADVF.olecadvfWarningsOff;
-            //crinfo[0].uIdleTimeInterval = 100;
+            OLECRINFO[] crinfo = new OLECRINFO[1];
+            crinfo[0].cbSize = (uint)Marshal.SizeOf(typeof(OLECRINFO));
+            crinfo[0].grfcrf = (uint)_OLECRF.olecrfNeedIdleTime | (uint)_OLECRF.olecrfNeedPeriodicIdleTime
+                               | (uint)_OLECRF.olecrfNeedAllActiveNotifs | (uint)_OLECRF.olecrfNeedSpecActiveNotifs;
+            crinfo[0].grfcadvf = (uint)_OLECADVF.olecadvfModal | (uint)_OLECADVF.olecadvfRedrawOff |
+                                 (uint)_OLECADVF.olecadvfWarningsOff;
+            crinfo[0].uIdleTimeInterval = 500;
 
-            //int hr = componentManager.FRegisterComponent(sourceOutlinerWindow, crinfo, out componentID);
-            //if (!ErrorHandler.Succeeded(hr))
-            //{
-            //    Trace.WriteLine("Initialize->IOleComponent registration failed");
-            //}
+            int hr = componentManager.FRegisterComponent(sourceOutlinerWindow, crinfo, out componentID);
+            if (!ErrorHandler.Succeeded(hr))
+            {
+                Trace.WriteLine("Initialize->IOleComponent registration failed");
+            }
 
             sourceOutlinerWindow.InitializeDTE(dte);
             sourceOutlinerWindow.AddWindowEvents();

@@ -91,26 +91,30 @@ namespace ParaEngine.Tools.Lua.VsEditor
 			const int retval = VSConstants.S_OK;
 			string commandId = VSIDECommands.GetCommandId(pguidCmdGroupRef, nCmdID);
 
+            
+
 			if (!string.IsNullOrEmpty(commandId))
 			{
-				//Refactor command
-				if (VSIDECommands.IsRightClick(pguidCmdGroupRef, nCmdID))
-				{
-					//SetRefactorMenuBars();
-					return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
-				}
+                // refactor and undo are not working anyway.
+                if(false)
+                {
+                    //Refactor command
+                    if (VSIDECommands.IsRightClick(pguidCmdGroupRef, nCmdID))
+                    {
+                        SetRefactorMenuBars();
+                        return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                    }
 
-				//Undo command
-				if (commandId == "cmdidUndo")
-				{
-					var luaUndoService = languageService.GetService(typeof (ILuaUndoService)) as ILuaUndoService;
-					if (luaUndoService != null)
-						luaUndoService.Undo();
+                    //Undo command
+                    if (commandId == "cmdidUndo")
+                    {
+                        var luaUndoService = languageService.GetService(typeof(ILuaUndoService)) as ILuaUndoService;
+                        if (luaUndoService != null)
+                            luaUndoService.Undo();
 
-					return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
-				}
-
-				return retval;
+                        return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                    }
+                }
 			}
 
 			return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
@@ -120,6 +124,7 @@ namespace ParaEngine.Tools.Lua.VsEditor
 
 		/// <summary>
 		/// Sets the refactor menu bars.
+        /// Xizhi: this does not work even I set control to enabled. 
 		/// </summary>
 		private void SetRefactorMenuBars()
 		{
@@ -137,8 +142,14 @@ namespace ParaEngine.Tools.Lua.VsEditor
 							break;
 						}
 					}
-				if (renameCommand != null)
-					renameCommand.Enabled = IsRefactorableItemSelected();
+                if (renameCommand != null)
+                {
+                    bool bCanRefactor = IsRefactorableItemSelected();
+                    if (bCanRefactor)
+                        commandBarControl.Enabled = bCanRefactor;
+                    renameCommand.Enabled = bCanRefactor;
+                }
+					
 			}
 			catch (Exception e)
 			{

@@ -15,6 +15,8 @@ using Microsoft.VisualStudio.Shell.Interop;
 using ParaEngine.Tools.Lua.SourceOutliner.Controls;
 using ParaEngine.Tools.Services;
 using ParaEngine.NPLLanguageService;
+using EnvDTE80;
+using Microsoft.VisualStudio;
 
 namespace ParaEngine.Tools.Lua.SourceOutliner
 {
@@ -510,16 +512,22 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
 				return;
 			}
 
-			if ((codeCache != null)
-			    && (codeCache.CurrentFileManager != null)
-			    && (codeCache.CurrentFileManager.Document == window.Document))
-			{
-				codeCache.CurrentFileManager.State = CodeOutlineFileManager.OutlineFileManagerState.WaitToStartOver;
-				control.HideWaitWhileReadyMessage();
-				control.Enabled = false;
-				control.TreeView.Visible = false;
-				control.FilterView.Visible = false;
-			}
+            try
+            {
+                if ((codeCache != null)
+                && (codeCache.CurrentFileManager != null)
+                && (codeCache.CurrentFileManager.Document == window.Document))
+                {
+                    codeCache.CurrentFileManager.State = CodeOutlineFileManager.OutlineFileManagerState.WaitToStartOver;
+                    control.HideWaitWhileReadyMessage();
+                    control.Enabled = false;
+                    control.TreeView.Visible = false;
+                    control.FilterView.Visible = false;
+                }
+            }
+            catch(Exception)
+            {
+            }
 		}
 
 		/// <summary>
@@ -528,7 +536,29 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
 		private void solnEvents_Opened()
 		{
 			isSlnClosing = false;
+            string solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
+            if(solutionDir!=null)
+            {
+                WriteOutput("Open Solution: " + solutionDir);
+
+                var langService = (LanguageService)GetService(typeof(LanguageService));
+                if (langService != null)
+                {
+                    // Load the documentation
+                    langService.LoadXmlDocumentation(solutionDir + "\\");
+                }
+
+            }
 		}
+
+        public void WriteOutput(String text)
+        {
+            var langService = (LanguageService)GetService(typeof(LanguageService));
+            if (langService!=null)
+            {
+                langService.WriteOutput(text);
+            }
+        }
 
 		/// <summary>
 		/// Occurs when a solution is closing.
@@ -805,6 +835,10 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
 					return 0;
 				}
 			}
+
+            // added by Xizhi, we will prevent DomCode parsing when outliner is not visible. 
+            if (((IVsWindowFrame)this.Frame).IsVisible() != VSConstants.S_OK)
+                return 0;
 
 			try
 			{

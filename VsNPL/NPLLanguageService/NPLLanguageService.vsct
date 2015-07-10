@@ -124,7 +124,7 @@
         <Icon guid="guidImages" id="bmpPic2" />
         <Strings>
           <CommandName>cmdidMyNPLOutlineTool</CommandName>
-          <ButtonText>NPL Outline</ButtonText>
+          <ButtonText>Lua/NPL Outliner</ButtonText>
         </Strings>
       </Button>
 

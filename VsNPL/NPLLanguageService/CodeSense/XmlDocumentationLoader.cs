@@ -15,7 +15,7 @@ namespace ParaEngine.Tools.Lua
     public class XmlDocumentationLoader
     {
         private readonly List<XElement> docs = new List<XElement>();
-
+        private HashSet<String> loadedDocsFileName = new HashSet<string>();
         /// <summary>
         /// Loads the XML from the given path and adds the declarations to the declaration CodeSense provider.
         /// </summary>
@@ -25,11 +25,16 @@ namespace ParaEngine.Tools.Lua
             if (path == null)
                 throw new ArgumentNullException("path");
 
-            // Load the XML document
-            XElement doc = ValidateAndLoadXmlDocument(path);
+            string filename = System.IO.Path.GetFileName(path);
+            if(!loadedDocsFileName.Contains(filename))
+            {
+                loadedDocsFileName.Add(filename);
+                // Load the XML document
+                XElement doc = ValidateAndLoadXmlDocument(path);
 
-            // Add the XML document to the list of documents
-            docs.Add(doc);
+                // Add the XML document to the list of documents
+                docs.Add(doc);
+            }
         }
 
         /// <summary>

@@ -19,6 +19,8 @@ using ParaEngine.Tools.Lua.Refactoring;
 using ParaEngine.Tools.Lua.Refactoring.RenameService;
 using ParaEngine.Tools.Lua.SourceOutliner;
 using ParaEngine.Tools.Lua.VsEditor;
+using ParaEngine.Tools.Lua.CodeDom.Providers;
+using ParaEngine.Tools.Lua.CodeDom;
 using ParaEngine.Tools.Services;
 using Microsoft.Win32;
 using Microsoft;
@@ -81,7 +83,7 @@ namespace ParaEngine.Tools.Lua
 		public DTE2 DTE { get; private set; }
 
 		/// <summary>
-		/// Initializes the Language Serice and loads the documentation.
+		/// Initializes the Language Service and loads the documentation.
 		/// </summary>
 		public override void Initialize()
 		{
@@ -92,8 +94,8 @@ namespace ParaEngine.Tools.Lua
 			keywordDeclarationProvider = new KeywordDeclarationProvider();
 			xmlDeclarationProvider = new TableDeclarationProvider();
 
-			// Load the documentation
-			LoadXmlDocumentation();
+            // By Xizhi: no longer loaded, instead, we will load ${SolutionDir}/Documentation/*.xml when opening a new solution file.  
+            // LoadXmlDocumentation();
 			authoringScope = new DeclarationAuthoringScope(this);
 			DTE = GetService(typeof(DTE)) as DTE2;
 		}
@@ -101,11 +103,10 @@ namespace ParaEngine.Tools.Lua
 		/// <summary>
 		/// Loads the XML documentation.
 		/// </summary>
-		private void LoadXmlDocumentation()
+        public void LoadXmlDocumentation(string documentationRootPath = null)
 		{
 			// Retrieve install directory
-			string documentationRootPath = null;
-
+			
             //string installDirectory = GetInstallDirectory();
             //if (installDirectory != null)
             //{
@@ -135,12 +136,20 @@ namespace ParaEngine.Tools.Lua
             //    }
             //}
 
-            documentationRootPath = ParaEngine.NPLLanguageService.NPLLanguageServicePackage.PackageRootPath;
+            if (documentationRootPath == null)
+                documentationRootPath = ParaEngine.NPLLanguageService.NPLLanguageServicePackage.PackageRootPath;
+
             if (documentationRootPath != null)
             {
+                documentationRootPath += "Documentation";
+                int nFileCount = 0;
                 //Look for XML files and load them using the XML documentation loader
-                foreach (string path in Directory.GetFiles(documentationRootPath + "Documentation", "*.xml"))
+                foreach (string path in Directory.GetFiles(documentationRootPath, "*.xml"))
+                {
+                    nFileCount++;
                     xmlDocumentationLoader.LoadXml(path);
+                }
+                WriteOutput(String.Format("Load {0} NPL doc file(s) in folder: {1}", nFileCount, documentationRootPath));
             }
 
 			xmlDocumentationLoader.AddDeclarations(xmlDeclarationProvider);
@@ -232,6 +241,32 @@ namespace ParaEngine.Tools.Lua
 				NotifyOnFileCodeModelChanged();
 			}
 		}
+
+        /// <summary>
+        /// write a line of text to NPL output panel
+        /// </summary>
+        /// <param name="text"></param>
+        public void WriteOutput(String text)
+        {
+            CreateGetOutputPane("NPL").OutputString(text + "\n");
+        }
+
+        private OutputWindowPane CreateGetOutputPane(string title)
+        {
+            DTE2 dte = (DTE2)GetService(typeof(DTE));
+            OutputWindowPanes panes = dte.ToolWindows.OutputWindow.OutputWindowPanes;
+            try
+            {
+                // If the pane exists already, return it.
+                return panes.Item(title);
+            }
+            catch (ArgumentException)
+            {
+                // Create a new pane.
+                return panes.Add(title);
+            }
+        }
+
 
 		/// <summary>
 		/// Called when the user clicks the menu item that shows the tool window.
@@ -361,9 +396,17 @@ namespace ParaEngine.Tools.Lua
 			//Retrieve FileCodeModel from ProjectItem
 			if (DTE != null)
 			{
-				codeModel = DTE.ActiveDocument.ProjectItem.FileCodeModel as LuaFileCodeModel;
+                String sFileName = DTE.ActiveDocument.ProjectItem.Name;
+                codeModel = DTE.ActiveDocument.ProjectItem.FileCodeModel as LuaFileCodeModel;
 
                 // LiXizhi: codeModel is always null, need to register a code model somewhere. 
+                // we will dynamically create code model based on file extension even no File Code Model is found. 
+                if (codeModel == null)
+                {
+                    LuaCodeDomProvider domProvider = new LuaCodeDomProvider(DTE.ActiveDocument.ProjectItem);
+                    codeModel = LuaCodeModelFactory.CreateFileCodeModel(DTE.ActiveDocument.ProjectItem, domProvider, DTE.ActiveDocument.ProjectItem.Name) as LuaFileCodeModel;
+                }
+                
 				if (codeModel != null && !codeModel.ModelInitialized)
 				{
 					//Retrieve TextDocument from ProjectItem

@@ -155,13 +155,13 @@
     <value>Function not found with name '{0}'.</value>
   </data>
   <data name="RefactoringContextMenuName" xml:space="preserve">
-    <value>Refactor</value>
+    <value>&amp;Refactor</value>
   </data>
   <data name="RenameAllowedMessage" xml:space="preserve">
     <value>Rename allowed.</value>
   </data>
   <data name="RenameCommandName" xml:space="preserve">
-    <value>Rename...</value>
+    <value>&amp;Rename...</value>
   </data>
   <data name="RenameConflictDefinitionText" xml:space="preserve">
     <value>Conflict with {0} {1} in {2}.</value>
@@ -195,7 +195,7 @@ You can look through the list of conflicts and fix them by manually editing, cho
     <value>Symbol is a reserved keyword, rename not allowed.</value>
   </data>
   <data name="ToolWindowTitle" xml:space="preserve">
-    <value>NPL Outline</value>
+    <value>Lua/NPL Outliner</value>
   </data>
   <data name="ToolWindowTitle1" xml:space="preserve">
     <value>Source Outliner</value>
