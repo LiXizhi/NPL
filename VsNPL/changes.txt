@@ -31,6 +31,7 @@ See example files in Documentation/*.xml folder. Select property and then change
 	- NPL outliner tool window reenabled in menu.view.other_windows.NPL outliner. 
 		FileCodeModel is created dynamically. see: https://msdn.microsoft.com/en-us/library/bb165063.aspx
 		Please note that FileCodeModel is only created when Lua/NPL outliner window is visible, so that we can disable this feature when editing large files. 
+	- NPL outliner support filtering with fuzz text. 
 
 2014.2.5
 	- mouse over for quickinfo, goto definition, auto completion can all be done with AuthoringScope and in ParseSource method. 

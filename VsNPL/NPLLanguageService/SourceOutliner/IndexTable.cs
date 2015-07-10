@@ -253,12 +253,13 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
         /// code elements that match the user's typed input.
         /// </summary>
         /// <param name="str">The user's typed input.</param>
+        /// <param name="bStartWith">if false, we will enable search in the middle of string as well. </param>
         /// <remarks>
         /// The list is kept in alphabetical order, so if the user types "t",
         /// this sets startIndex to the first code element whose name begins with "t",
         /// and sets endIndex to the last code element whose name begins with "t".
         /// </remarks>
-        protected void FilterTable(string str)
+        protected void FilterTable(string str, bool bStartWith = false)
         {
             // Start over if the typed input is not additional letters added to the end of str.
             if (prevFilterString != null && !str.StartsWith(prevFilterString))
@@ -277,10 +278,21 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
             int i;
             for (i = startIndex; i <= endIndex; i++)
             {
-                if (indexTable[i].CodeElement.Name.StartsWith(str, StringComparison.CurrentCultureIgnoreCase))
+                if (bStartWith)
                 {
-                    startIndex = i;
-                    break;
+                    if (indexTable[i].CodeElement.Name.StartsWith(str, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        startIndex = i;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (indexTable[i].CodeElement.Name.IndexOf(str, 0, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    {
+                        startIndex = i;
+                        break;
+                    }
                 }
             }
 
@@ -295,10 +307,21 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
             // Now, find the end.
             for (i = startIndex + 1; i <= endIndex; i++)
             {
-                if (!indexTable[i].CodeElement.Name.StartsWith(str, StringComparison.CurrentCultureIgnoreCase))
+                if (bStartWith)
                 {
-                    endIndex = i - 1;
-                    break;
+                    if (!indexTable[i].CodeElement.Name.StartsWith(str, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        endIndex = i - 1;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (!(indexTable[i].CodeElement.Name.IndexOf(str, 0, StringComparison.CurrentCultureIgnoreCase) >= 0))
+                    {
+                        endIndex = i - 1;
+                        break;
+                    }
                 }
             }
         }
