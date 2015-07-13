@@ -223,7 +223,7 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
         protected int endIndex;
 
         protected String prevFilterString;
-
+        protected bool bStrictMatch = true;
         /// <summary>
         /// Initializes a new instance of the IndexTable class.
         /// </summary>
@@ -261,6 +261,7 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
         /// </remarks>
         protected void FilterTable(string str, bool bStartWith = false)
         {
+            bStrictMatch = bStartWith;
             // Start over if the typed input is not additional letters added to the end of str.
             if (prevFilterString != null && !str.StartsWith(prevFilterString))
             {
@@ -305,9 +306,9 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
             }
 
             // Now, find the end.
-            for (i = startIndex + 1; i <= endIndex; i++)
+            if (bStartWith)
             {
-                if (bStartWith)
+                for (i = startIndex + 1; i <= endIndex; i++)
                 {
                     if (!indexTable[i].CodeElement.Name.StartsWith(str, StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -315,7 +316,10 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
                         break;
                     }
                 }
-                else
+            }
+            else
+            {
+                for (i = endIndex; i >= startIndex + 1; i--)
                 {
                     if (!(indexTable[i].CodeElement.Name.IndexOf(str, 0, StringComparison.CurrentCultureIgnoreCase) >= 0))
                     {
@@ -340,9 +344,17 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
             tv.Nodes.Clear();
             tv.BeginUpdate();
 
+            if (String.IsNullOrEmpty(prevFilterString))
+                bStrictMatch = true;
+
             for (int i = startIndex; i <= endIndex; i++)
             {
-                tv.Nodes.Add(indexTable[i]);
+                if (bStrictMatch)
+                    tv.Nodes.Add(indexTable[i]);
+                else if (indexTable[i].CodeElement.Name.IndexOf(prevFilterString, 0, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                {
+                    tv.Nodes.Add(indexTable[i]);
+                }
             }
             tv.EndUpdate();
         }

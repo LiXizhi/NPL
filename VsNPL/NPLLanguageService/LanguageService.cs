@@ -29,6 +29,7 @@ using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using LuaParser = ParaEngine.Tools.Lua.Parser.Parser;
 using Source = ParaEngine.Tools.Lua.Parser.Source;
 using LuaScanner = ParaEngine.Tools.Lua.Lexer.Scanner;
+using ParaEngine.NPLLanguageService;
 
 namespace ParaEngine.Tools.Lua
 {
@@ -94,8 +95,8 @@ namespace ParaEngine.Tools.Lua
 			keywordDeclarationProvider = new KeywordDeclarationProvider();
 			xmlDeclarationProvider = new TableDeclarationProvider();
 
-            // By Xizhi: no longer loaded, instead, we will load ${SolutionDir}/Documentation/*.xml when opening a new solution file.  
-            // LoadXmlDocumentation();
+            // By Xizhi: we will also load ${SolutionDir}/Documentation/*.xml when opening a new solution file.  
+            LoadXmlDocumentation();
 			authoringScope = new DeclarationAuthoringScope(this);
 			DTE = GetService(typeof(DTE)) as DTE2;
 		}
@@ -106,38 +107,11 @@ namespace ParaEngine.Tools.Lua
         public void LoadXmlDocumentation(string documentationRootPath = null)
 		{
 			// Retrieve install directory
-			
-            //string installDirectory = GetInstallDirectory();
-            //if (installDirectory != null)
-            //{
-            //     //Combine the install directory and the documentation's relative path into one
-            //    string sPackagePath = @"Software\ParaEngine\ParaEngineSDK";
-            //    using (RegistryKey setupKey = Registry.CurrentUser.OpenSubKey(
-            //         sPackagePath))
-            //    {
-            //        if (setupKey != null)
-            //        {
-            //            string installPath = setupKey.GetValue("").ToString();
-            //            if (!string.IsNullOrEmpty(installPath))
-            //            {
-            //                documentationRootPath = installPath + @"\script\VisualStudioNPL";
-            //            }
-            //        }
-            //    }
-            //    if (documentationRootPath == null)
-            //        documentationRootPath = Path.Combine(installDirectory, documentationRelativePath);
-
-            //    //Make sure we have a valid directory
-            //    if (Directory.Exists(documentationRootPath))
-            //    {
-            //         //Look for XML files and load them using the XML documentation loader
-            //        foreach (string path in Directory.GetFiles(documentationRootPath, "*.xml"))
-            //            xmlDocumentationLoader.LoadXml(path);
-            //    }
-            //}
-
-            if (documentationRootPath == null)
-                documentationRootPath = ParaEngine.NPLLanguageService.NPLLanguageServicePackage.PackageRootPath;
+		    if (documentationRootPath == null)
+            {
+                // documentationRootPath = ParaEngine.NPLLanguageService.NPLLanguageServicePackage.PackageRootPath;
+                documentationRootPath = ObtainInstallationFolder()+"\\";
+            }
 
             if (documentationRootPath != null)
             {
@@ -150,9 +124,8 @@ namespace ParaEngine.Tools.Lua
                     xmlDocumentationLoader.LoadXml(path);
                 }
                 WriteOutput(String.Format("Load {0} NPL doc file(s) in folder: {1}", nFileCount, documentationRootPath));
+                xmlDocumentationLoader.AddDeclarations(xmlDeclarationProvider);
             }
-
-			xmlDocumentationLoader.AddDeclarations(xmlDeclarationProvider);
 		}
 
 		/// <summary>
@@ -396,7 +369,7 @@ namespace ParaEngine.Tools.Lua
 			//Retrieve FileCodeModel from ProjectItem
 			if (DTE != null)
 			{
-                String sFileName = DTE.ActiveDocument.ProjectItem.Name;
+                String sFileName = DTE.ActiveDocument.ProjectItem.get_FileNames(1);
                 codeModel = DTE.ActiveDocument.ProjectItem.FileCodeModel as LuaFileCodeModel;
 
                 // LiXizhi: codeModel is always null, need to register a code model somewhere. 
@@ -404,15 +377,26 @@ namespace ParaEngine.Tools.Lua
                 if (codeModel == null)
                 {
                     LuaCodeDomProvider domProvider = new LuaCodeDomProvider(DTE.ActiveDocument.ProjectItem);
-                    codeModel = LuaCodeModelFactory.CreateFileCodeModel(DTE.ActiveDocument.ProjectItem, domProvider, DTE.ActiveDocument.ProjectItem.Name) as LuaFileCodeModel;
+                    codeModel = LuaCodeModelFactory.CreateFileCodeModel(DTE.ActiveDocument.ProjectItem, domProvider, sFileName) as LuaFileCodeModel;
                 }
                 
 				if (codeModel != null && !codeModel.ModelInitialized)
 				{
-					//Retrieve TextDocument from ProjectItem
-					var td = ((TextDocument) DTE.ActiveDocument.ProjectItem.Document.Object("TextDocument"));
-					EditPoint ep = td.CreateEditPoint(td.StartPoint);
-					string text = ep.GetText(td.EndPoint);
+                    string text = null;
+                    try
+                    {
+                        //Retrieve TextDocument from ProjectItem
+                        var td = ((TextDocument)DTE.ActiveDocument.ProjectItem.Document.Object("TextDocument"));
+                        EditPoint ep = td.CreateEditPoint(td.StartPoint);
+                        text = ep.GetText(td.EndPoint);
+                    }
+					catch(Exception)
+                    {
+                        // open external file if file does not belong to project. 
+                        System.IO.StreamReader fileReader = new System.IO.StreamReader(sFileName);
+                        text = fileReader.ReadToEnd();
+                        fileReader.Close();
+                    }
 					//Initialize FileCodeModel with parsed source code
 					codeModel.Initialize(ParseSource(text));
 				}
@@ -868,6 +852,14 @@ namespace ParaEngine.Tools.Lua
 
 			return String.Empty;
 		}
+
+        private static string ObtainInstallationFolder()
+        {
+            Type packageType = typeof(NPLLanguageServicePackage);
+            Uri uri = new Uri(packageType.Assembly.CodeBase);
+            var assemblyFileInfo = new FileInfo(uri.LocalPath);
+            return assemblyFileInfo.Directory.FullName;
+        }   
 
 		/// <summary>
 		/// Gets the install directory.
