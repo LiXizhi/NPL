@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.IO;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 using EnvDTE;
 using EnvDTE80;
+using System.Threading.Tasks;
 
 namespace ParaEngine.NPLDebuggerPackage
 {
@@ -20,6 +16,14 @@ namespace ParaEngine.NPLDebuggerPackage
         string _Command;
         string _CommandArguments;
         string _SelectedProcess;
+        int m_selectedProcessID;
+
+        public int SelectedProcessID
+        {
+            get { return m_selectedProcessID; }
+            set { m_selectedProcessID = value; }
+        }
+
         public LaunchForm(DTE2 dte)
         {
             _dte = dte;
@@ -75,6 +79,9 @@ namespace ParaEngine.NPLDebuggerPackage
 
         private void LaunchForm_Load(object sender, EventArgs e)
         {
+            this.toolTip1.SetToolTip(this.btnAttach, "Click Attach button twice");
+            this.toolTip2.SetToolTip(this.btnRegisterDebugEngine, "One need to manually register the NPLEngine.dll once to complete installation");
+
             if (_dte.Solution.Projects.Count == 0)
             {
                 // If the misc files project is the only project, display an error.
@@ -186,22 +193,40 @@ namespace ParaEngine.NPLDebuggerPackage
             RefreshProcessList();
         }
 
+        private void btnAttachSingleClick_Click(object sender, EventArgs e)
+        {
+            Process proc = GetSelectedProcess();
+            if (proc != null)
+            {
+                _SelectedProcess = proc.Name;
+                SelectedProcessID = proc.ProcessID;
+                // method 1: let the connector call attach, but this will hang at delayhlp.cpp, which is really strange. This has something to do with DELAYLOAD of dlls
+                DialogResult = DialogResult.Yes;
+                this.Close();
+            }
+        }
+        
         private void btnAttach_Click(object sender, EventArgs e)
         {
             Process proc = GetSelectedProcess();
-            if(proc!=null)
+            if (proc != null)
             {
                 _SelectedProcess = proc.Name;
-                if(false)
-                {
-                    // method 1: let the connector call attach, but this will hang at delayhlp.cpp, which is really strange. This has something to do with DELAYLOAD of dlls
-                    //this.DialogResult = DialogResult.Yes;
-                }
-                else
-                {
-                    // Tricky: Attach2 will cause the main thread to hang at delayhlp.cpp, which is pretty strange, press the attach button twice will solve the problem. This has something to do with DELAYLOAD of dlls
-                    (proc as Process2).Attach2("NPL Debug Engine");
-                }
+                SelectedProcessID = proc.ProcessID;
+                // old method: 
+                // Tricky: Attach2 will cause the main thread to hang at delayhlp.cpp, which is pretty strange, press the attach button twice will solve the problem. This has something to do with DELAYLOAD of dlls
+                // IMPORTANT: One needs to wait a while until cursor is turned to normal cursor before clicking the attach button, 
+                // otherwise attach will not work.  In case of error, try disable and reenable the plugin.
+                (proc as Process2).Attach2("NPLDebugEngineV2");
+                //try
+                //{
+                //    (proc as Process2).Attach2("NPLDebugEngineV2");
+                //}
+                //catch (Exception err)
+                //{
+                //    MessageBox.Show(err.ToString());
+                //    throw err;
+                //}
                 this.Close();
             }
         }
@@ -219,6 +244,14 @@ namespace ParaEngine.NPLDebuggerPackage
 		                clsProcess.Kill();
 	                }
                 }
+            }
+        }
+
+        private void btnRegisterDebugEngine_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("NPL debug engine only needs to be registered once in registry after installation. In order to register NPL debug engine, you need to run visual studio as administrator. Are you running as administrator?", "Register NPL/lua debug engine", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                NPLDebuggerConnect.RegisterNPLDebugEngineDll();
             }
         }
     }

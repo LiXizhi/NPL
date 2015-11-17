@@ -3,6 +3,9 @@
 
 BEGIN_NAMESPACE
 
+/** @Note LiXizhi: define this to use vs 2015's DIA SDK include directory */
+#define USE_VISUALSTUDIO_DIA_SDK14
+
 // Struct for holding the base address and size for a module.
 struct ModuleInfo
 {
@@ -116,6 +119,20 @@ public:
 		/* [in] */ ULONGLONG va,
 		/* [out] */ DWORD *pISect,
 		/* [out] */ DWORD *pOffset);
+
+#ifdef USE_VISUALSTUDIO_DIA_SDK14
+	STDMETHOD(numberOfFunctionFragmentsForVA)(
+		/* [in] */ ULONGLONG vaFunc,
+		/* [in] */ DWORD cbFunc,
+		/* [out] */ DWORD *pNumFragments);
+
+	STDMETHOD(functionFragmentsForVA)(
+		/* [in] */ ULONGLONG vaFunc,
+		/* [in] */ DWORD cbFunc,
+		/* [in] */ DWORD cFragments,
+		/* [out] */ ULONGLONG *pVaFragment,
+		/* [out] */ DWORD *pLenFragment);
+#endif
 };
 
 

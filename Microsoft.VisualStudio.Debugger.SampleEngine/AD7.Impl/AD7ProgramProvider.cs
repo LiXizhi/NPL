@@ -7,11 +7,11 @@ using System.Diagnostics;
 
 namespace Microsoft.VisualStudio.Debugger.SampleEngine
 {
-    // This class implments IDebugProgramProvider2. 
+    // This class implements IDebugProgramProvider2. 
     // This registered interface allows the session debug manager (SDM) to obtain information about programs 
     // that have been "published" through the IDebugProgramPublisher2 interface.
     [ComVisible(true)]
-    [Guid("FF3E23A2-DA7E-4fa7-AF47-6EDEDE4E922E")]
+    [Guid("98F3B228-D4BA-42FB-9005-E44C83D8E125")]
     public class AD7ProgramProvider : IDebugProgramProvider2
     {
         public AD7ProgramProvider()

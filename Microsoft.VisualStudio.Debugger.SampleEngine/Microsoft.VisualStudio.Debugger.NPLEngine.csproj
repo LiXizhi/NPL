@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.VisualStudio.Debugger.SampleEngine</RootNamespace>
-    <AssemblyName>Microsoft.VisualStudio.Debugger.SampleEngine</AssemblyName>
+    <AssemblyName>Microsoft.VisualStudio.Debugger.NPLEngine</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -103,12 +103,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.VisualStudio.Debugger.SampleEngineWorker\Microsoft.VisualStudio.Debugger.SampleEngineWorker.vcxproj">
-      <Project>{CC7B28E0-CB31-44F7-A380-E7072F670F38}</Project>
-      <Name>Microsoft.VisualStudio.Debugger.SampleEngineWorker</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ResourceStrings.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -132,6 +126,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.VisualStudio.Debugger.SampleEngineWorker\Microsoft.VisualStudio.Debugger.SampleEngineWorker.vcxproj">
+      <Project>{cc7b28e0-cb31-44f7-a380-e7072f670f38}</Project>
+      <Name>Microsoft.VisualStudio.Debugger.NPLEngineWorker</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -141,7 +141,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>regsvr32 /s "$(TargetDir)Microsoft.VisualStudio.Debugger.SampleEngineWorker.dll"
+    <PostBuildEvent>rem regsvr32 /s "$(TargetDir)Microsoft.VisualStudio.Debugger.NPLEngineWorker.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

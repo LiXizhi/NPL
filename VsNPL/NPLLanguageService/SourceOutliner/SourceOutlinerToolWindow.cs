@@ -536,18 +536,24 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
 		private void solnEvents_Opened()
 		{
 			isSlnClosing = false;
-            string solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
-            if(solutionDir!=null)
+            try
             {
-                WriteOutput("Open Solution: " + solutionDir);
-
-                var langService = (LanguageService)GetService(typeof(LanguageService));
-                if (langService != null)
+                string solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
+                if (solutionDir != null)
                 {
-                    // Load the documentation
-                    langService.LoadXmlDocumentation(solutionDir + "\\");
-                }
+                    WriteOutput("Open Solution: " + solutionDir);
 
+                    var langService = (LanguageService)GetService(typeof(LanguageService));
+                    if (langService != null)
+                    {
+                        // Load the documentation
+                        langService.LoadXmlDocumentation(solutionDir + "\\");
+                    }
+
+                }
+            }
+            catch(Exception)
+            {
             }
 		}
 

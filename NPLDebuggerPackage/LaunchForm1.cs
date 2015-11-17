@@ -197,7 +197,7 @@ namespace ParaEngine.NPLDebuggerPackage
                 else
                 {
                     // Tricky: Attach2 will cause the main thread to hang at delayhlp.cpp, which is pretty strange, press the attach button twice will solve the problem. This has something to do with DELAYLOAD of dlls
-                    (proc as Process2).Attach2("NPL Debug Engine");
+                    (proc as Process2).Attach2("NPLDebugEngineV2");
                 }
                 //this.Close();
             }

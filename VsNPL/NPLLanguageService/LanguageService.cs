@@ -562,7 +562,7 @@ namespace ParaEngine.Tools.Lua
 			// Create an AST declaration parser to add the declarations from the parsed chunk
 			var declarationParser = new AstDeclarationParser(luaFileDeclarationProviders[request.FileName]);
 
-			// Parse the AST and add the declaarations
+			// Parse the AST and add the declarations
 			if(addLocals)
 				declarationParser.AddChunk(parser.Chunk, request.Line, request.Col);
 			else

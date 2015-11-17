@@ -244,6 +244,8 @@ bool DebuggedProcess::TranslateNPLMsgToDebugEvent(LPDEBUG_EVENT lpDebugEvent, In
 		String^ filename = gcnew String(filename_.c_str());
 		int line = (int)((double)(msg["line"]));
 		unsigned int dwAddress = GetAddressByFileLine(filename, line);
+		// m_callback->OnOutputString(String::Format(gcnew String("file {0} address {1}\n"), filename, dwAddress));
+		
 		lpDebugEvent->u.Exception.ExceptionRecord.ExceptionAddress = (PVOID)(dwAddress);
 	}
 	else if(msg_in.m_filename == "DebuggerOutput" || msg_in.m_filename == "ExpValue")
@@ -686,12 +688,19 @@ void DebuggedProcess::SetBreakpoint(DWORD_PTR address, Object^ client)
 		if (IsDebuggingNPL())
 		{
 			NPL_SetBreakPoint(address);
-			bpData = gcnew BreakpointData(address, 0, client);	
+			bpData = gcnew BreakpointData(address, 0, client);
+			/*{
+				String^ filename;
+				int line = 0;
+				GetFileLineByAddress(address, filename, line);
+				String^ outputStr = String::Format(gcnew String("set break point {0} line {1} address {2}\n"), filename, line, address);
+				m_callback->OnOutputString(outputStr);
+			}*/
 			m_breakpointMap->Add(address, bpData);
 		}
 		else
 		{
-			array<byte>^ memory = ReadMemory(address, 1);
+			cli::array<byte>^ memory = ReadMemory(address, 1);
 			BYTE originialData = memory[0];
 
 			bpData = gcnew BreakpointData(address, originialData, client);	
@@ -736,7 +745,7 @@ void DebuggedProcess::RemoveBreakpoint(DWORD_PTR address, Object^ client)
 			}
 			else
 			{
-				array<byte>^ origData = gcnew array<byte>(1);
+				cli::array<byte>^ origData = gcnew cli::array<byte>(1);
 				origData[0] = bpData->OriginalData;
 				WriteMemory(address, origData);
 				Win32BoolCall(FlushInstructionCache(m_hProcess, NULL, NULL));
@@ -852,7 +861,7 @@ void DebuggedProcess::Suspend()
 	// Once the m_threadIdMap has been entered, there will be no more thread creates or thread destroyies processsed
 	Threading::Monitor::Enter(m_threadIdMap);
 	int suspendIndex = 0;
-	array<DebuggedThread^>^ threads = nullptr;
+	cli::array<DebuggedThread^>^ threads = nullptr;
 	bool success = false;
 
 	if(IsDebuggingNPL())
@@ -867,7 +876,7 @@ void DebuggedProcess::Suspend()
 	try
 	{
 		// start by making a copy of the threads so that if something goes wrong we can undo the suspension
-		threads = gcnew array<DebuggedThread^>(m_threadIdMap->Count);
+		threads = gcnew cli::array<DebuggedThread^>(m_threadIdMap->Count);
 		m_threadIdMap->Values->CopyTo(threads, 0);
 		
 		for (; suspendIndex < threads->Length; suspendIndex++)
@@ -912,13 +921,13 @@ void DebuggedProcess::Resume()
 	else
 	{
 		int resumeIndex = 0;
-		array<DebuggedThread^>^ threads = nullptr;
+		cli::array<DebuggedThread^>^ threads = nullptr;
 		bool success = false;
 
 		try
 		{
 			// start by making a copy of the threads so that if something goes wrong we can undo the resume
-			threads = gcnew array<DebuggedThread^>(m_threadIdMap->Count);
+			threads = gcnew cli::array<DebuggedThread^>(m_threadIdMap->Count);
 			m_threadIdMap->Values->CopyTo(threads, 0);
 
 			for (; resumeIndex < threads->Length; resumeIndex++)
@@ -1009,9 +1018,9 @@ DebuggedModule^ DebuggedProcess::ResolveAddress(DWORD_PTR address)
 }
 
 // Read memory from thte process. 
-array<byte>^ DebuggedProcess::ReadMemory(DWORD_PTR base, DWORD size)
+cli::array<byte>^ DebuggedProcess::ReadMemory(DWORD_PTR base, DWORD size)
 {
-	array<byte>^ result = gcnew array<byte>(size);
+	cli::array<byte>^ result = gcnew cli::array<byte>(size);
 	pin_ptr<byte> pResult = &result[0];
 
 	SIZE_T bytesRead;
@@ -1033,7 +1042,7 @@ unsigned int DebuggedProcess::ReadMemoryUInt(DWORD_PTR base)
 }
 
 // Write memory to the debuggee process
-void DebuggedProcess::WriteMemory(DWORD_PTR base, array<byte>^ data)
+void DebuggedProcess::WriteMemory(DWORD_PTR base, cli::array<byte>^ data)
 {
 	pin_ptr<byte> pData = &data[0];
 
@@ -1209,6 +1218,14 @@ bool DebuggedProcess::HandleBreakpointException(const EXCEPTION_DEBUG_INFO* exce
 		m_lastStoppingEvent = Breakpoint;	
 		m_curBreakpointAddress = dwBreakpointAddress;
 
+		/*{
+			String^ filename;
+			int line = 0;
+			GetFileLineByAddress(dwBreakpointAddress, filename, line);
+			String^ outputStr = String::Format(gcnew String("break at {0} line {1} address {2}\n"), filename, line, dwBreakpointAddress);
+			m_callback->OnOutputString(outputStr);
+		}*/
+
 		msclr::lock lock(m_threadIdMap);
 		{
 			DebuggedThread^ thread = m_threadIdMap[m_lastDebugEvent.dwThreadId];	
@@ -1243,7 +1260,7 @@ bool DebuggedProcess::HandleBreakpointException(const EXCEPTION_DEBUG_INFO* exce
 		String^ filename;
 		int line = 0;
 		GetFileLineByAddress(dwBreakpointAddress, filename, line);
-		String^ outputStr = String::Format(gcnew String("Unknown break point {0} line {1}"), filename, line);
+		String^ outputStr = String::Format(gcnew String("Unknown break point {0} line {1} address {2}\n"), filename, line, dwBreakpointAddress);
 		m_callback->OnOutputString(outputStr);
 
 		return HandleAsyncBreakException(exceptionDebugInfo);
@@ -1282,7 +1299,7 @@ bool DebuggedProcess::HandleBreakpointSingleStepException(DWORD dwThreadId, cons
 			DebuggedThread^ thread = m_threadIdMap[dwThreadId];
 			ASSERT(thread != nullptr);
 
-			array<byte>^ data = gcnew array<byte>(1);
+			cli::array<byte>^ data = gcnew cli::array<byte>(1);
 			data[0] = BreakpointInstruction;
 			WriteMemory((DWORD_PTR)(m_singleStepBreakpoint->Address), data);
 			Win32BoolCall(FlushInstructionCache(m_hProcess, NULL, NULL));
@@ -1603,12 +1620,12 @@ DebuggedThread^ DebuggedProcess::CreateThread(DWORD threadId, HANDLE hThread, DW
 	return thread;
 }
 
-array<DebuggedThread^>^ DebuggedProcess::GetThreads()
+cli::array<DebuggedThread^>^ DebuggedProcess::GetThreads()
 {
 	{
 		msclr::lock lock(m_threadList);
 
-		array<DebuggedThread^, 1>^ threads = gcnew array<DebuggedThread^, 1>(m_threadList->Count);
+		cli::array<DebuggedThread^, 1>^ threads = gcnew cli::array<DebuggedThread^, 1>(m_threadList->Count);
 		
 		m_threadList->CopyTo(threads, 0);
 
@@ -1616,12 +1633,12 @@ array<DebuggedThread^>^ DebuggedProcess::GetThreads()
 	}
 }
 
-array<DebuggedModule^>^ DebuggedProcess::GetModules()
+cli::array<DebuggedModule^>^ DebuggedProcess::GetModules()
 {
 	{
 		msclr::lock lock(m_moduleList);
 
-		array<DebuggedModule^, 1>^ modules = gcnew array<DebuggedModule^, 1>(m_moduleList->Count);
+		cli::array<DebuggedModule^, 1>^ modules = gcnew cli::array<DebuggedModule^, 1>(m_moduleList->Count);
 		
 		m_moduleList->CopyTo(modules, 0);
 
@@ -1799,17 +1816,17 @@ bool DebuggedProcess::GetSourceInformation(unsigned int ip, String^% documentNam
 	}
 }
 
-void DebuggedProcess::GetFunctionArgumentsByIP(unsigned int ip, unsigned int bp, array<VariableInformation^>^ arguments)
+void DebuggedProcess::GetFunctionArgumentsByIP(unsigned int ip, unsigned int bp, cli::array<VariableInformation^>^ arguments)
 {
 	GetFunctionVariablesByIP(ip, bp, DataIsParam, arguments);
 }
 
-void DebuggedProcess::GetFunctionLocalsByIP(unsigned int ip, unsigned int bp, array<VariableInformation^>^ locals)
+void DebuggedProcess::GetFunctionLocalsByIP(unsigned int ip, unsigned int bp, cli::array<VariableInformation^>^ locals)
 {
 	GetFunctionVariablesByIP(ip, bp, DataIsLocal, locals);
 }
 
-void DebuggedProcess::GetFunctionVariablesByIP(unsigned int ip, unsigned int bp, DWORD dwDataKind, array<VariableInformation^>^ variables)
+void DebuggedProcess::GetFunctionVariablesByIP(unsigned int ip, unsigned int bp, DWORD dwDataKind, cli::array<VariableInformation^>^ variables)
 {
 	if(IsDebuggingNPL())
 	{
@@ -1842,12 +1859,13 @@ void DebuggedProcess::GetFunctionVariablesByIP(unsigned int ip, unsigned int bp,
 	}
 }
 
-array<unsigned int>^ DebuggedProcess::GetAddressesForSourceLocation(String^ moduleName, String^ documentName, DWORD dwStartLine, DWORD dwStartCol)
+cli::array<unsigned int>^ DebuggedProcess::GetAddressesForSourceLocation(String^ moduleName, String^ documentName, DWORD dwStartLine, DWORD dwStartCol)
 {
 	HRESULT hr = S_OK;
 	if(IsDebuggingNPL())
 	{
 		unsigned int dwAddress = GetAddressByFileLine(documentName, dwStartLine);
+		// m_callback->OnOutputString(String::Format(gcnew String("file {0} address {1}\n"), documentName, dwAddress));
 		Collections::Generic::List<unsigned int>^ addresses = gcnew Collections::Generic::List<unsigned int>();
 		addresses->Add(dwAddress);
 		return addresses->ToArray();
@@ -1948,7 +1966,7 @@ void DebuggedProcess::RecoverFromBreakpoint()
 		if (bpData != nullptr)
 		{
 			// Restore the original instruction in the debuggee
-			array<byte>^ data = gcnew array<byte>(1);
+			cli::array<byte>^ data = gcnew cli::array<byte>(1);
 			data[0] = bpData->OriginalData;
 			WriteMemory(dwBreakpointAddress, data);
 

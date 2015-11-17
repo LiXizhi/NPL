@@ -1,0 +1,106 @@
+HKLM
+{
+   NoRemove SOFTWARE
+   {
+       NoRemove Microsoft
+       {
+           NoRemove VisualStudio
+           {
+               NoRemove 12.0
+               {
+                   NoRemove AD7Metrics
+                   {
+                       NoRemove Engine
+                       {
+                           '{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}' = s 'guidDebuggingSampleEngine'
+                           {
+						        val 'CLSID' = s '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
+                                val 'ProgramProvider' = s '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
+                                val 'Attach' = d '1'
+                                val 'AddressBP' = d '0'
+                                val 'AutoSelectPriority' = d '4'
+                                val 'CallstackBP' =  d '1'
+                                val 'Name' = s 'NPLDebugEngineV2'
+                                val 'PortSupplier' = s '{708C1ECA-FF48-11D2-904F-00C04FA302A1}'
+                                
+                                'IncompatibleList'
+                                {
+                                    val 'guidCOMPlusNativeEng' = s '{92EF0900-2251-11D2-B72E-0000F87572EF}'
+                                    val 'guidCOMPlusOnlyEng' = s '{449EC4CC-30D2-4032-9256-EE18EB41B62B}'
+                                    val 'guidNativeOnlyEng' = s '{449EC4CC-30D2-4032-9256-EE18EB41B62B}'
+                                    val 'guidScriptEng' = s '{F200A7E7-DEA5-11D0-B854-00A0244A1DE2}'
+                                }
+                           }
+                       }
+                   }
+                   
+                   NoRemove CLSID
+                   {
+                       '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
+                       {
+                            val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
+                            val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7Engine'
+                            val 'InprocServer32' = s 'c:\windows\system32\mscoree.dll'   
+                            val 'CodeBase' = s '%WORKERPATH%\Microsoft.VisualStudio.Debugger.NPLEngine.dll'
+                       }
+                       
+                       '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
+                       {
+                            val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
+                            val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7ProgramProvider'
+                            val 'InprocServer32' = s 'c:\windows\system32\mscoree.dll'
+                            val 'CodeBase' = s '%WORKERPATH%\Microsoft.VisualStudio.Debugger.NPLEngine.dll'
+                       }               
+                   }
+               }
+			   NoRemove 14.0
+               {
+                   NoRemove AD7Metrics
+                   {
+                       NoRemove Engine
+                       {
+                           '{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}' = s 'guidDebuggingSampleEngine'
+                           {
+                                val 'CLSID' = s '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
+                                val 'ProgramProvider' = s '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
+                                val 'Attach' = d '1'
+                                val 'AddressBP' = d '0'
+                                val 'AutoSelectPriority' = d '4'
+                                val 'CallstackBP' =  d '1'
+                                val 'Name' = s 'NPLDebugEngineV2'
+                                val 'PortSupplier' = s '{708C1ECA-FF48-11D2-904F-00C04FA302A1}'
+                                
+                                'IncompatibleList'
+                                {
+                                    val 'guidCOMPlusNativeEng' = s '{92EF0900-2251-11D2-B72E-0000F87572EF}'
+                                    val 'guidCOMPlusOnlyEng' = s '{449EC4CC-30D2-4032-9256-EE18EB41B62B}'
+                                    val 'guidNativeOnlyEng' = s '{449EC4CC-30D2-4032-9256-EE18EB41B62B}'
+                                    val 'guidScriptEng' = s '{F200A7E7-DEA5-11D0-B854-00A0244A1DE2}'
+                                }
+                           }
+                       }
+                   }
+                   
+                   NoRemove CLSID
+                   {
+                       '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
+                       {
+                            val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
+                            val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7Engine'
+                            val 'InprocServer32' = s 'c:\windows\system32\mscoree.dll'   
+                            val 'CodeBase' = s '%WORKERPATH%\Microsoft.VisualStudio.Debugger.NPLEngine.dll'
+                       }
+                       
+                       '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
+                       {
+                            val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
+                            val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7ProgramProvider'
+                            val 'InprocServer32' = s 'c:\windows\system32\mscoree.dll'
+                            val 'CodeBase' = s '%WORKERPATH%\Microsoft.VisualStudio.Debugger.NPLEngine.dll'
+                       }               
+                   }
+               }
+           }
+       }
+   }
+}

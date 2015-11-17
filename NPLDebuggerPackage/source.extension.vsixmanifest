@@ -3,7 +3,7 @@
   <Identifier Id="b63940d7-a819-4793-9de8-f55a8085deb6">
     <Name>NPLDebuggerPackage</Name>
     <Author>ParaEngine</Author>
-    <Version>1.0</Version>
+    <Version>1.13</Version>
     <Description xml:space="preserve">NPL debug engine</Description>
     <Locale>1033</Locale>
     <InstalledByMsi>false</InstalledByMsi>
@@ -19,6 +19,11 @@
         <Edition>Pro</Edition>
       </VisualStudio>
       <VisualStudio Version="12.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="14.0">
         <Edition>Ultimate</Edition>
         <Edition>Premium</Edition>
         <Edition>Pro</Edition>

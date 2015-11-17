@@ -55,7 +55,7 @@ namespace Microsoft.VisualStudio.Debugger.SampleEngine
             if (m_enabled != enabled)
             {
                 // A production debug engine would remove or add the underlying int3 here. The sample engine does not support true disabling
-                // of breakpionts.
+                // of breakpoints.
             }
             m_enabled = fEnable == 0 ? false : true;
             return Constants.S_OK;
@@ -100,7 +100,9 @@ namespace Microsoft.VisualStudio.Debugger.SampleEngine
         // of how many times a particular bound breakpoint has been hit and return it here.
         int IDebugBoundBreakpoint2.GetHitCount(out uint pdwHitCount)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            pdwHitCount = 0;
+            return 0;
         }
 
         // The sample engine does not support conditions on breakpoints.
@@ -116,7 +118,8 @@ namespace Microsoft.VisualStudio.Debugger.SampleEngine
         // resets a breakpoint's hit count.
         int IDebugBoundBreakpoint2.SetHitCount(uint dwHitCount)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            return 0;
         }
 
         // The sample engine does not support pass counts on breakpoints.

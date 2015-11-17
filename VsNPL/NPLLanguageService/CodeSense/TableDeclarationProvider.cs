@@ -12,7 +12,7 @@ namespace ParaEngine.Tools.Lua
 		public const string DeclarationsTable = "__DECLARATIONS";
 
 		private readonly char[] delimiters = new[] { '.', ':' };
-		private const char delimiter = '.';
+		// private const char delimiter = '.';
 
 		// Stores the list of declarations for each table
 		private readonly Dictionary<string, Dictionary<string, Declaration>> tableDeclarations = new Dictionary<string, Dictionary<string, Declaration>>(1);
@@ -182,8 +182,8 @@ namespace ParaEngine.Tools.Lua
 			if (qualifiedName == null)
 				throw new ArgumentNullException("qualifiedName");
 
-			// Find the first delimiter, if any
-			int delimiterIndex = qualifiedName.IndexOf(delimiter);
+			// Find the first delimiter, if any, 
+            int delimiterIndex = qualifiedName.LastIndexOfAny(delimiters);
 
 			// Take the first part of the qualified name
 			string name = delimiterIndex != -1 ? qualifiedName.Substring(0, delimiterIndex) : qualifiedName;

@@ -153,24 +153,36 @@ private:
 			String^ fullpath = str;
 			
 			str = str->Replace("\\", "/");
-			if(str->IndexOf(":")>0 || str->IndexOf(m_workingDir)==0)
+			bool isFullPath = str->IndexOf(":") > 0;
+			if (isFullPath)
 			{
-				// Add lower cased and stripping working directory path as well. This is relative path used by NPL runtime. 
+				// add relative path used by NPL runtime as well. 
 				int nIndex = str->IndexOf(m_workingDir);
-				if(nIndex == 0)
+				if (nIndex == 0)
 				{
+					// stripping working directory
 					str = str->Substring(m_workingDir->Length);
+					m_string_to_id[str] = s_last_file_id;
 				}
-				m_string_to_id[str] = s_last_file_id;
+				else
+				{
+					// get relative path by finding the first "script/" or "source/" or "src/"
+					nIndex = str->IndexOf("script/");
+					if (nIndex < 0)
+					{
+						nIndex = str->IndexOf("source/");
+						if (nIndex < 0)
+							nIndex = str->IndexOf("src/");
+					}
+					if (nIndex >= 0)
+					{
+						// add relative path. 
+						str = str->Substring(nIndex);
+						m_string_to_id[str] = s_last_file_id;
+					}
+				}
 			}
-			else
-			{
-				// str is already relative path, so add it.  
-				m_string_to_id[str] = s_last_file_id;
-				// get lower cased full path with backward slashes,  this is the path used by visual studio. 
-				str = m_workingDir + str;
-				fullpath = str->Replace("/", "\\");
-			}
+			// add full path as used by visual studio to locate file path
 			m_id_to_string[s_last_file_id] = fullpath;
 			m_string_to_id[fullpath] = s_last_file_id;
 			out = s_last_file_id;
@@ -273,16 +285,16 @@ public:
 	void SetBreakpoint(DWORD_PTR address, Object^ client);
 	void RemoveBreakpoint(DWORD_PTR address, Object^ client);
 
-	array<byte>^ ReadMemory(DWORD_PTR base, DWORD size);
+	cli::array<byte>^ ReadMemory(DWORD_PTR base, DWORD size);
 	unsigned int ReadMemoryUInt(DWORD_PTR base);
-	void WriteMemory(DWORD_PTR base, array<byte>^ data);
+	void WriteMemory(DWORD_PTR base, cli::array<byte>^ data);
 	void Detach();
 	void Terminate();
 	void Close();
 	void Continue(DebuggedThread^ thread);
 	void Execute(DebuggedThread^ thread);
-	array<DebuggedThread^>^ GetThreads();
-	array<DebuggedModule^>^ GetModules();
+	cli::array<DebuggedThread^>^ GetThreads();
+	cli::array<DebuggedModule^>^ GetModules();
 
 	// Initiate an x86 stack walk on this thread.
 	void DoStackWalk(DebuggedThread^ thread);
@@ -314,10 +326,10 @@ public:
 public:
 	// Symbol handler methods which allow the upper layers to obtain symbol information.
 	bool GetSourceInformation(unsigned int ip, String^% documentName, String^% functionName, unsigned int% dwLine, unsigned int% numParameters, unsigned int% numLocals);
-	void GetFunctionArgumentsByIP(unsigned int ip, unsigned int bp, array<VariableInformation^>^ arguments);
-	void GetFunctionLocalsByIP(unsigned int ip, unsigned int bp, array<VariableInformation^>^ locals);
+	void GetFunctionArgumentsByIP(unsigned int ip, unsigned int bp, cli::array<VariableInformation^>^ arguments);
+	void GetFunctionLocalsByIP(unsigned int ip, unsigned int bp, cli::array<VariableInformation^>^ locals);
 
-	array<unsigned int>^ GetAddressesForSourceLocation(String^ moduleName, String^ documentName, DWORD dwStartLine, DWORD dwStartCol);
+	cli::array<unsigned int>^ GetAddressesForSourceLocation(String^ moduleName, String^ documentName, DWORD dwStartLine, DWORD dwStartCol);
 
 internal:
 	DebuggedProcess(DEBUG_METHOD method, ISampleEngineCallback^ callback, HANDLE hProcess, int processId, String^ name);
@@ -336,7 +348,7 @@ private:
 	bool HandleBreakpointException(const EXCEPTION_DEBUG_INFO* exceptionDebugInfo);
 	bool HandleBreakpointSingleStepException(DWORD dwThreadId, const EXCEPTION_DEBUG_INFO* exceptionDebugInfo);
 
-	void GetFunctionVariablesByIP(unsigned int ip, unsigned int bp, DWORD dwDataKind, array<VariableInformation^>^ variables);
+	void GetFunctionVariablesByIP(unsigned int ip, unsigned int bp, DWORD dwDataKind, cli::array<VariableInformation^>^ variables);
 
 	DWORD GetImageSizeFromPEHeader(HANDLE hProcess, LPVOID lpDllBase);	
 

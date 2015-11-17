@@ -1,4 +1,4 @@
-LIBRARY	"Microsoft.VisualStudio.Debugger.SampleEngineWorker"
+LIBRARY	"Microsoft.VisualStudio.Debugger.NPLEngineWorker"
 
 EXPORTS
 DllRegisterServer	PRIVATE

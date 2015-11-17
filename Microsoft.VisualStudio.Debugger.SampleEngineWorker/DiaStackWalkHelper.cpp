@@ -1,7 +1,7 @@
 
 #include "stdafx.h"
 #include "symbolengine.h"
-#include "diastackwalkhelper.h"
+#include "DiaStackWalkHelper.h"
 
 // Helper class used to implement callbacks from dia into the engine during a stackwalk.
 // Stackwalking is an implementation detail of the sample and this is not intended to be
@@ -250,3 +250,23 @@ STDMETHODIMP DiaStackWalkHelper::addressForVA(/* [in] */ ULONGLONG va, /* [out] 
 {
 	return S_FALSE;
 }
+
+#ifdef USE_VISUALSTUDIO_DIA_SDK14
+STDMETHODIMP DiaStackWalkHelper::numberOfFunctionFragmentsForVA(
+	/* [in] */ ULONGLONG vaFunc,
+	/* [in] */ DWORD cbFunc,
+	/* [out] */ DWORD *pNumFragments)
+{
+	return S_FALSE;
+}
+
+STDMETHODIMP DiaStackWalkHelper::functionFragmentsForVA(
+	/* [in] */ ULONGLONG vaFunc,
+	/* [in] */ DWORD cbFunc,
+	/* [in] */ DWORD cFragments,
+	/* [out] */ ULONGLONG *pVaFragment,
+	/* [out] */ DWORD *pLenFragment)
+{
+	return S_FALSE;
+}
+#endif

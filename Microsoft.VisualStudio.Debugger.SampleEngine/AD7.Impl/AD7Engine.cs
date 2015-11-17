@@ -23,7 +23,7 @@ namespace Microsoft.VisualStudio.Debugger.SampleEngine
     // IDebugEngineProgram2: This interface provides simultanious debugging of multiple threads in a debuggee.
     
     [ComVisible(true)]
-    [Guid("8355452D-6D2F-41b0-89B8-BB2AA2529E94")]
+    [Guid("2FF5BAB7-CA45-4140-A51D-06C0F549EC44")]
     public class AD7Engine : IDebugEngine2, IDebugEngineLaunch2, IDebugProgram3, IDebugEngineProgram2, IDebugSymbolSettings100
     {
         // used to send events to the debugger. Some examples of these events are thread create, exception thrown, module load.
@@ -48,7 +48,7 @@ namespace Microsoft.VisualStudio.Debugger.SampleEngine
         /// This is the engine GUID of the sample engine. It needs to be changed here and in the registration
         /// when creating a new engine.
         /// </summary>
-        public const string Id = "{D951924A-4999-42a0-9217-1EB5233D1D5A}";
+        public const string Id = "{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}";
 
         public AD7Engine()
         {

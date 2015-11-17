@@ -3,8 +3,8 @@
   <Identifier Id="a85e31a8-79a8-4028-b3e0-6e8923873197">
     <Name>NPL_LuaLanguageService</Name>
     <Author>LiXizhi</Author>
-    <Version>1.13.0</Version>
-    <Description xml:space="preserve">NPL/Lua language service for vs 2010/2012/2013</Description>
+    <Version>1.14.0</Version>
+    <Description xml:space="preserve">NPL/Lua language service for vs 2010/2012/2013/2015</Description>
     <Locale>1033</Locale>
     <InstalledByMsi>false</InstalledByMsi>
     <SupportedProducts>
@@ -19,6 +19,11 @@
         <Edition>Pro</Edition>
       </VisualStudio>
       <VisualStudio Version="12.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="14.0">
         <Edition>Ultimate</Edition>
         <Edition>Premium</Edition>
         <Edition>Pro</Edition>

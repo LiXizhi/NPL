@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,6 +14,7 @@
     <ProjectGuid>{CC7B28E0-CB31-44F7-A380-E7072F670F38}</ProjectGuid>
     <RootNamespace>MicrosoftVisualStudioDebuggerSampleEngineWorker</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>Microsoft.VisualStudio.Debugger.NPLEngineWorker</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -21,13 +22,13 @@
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -53,12 +54,11 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(Configuration)\</OutDir>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Program Files %28x86%29\Microsoft Visual Studio 10.0\DIA SDK\include;D:\lxzsrc\ParaEngine\Server\trunk\boost_1_45_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>D:\Program Files (x86)\Microsoft Visual Studio 12.0\DIA SDK\include;..\..\..\Client\trunk\ParaEngineClient;..\..\..\Server\trunk\boost_1_55_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Program Files (x86)\Microsoft Visual Studio 12.0\DIA SDK\include;..\..\..\Client\trunk\ParaEngineClient;..\..\..\Client\trunk\ParaEngineClient\Core;..\..\..\Server\trunk\boost_1_57_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -72,9 +72,8 @@
       <ResourceOutputFileName>$(IntDir)SampleEngine.res</ResourceOutputFileName>
     </ResourceCompile>
     <Link>
-      <RegisterOutput>true</RegisterOutput>
       <AdditionalDependencies>psapi.lib;D:\Program Files (x86)\Microsoft Visual Studio 12.0\DIA SDK\lib\diaguids.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>SampleEngine.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>NPLEngine.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
@@ -82,7 +81,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>..\..\..\Server\trunk\boost_1_55_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Server\trunk\boost_1_57_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -91,7 +90,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Program Files (x86)\Microsoft Visual Studio 12.0\DIA SDK\include;..\..\..\Client\trunk\ParaEngineClient;..\..\..\Server\trunk\boost_1_55_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Program Files (x86)\Microsoft Visual Studio 12.0\DIA SDK\include;..\..\..\Client\trunk\ParaEngineClient;..\..\..\Client\trunk\ParaEngineClient\Core;..\..\..\Server\trunk\boost_1_57_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MICROSOFTVISUALSTUDIODEBUGGERSAMPLEENGINEWORKER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -99,9 +98,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <RegisterOutput>true</RegisterOutput>
       <AdditionalDependencies>psapi.lib;D:\Program Files (x86)\Microsoft Visual Studio 12.0\DIA SDK\lib\diaguids.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>SampleEngine.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>NPLEngine.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -110,12 +108,12 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>..\..\..\Server\trunk\boost_1_55_0\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Server\trunk\boost_1_57_0\stage\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Constants.cpp" />
-    <ClCompile Include="DiaStackWalkerHelper.cpp" />
+    <ClCompile Include="DiaStackWalkHelper.cpp" />
     <ClCompile Include="dllmain.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -133,9 +131,9 @@
     <ClCompile Include="WorkerAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="nplengine.rgs" />
     <None Include="readme.txt" />
-    <None Include="SampleEngine.def" />
-    <None Include="SampleEngine.rgs" />
+    <None Include="NPLEngine.def" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebuggedModule.h" />
@@ -162,7 +160,7 @@
     <ClInclude Include="WorkerUtil.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SampleEngine.rc" />
+    <ResourceCompile Include="NPLEngine.rc" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.VisualStudio.Debugger.SampleEngine", "Microsoft.VisualStudio.Debugger.SampleEngine\Microsoft.VisualStudio.Debugger.SampleEngine.csproj", "{6D2688FE-6FD8-44A8-B96A-6037457F72A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.VisualStudio.Debugger.NPLEngine", "Microsoft.VisualStudio.Debugger.SampleEngine\Microsoft.VisualStudio.Debugger.NPLEngine.csproj", "{6D2688FE-6FD8-44A8-B96A-6037457F72A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.VisualStudio.Debugger.SampleEngineWorker", "Microsoft.VisualStudio.Debugger.SampleEngineWorker\Microsoft.VisualStudio.Debugger.SampleEngineWorker.vcxproj", "{CC7B28E0-CB31-44F7-A380-E7072F670F38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.VisualStudio.Debugger.NPLEngineWorker", "Microsoft.VisualStudio.Debugger.SampleEngineWorker\Microsoft.VisualStudio.Debugger.SampleEngineWorker.vcxproj", "{CC7B28E0-CB31-44F7-A380-E7072F670F38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPLDebuggerPackage", "NPLDebuggerPackage\NPLDebuggerPackage.csproj", "{45E38911-1D81-4CC8-9266-AFCEBD00FE27}"
 EndProject

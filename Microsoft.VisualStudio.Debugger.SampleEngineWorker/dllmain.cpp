@@ -5,12 +5,12 @@
 #pragma managed(off)
 
 // Use the ATL Registrar to register the engine. 
-class CSampleEngineModule : public CAtlDllModuleT< CSampleEngineModule >
+class CNPLEngineModule : public CAtlDllModuleT< CNPLEngineModule >
 {
 
 };
 
-CSampleEngineModule _SampleEngineModule;
+CNPLEngineModule _SampleEngineModule;
 HMODULE _hModThis;
 
 
@@ -34,7 +34,7 @@ STDAPI DllRegisterServer(void)
         {NULL, NULL}
     };
 
-    HRESULT hr = _SampleEngineModule.UpdateRegistryFromResource(IDR_SAMPLEENGINE, true, rgMap);
+    HRESULT hr = _SampleEngineModule.UpdateRegistryFromResource(IDR_NPLENGINE, true, rgMap);
 	return hr;
 }
 
@@ -59,7 +59,7 @@ STDAPI DllUnregisterServer(void)
         {NULL, NULL}
     };
 
-    HRESULT hr = _SampleEngineModule.UpdateRegistryFromResource(IDR_SAMPLEENGINE, false, rgMap);
+    HRESULT hr = _SampleEngineModule.UpdateRegistryFromResource(IDR_NPLENGINE, false, rgMap);
 	return hr;
 }
 

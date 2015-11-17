@@ -21,9 +21,6 @@
     <ClCompile Include="Constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DiaStackWalkerHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,15 +36,18 @@
     <ClCompile Include="WorkerAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DiaStackWalkHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SampleEngine.def">
+    <None Include="readme.txt" />
+    <None Include="NPLEngine.def">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="SampleEngine.rgs">
+    <None Include="nplengine.rgs">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebuggedModule.h">
@@ -60,9 +60,6 @@
       <Filter>Source Files\Worker API Header files</Filter>
     </ClInclude>
     <ClInclude Include="DiaLoadCallback.h">
-      <Filter>Source Files\Worker API Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="DiaStackWalkHelper.h">
       <Filter>Source Files\Worker API Header files</Filter>
     </ClInclude>
     <ClInclude Include="EngineCallback.h">
@@ -116,9 +113,12 @@
     <ClInclude Include="DiaFrameHolder.h">
       <Filter>Internal Header files</Filter>
     </ClInclude>
+    <ClInclude Include="DiaStackWalkHelper.h">
+      <Filter>Source Files\Worker API Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SampleEngine.rc">
+    <ResourceCompile Include="NPLEngine.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

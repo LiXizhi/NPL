@@ -10,6 +10,8 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
 using EnvDTE80;
+using System.IO;
+
 namespace ParaEngine.NPLDebuggerPackage
 {
     /// <summary>
@@ -76,9 +78,17 @@ namespace ParaEngine.NPLDebuggerPackage
         // Overriden Package Implementation
         #region Package Members
 
+        private static string ObtainInstallationFolder()
+        {
+            Type packageType = typeof(NPLDebuggerPackage);
+            Uri uri = new Uri(packageType.Assembly.CodeBase);
+            var assemblyFileInfo = new FileInfo(uri.LocalPath);
+            return assemblyFileInfo.Directory.FullName;
+        }
+
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initilaization code that rely on services provided by VisualStudio.
+        /// where you can put all the initialization code that rely on services provided by VisualStudio.
         /// </summary>
         protected override void Initialize()
         {
@@ -89,13 +99,7 @@ namespace ParaEngine.NPLDebuggerPackage
             base.Initialize();
 
             // retrieve the installation directory 
-            using (RegistryKey rootKey = this.UserRegistryRoot)
-            {
-                using (RegistryKey packageKey = rootKey.OpenSubKey("ExtensionManager\\EnabledExtensions"))
-                {
-                    PackageRootPath = packageKey.GetValue(GuidList.guidNPLDebuggerPackagePkgString + ",1.0") as String;
-                }
-            }
+            PackageRootPath = ObtainInstallationFolder() + "\\";
 
             // create the NPL Debugger
             NPLDebugger = new NPLDebuggerConnect(DTE2, this);

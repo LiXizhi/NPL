@@ -32,7 +32,7 @@ private:
 		DWORD LastUsed;
 	};
 
-	array<CacheLine>^ m_cache;
+	cli::array<CacheLine>^ m_cache;
 	initonly LPWSTR m_pDeviceNameBuffer;
 	DWORD m_lastUsed;
 	bool m_fElementZeroReserved;
@@ -42,7 +42,7 @@ private:
 public:
 	ModuleResolver()
 	{
-		m_cache = gcnew array<CacheLine,1>(8);
+		m_cache = gcnew cli::array<CacheLine, 1>(8);
 		m_pDeviceNameBuffer = new wchar_t[CCH_MAX_DEVICE_NAME];
 	}
 	~ModuleResolver()
