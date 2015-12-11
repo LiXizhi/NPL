@@ -4,6 +4,7 @@
 *.bak
 *.sdf
 *.suo
+*.opensdf
 obj/
 bin/
 Debug/
