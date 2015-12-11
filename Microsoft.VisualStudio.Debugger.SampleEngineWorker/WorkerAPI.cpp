@@ -335,6 +335,18 @@ bool DebuggedProcess::DispatchNPLDebugEvent(bool& fContinue)
 		m_callback->OnOutputString(outputStr);
 		return true;
 	}
+	else if (msg_in.m_filename == "Attached")
+	{
+		// send load complete message 
+		msclr::lock lock(m_threadIdMap);
+		{
+			DWORD key = m_lastDebugEvent.dwThreadId;
+			DebuggedThread^ thread = m_threadIdMap[key];
+			m_lastStoppingEvent = LoadComplete;
+			m_callback->OnLoadComplete(thread);
+		}
+		return true;
+	}
 	return false;
 }
 
@@ -1428,10 +1440,14 @@ bool DebuggedProcess::DispatchDebugEvent()
 			else
 			{
 				// This is an attach.
-				// Fake up a thread create event for the entrypoint module and the first thread in the process for attach
+				// Fake up a thread create event for the entry point module and the first thread in the process for attach
 				m_callback->OnModuleLoad(module);
 				m_callback->OnSymbolSearch(module, module->SymbolPath, module->SymbolsLoaded);
 				m_callback->OnThreadStart(thread);
+				// fake the load complete event 
+				// @note: we send this event when we received "Attached" message from NPL engine, instead of send it directly here
+				//m_callback->OnLoadComplete(thread);
+				//m_lastStoppingEvent = LoadComplete;
 			}
 		}
 		break;
@@ -1649,7 +1665,7 @@ cli::array<DebuggedModule^>^ DebuggedProcess::GetModules()
 void DebuggedProcess::Continue(DebuggedThread^ thread)
 {
 	ASSERT(Worker::MainThreadId != Worker::CurrentThreadId);
-	ASSERT(m_lastStoppingEvent != Invalid);
+	// ASSERT(m_lastStoppingEvent != Invalid);
 
 	if(IsDebuggingNPL())
 	{

@@ -9,16 +9,19 @@ http://visualstudiogallery.msdn.microsoft.com/7782dc20-924a-4726-8656-d876cdbb34
 
 ## Install
 Please note, there are extra install steps to complete the installation(either clean or upgrade should apply).
-
-1. install normally to visual studio
-2. run visual studio as Administrators, Select menu: Tools->Launch NPL debugger
-3. Click register button to complete installation
-4. restart visual studio (no administrators required), Tools->Launch NPL debugger,  click Attach to debug any running process
+* Please also install latest visual studio redist dll, if you are installing to early versions of vs. 
+* install normally to visual studio
+* run visual studio as Administrators, Select menu: Tools->Launch NPL debugger
+* Click register button to complete installation
+* restart visual studio (no administrators required), Tools->Launch NPL debugger,  click Attach to debug any running process
+* optional: disable the plugin, restart vs and then enable it again (i.e. refresh DEBUG engine dll cache). 
 
 Note1: if you can not attach
-1 make sure to click register button as administrators, and restarted vs.
-2 you need to wait until the cursor turns to normal cusror before click attach button (and click twice)
-3 you are actually attaching to an ParaEngine/NPL process. 
+* make sure to click register button as administrators, and restarted vs.
+* Disable the plugin, restart vs and then enable and restart vs again after registered the dll.(this will force visual studio to reload cached debug engine configurations) 
+* you are actually attaching to an ParaEngine/NPL process with commandline: `debug="main"`. (Download app from <https://github.com/LiXizhi/ParaCraftSDK>)
+* Make sure you have installed latest visual studio redist dll, if you are installing to early versions of vs. 
+* you need to wait until the cursor turns to normal cusror before click attach button (and click twice)
 
 ##  Overview 
 This is a NPL debug engine based on interprocess communication (IPC). 
@@ -78,3 +81,24 @@ One need to start the experimental instance of visual studio.
    - increase the version number in source.extension.vsixmanifest file
    - optional: modify CheckRegisterDebugEngine() in Connect.cs to allow auto registration.
    - modify NPLEngineWorker's include and lib to point to latest visual studio DIA SDK path. 
+
+### Changes
+	- TODO: Stack view
+	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
+
+2015.12.11
+	- fixed having to press the Attach button twice by sending the OnLoadComplete event when receiving "Attached" event from NPL process.
+
+2015.11.14
+	- fixed debug engine dll registration
+	- changed dll name and guid. 
+	- added a register button for manual registration in case multiple instances are registered. 
+	- fixed dll load error for a wrong version of Microsoft.VisualStudio.Shell.Interop.12.0
+
+2014.2.5
+	- ported to visual studio 2013
+
+2010.5.15
+	- Attach process in vs 2010 is supported in addition to launch process. 
+	- stepping into/over/out are fully supported. 
+	- IPCDebugger.lua's debug_hook function is optimized to run much faster. 

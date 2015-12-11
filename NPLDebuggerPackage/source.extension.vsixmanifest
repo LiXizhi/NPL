@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vsix Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
   <Identifier Id="b63940d7-a819-4793-9de8-f55a8085deb6">
-    <Name>NPLDebuggerPackage</Name>
-    <Author>ParaEngine</Author>
-    <Version>1.13</Version>
-    <Description xml:space="preserve">NPL debug engine</Description>
+    <Name>NPL_LuaDebuggerPackage</Name>
+    <Author>LiXizhi</Author>
+    <Version>1.14</Version>
+    <Description xml:space="preserve">NPL/Lua debug engine</Description>
     <Locale>1033</Locale>
     <InstalledByMsi>false</InstalledByMsi>
     <SupportedProducts>

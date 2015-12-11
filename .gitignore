@@ -11,4 +11,5 @@ Debug/
 Backup/
 Release/
 dgml/
+ipch/
 *.user
