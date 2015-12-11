@@ -9,4 +9,5 @@ bin/
 Debug/
 Backup/
 Release/
+dgml/
 *.user
