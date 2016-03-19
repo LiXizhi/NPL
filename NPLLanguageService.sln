@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CB13814-9AFB-46F0-AD00-36B4D0BE9D30}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,10 +9,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VsNPL\changes.txt = VsNPL\changes.txt
 		VsNPL\GlobalAssemblyInfo.cs = VsNPL\GlobalAssemblyInfo.cs
 		VsNPL\IntegrationTests.testsettings = VsNPL\IntegrationTests.testsettings
+		README.md = README.md
 		VsNPL\test.lua = VsNPL\test.lua
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPLLanguageService", "VsNPL\NPLLanguageService\NPLLanguageService.csproj", "{C2D1993A-D6A9-4C92-8D06-7C38B1054FE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "script", "script", "{AA2B5807-E328-4C77-BE36-9F358D95B025}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ide", "ide", "{3C6E53F5-1344-42B8-8026-1B42C6F3CBF7}"
+	ProjectSection(SolutionItems) = preProject
+		script\ide\commonlib.lua = script\ide\commonlib.lua
+		script\ide\Files.lua = script\ide\Files.lua
+		script\ide\IPC.lua = script\ide\IPC.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugger", "Debugger", "{C61F8DC8-322A-46DF-BC5B-7FA07388451F}"
+	ProjectSection(SolutionItems) = preProject
+		script\ide\Debugger\ConsoleDebugger.lua = script\ide\Debugger\ConsoleDebugger.lua
+		script\ide\Debugger\IOConsole.lua = script\ide\Debugger\IOConsole.lua
+		script\ide\Debugger\IPCDebugger.lua = script\ide\Debugger\IPCDebugger.lua
+		script\ide\Debugger\MCMLConsole.lua = script\ide\Debugger\MCMLConsole.lua
+		script\ide\Debugger\NPLCompiler.lua = script\ide\Debugger\NPLCompiler.lua
+		script\ide\Debugger\NPLProfiler.lua = script\ide\Debugger\NPLProfiler.lua
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,5 +47,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA2B5807-E328-4C77-BE36-9F358D95B025} = {8CB13814-9AFB-46F0-AD00-36B4D0BE9D30}
+		{3C6E53F5-1344-42B8-8026-1B42C6F3CBF7} = {AA2B5807-E328-4C77-BE36-9F358D95B025}
+		{C61F8DC8-322A-46DF-BC5B-7FA07388451F} = {3C6E53F5-1344-42B8-8026-1B42C6F3CBF7}
 	EndGlobalSection
 EndGlobal

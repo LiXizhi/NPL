@@ -23,13 +23,20 @@ Note1: if you can not attach
 * Make sure you have installed latest visual studio redist dll, if you are installing to early versions of vs. 
 * you need to wait until the cursor turns to normal cusror before click attach button (and click twice)
 
-##  Overview 
+## Code Overview 
 This is a NPL debug engine based on interprocess communication (IPC). 
 The visusal studio code is based on the offical SampleEngineWorker from microsoft. Basically, 
 	- ProjectLauncher(C#) is a visual studio addon that launch a debugged process, 
 	- NPLEngine(C#) implement the main interfaces with visual studio shell.
 	- NPLEngineWorker(C++/CLI) implements the low evel debug event system which in turn communicate with the NPL process vis IPC
 	- IPCDebugger.lua (lua/NPL) implements the actual debug hook and debug event. 
+
+###  Syntax highlighting
+Support mixed HTML/NPL highlighting. 
+* `LineScanner.cs`: main line based scanner, with cached state for each line. Used for Syntax color and by the parser as well. 
+  * overwrite two virtual functions `SetSource` and `ScanTokenAndProvideInfoAboutIt` to provide text coloring, they are called for each line. 
+  * for HTML/NPL mixed mode, I have used different bits in the cached state for HTML/NPL and standard lua. 
+
 
 ### Advanced Functions
 	- AD7StackFrame::ParseText() is rewritten to support expression evaluation. 
