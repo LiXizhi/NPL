@@ -78,7 +78,8 @@ namespace ParaEngine.Tools.Lua.Parser
 		/// <returns></returns>
 		public override IScanner GetScanner(IVsTextLines buffer)
 		{
-			if (scanner == null) scanner = new LineScanner();
+			if (scanner == null)
+                scanner = new LineScanner();
 
 			return scanner;
 		}

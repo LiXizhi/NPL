@@ -20,7 +20,6 @@ using ParaEngine.Tools.Lua.Refactoring.RenameService;
 using ParaEngine.Tools.Lua.SourceOutliner;
 using ParaEngine.Tools.Lua.VsEditor;
 using ParaEngine.Tools.Lua.CodeDom.Providers;
-using ParaEngine.Tools.Lua.CodeDom;
 using ParaEngine.Tools.Services;
 using Microsoft.Win32;
 using Microsoft;
@@ -83,6 +82,7 @@ namespace ParaEngine.Tools.Lua
 		/// <value>The DTE.</value>
 		public DTE2 DTE { get; private set; }
 
+        static bool bOneTimeInited = false;
 		/// <summary>
 		/// Initializes the Language Service and loads the documentation.
 		/// </summary>
@@ -99,11 +99,24 @@ namespace ParaEngine.Tools.Lua
             LoadXmlDocumentation();
 			authoringScope = new DeclarationAuthoringScope(this);
 			DTE = GetService(typeof(DTE)) as DTE2;
-		}
+            
+            if(!bOneTimeInited)
+            {
+                bOneTimeInited = true;
+                OneTimeInitialize();
+            }
+        }
 
-		/// <summary>
-		/// Loads the XML documentation.
-		/// </summary>
+        public void OneTimeInitialize()
+        {
+            // By Xizhi: fixed a bug that custom colors are not displayed
+            IVsFontAndColorCacheManager mgr = this.GetService(typeof(SVsFontAndColorCacheManager)) as IVsFontAndColorCacheManager;
+            mgr.ClearAllCaches();
+        }
+
+        /// <summary>
+        /// Loads the XML documentation.
+        /// </summary>
         public void LoadXmlDocumentation(string documentationRootPath = null)
 		{
 			// Retrieve install directory
@@ -344,7 +357,7 @@ namespace ParaEngine.Tools.Lua
 		/// <returns></returns>
 		public override string GetFormatFilterList()
 		{
-			return "Lua File (*.lua)\n*.lua";
+			return "Lua File (*.lua)\n*.lua\nNPL Page File (*.page)\n*.page";
 		}
 
 		/// <summary>

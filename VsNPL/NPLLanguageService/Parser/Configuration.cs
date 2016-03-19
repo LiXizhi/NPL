@@ -1,17 +1,36 @@
 using System.Collections.Generic;
-using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
+using Microsoft.VisualStudio.Package;
 
+// for custom colors: 
+//  references: VisualStudio.Text.[Data|Logic|UI.WPF], VisualStudio.CoreUtility, System.ComponentModel.Composition
+//using System.ComponentModel.Composition;
+//using Microsoft.VisualStudio.Text.Classification;
+//using System.Windows.Media;
+//using Microsoft.VisualStudio.Utilities;
 
 namespace ParaEngine.Tools.Lua.Parser
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public static class Configuration
     {
-        static readonly List<IVsColorableItem> colorableItems = new List<Microsoft.VisualStudio.TextManager.Interop.IVsColorableItem>();
 
+        //[Export(typeof(EditorFormatDefinition))]
+        //[ClassificationType(ClassificationTypeNames = "NPL.GreyText")]
+        //[Name("NPL.GreyText")]
+        //internal sealed class GreyTextColorDefinition : ClassificationFormatDefinition
+        //{
+        //    public GreyTextColorDefinition()
+        //    {
+        //        this.ForegroundColor = Colors.Gray;
+        //    }
+        //}
+
+
+        static readonly List<IVsColorableItem> colorableItems = new List<Microsoft.VisualStudio.TextManager.Interop.IVsColorableItem>();
+        
 		/// <summary>
 		/// Gets the colorable items.
 		/// </summary>
@@ -118,7 +137,11 @@ namespace ParaEngine.Tools.Lua.Parser
             CreateColor("Number", COLORINDEX.CI_SYSPLAINTEXT_FG, COLORINDEX.CI_USERTEXT_BK);
             CreateColor("Text", COLORINDEX.CI_SYSPLAINTEXT_FG, COLORINDEX.CI_USERTEXT_BK);
 
-            TokenColor error = CreateColor("Error", COLORINDEX.CI_SYSPLAINTEXT_FG, COLORINDEX.CI_USERTEXT_BK, false, false);
+            // custom colors: 
+            TokenColor error = CreateColor("NPL.Error", COLORINDEX.CI_RED, COLORINDEX.CI_USERTEXT_BK, false, false);
+            TokenColor NPLMarker = CreateColor("NPL.Marker", COLORINDEX.CI_PURPLE, COLORINDEX.CI_SYSWIDGETMGN_BK, true, false);
+            TokenColor NPLGreyText = CreateColor("NPL.GreyText", COLORINDEX.CI_DARKGRAY, COLORINDEX.CI_USERTEXT_BK, false, false);
+            TokenColor NPLGreyBoldText= CreateColor("NPL.NPLGreyBoldText", COLORINDEX.CI_DARKGRAY, COLORINDEX.CI_USERTEXT_BK, true, false);
 
             ColorToken((int)Tokens.KWAND, TokenType.Keyword, TokenColor.Keyword, TokenTriggers.None);
             ColorToken((int)Tokens.KWBREAK, TokenType.Keyword, TokenColor.Keyword, TokenTriggers.None);
@@ -160,6 +183,14 @@ namespace ParaEngine.Tools.Lua.Parser
             // Extra token values internal to the scanner
             ColorToken((int)Tokens.LEX_ERROR, TokenType.Text, error, TokenTriggers.None);
             ColorToken((int)Tokens.LEX_COMMENT, TokenType.Text, TokenColor.Comment, TokenTriggers.None);
+
+            // NPL, mixed html/npl page file related tokens
+            // ColorToken((int)NPLTokens.LEX_COMMENT_LIGHT, TokenType.Comment, TokenColor.String, TokenTriggers.None);
+            ColorToken((int)NPLTokens.LEX_COMMENT_LIGHT, TokenType.Comment, NPLGreyText, TokenTriggers.None);
+            ColorToken((int)NPLTokens.LEX_NPL_BEGINCODE, TokenType.Comment, NPLMarker, TokenTriggers.None);
+            ColorToken((int)NPLTokens.LEX_NPL_ENDCODE, TokenType.Comment, NPLMarker, TokenTriggers.None);
+            ColorToken((int)NPLTokens.LEX_NPL_HTML_ATTR_VALUE, TokenType.Comment, NPLGreyBoldText, TokenTriggers.None);
+
         }
     }
 }
