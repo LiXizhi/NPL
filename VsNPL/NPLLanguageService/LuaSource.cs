@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 using ParaEngine.Tools.Lua.Parser;
+using System;
 using Source = ParaEngine.Tools.Lua.Parser.Source;
 
 namespace ParaEngine.Tools.Lua
@@ -21,6 +22,17 @@ namespace ParaEngine.Tools.Lua
 			: base(service, textLines, colorizer)
 		{
 		}
+
+        public override void OnIdle(bool periodic)
+        {
+            // LiXizhi: fixed parserequst.Check not called when file is first loaded. 
+            // We're not yet doing an explicit first parse and the MPF assumes that we are. 
+            if (this.LastParseTime == Int32.MaxValue)
+                this.LastParseTime = this.LanguageService.Preferences.CodeSenseDelay;
+
+            base.OnIdle(periodic);
+        }
+
         public override void OnCommand(IVsTextView textView, VSConstants.VSStd2KCmdID command, char ch)
         {
             base.OnCommand(textView, command, ch);

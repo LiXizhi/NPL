@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.OLE.Interop;
 using ParaEngine.Tools.Lua.Parser;
 using System.ComponentModel.Design;
 using Microsoft;
+using System.Collections.Generic;
 
 namespace ParaEngine.Tools.Lua.Parser
 {
@@ -12,16 +13,16 @@ namespace ParaEngine.Tools.Lua.Parser
 	/// </summary>
     public abstract class BasePackage : Microsoft.VisualStudio.Shell.Package, IOleComponent
     {
-        protected uint componentID;
+        protected Dictionary<string, uint> m_componets = new Dictionary<string, uint>();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BasePackage"/> class.
-		/// </summary>
-		/// <!-- Failed to insert some or all of included XML -->
-		/// <include file="doc\Package.uex" path="docs/doc[@for=&quot;Package.Package&quot;]"/>
-		/// <devdoc>
-		/// Simple constructor.
-		/// </devdoc>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasePackage"/> class.
+        /// </summary>
+        /// <!-- Failed to insert some or all of included XML -->
+        /// <include file="doc\Package.uex" path="docs/doc[@for=&quot;Package.Package&quot;]"/>
+        /// <devdoc>
+        /// Simple constructor.
+        /// </devdoc>
         protected BasePackage()
         {
             var callback = new ServiceCreatorCallback(
@@ -34,7 +35,7 @@ namespace ParaEngine.Tools.Lua.Parser
 
                         // register for idle time callbacks
                         var mgr = GetService(typeof(SOleComponentManager)) as IOleComponentManager;
-                        if (componentID == 0 && mgr != null)
+                        if (!HasComponent("languageservice") && mgr != null)
                         {
                             OLECRINFO[] crinfo = new OLECRINFO[1];
                             crinfo[0].cbSize = (uint)Marshal.SizeOf(typeof(OLECRINFO));
@@ -44,7 +45,9 @@ namespace ParaEngine.Tools.Lua.Parser
                                                  (uint)_OLECADVF.olecadvfRedrawOff |
                                                  (uint)_OLECADVF.olecadvfWarningsOff;
                             crinfo[0].uIdleTimeInterval = 1000;
+                            uint componentID = 0;
                             int hr = mgr.FRegisterComponent(this, crinfo, out componentID);
+                            AddComponentToAutoReleasePool("languageservice", componentID);
                         }
 
                         return language;
@@ -57,6 +60,19 @@ namespace ParaEngine.Tools.Lua.Parser
 
             // proffer the LanguageService
             (this as IServiceContainer).AddService(typeof(LanguageService), callback, true);
+        }
+
+        public void AddComponentToAutoReleasePool(string name, uint componentID)
+        {
+            if(componentID!=0)
+            {
+                m_componets[name] = componentID;
+            }
+        }
+
+        public bool HasComponent(string name)
+        {
+            return m_componets.ContainsKey(name);
         }
 
 		/// <summary>
@@ -75,15 +91,15 @@ namespace ParaEngine.Tools.Lua.Parser
         {
             try
             {
-                if (componentID != 0)
+                foreach (var component in m_componets)
                 {
                     var mgr = GetService(typeof(SOleComponentManager)) as IOleComponentManager;
                     if (mgr != null)
                     {
-                        mgr.FRevokeComponent(componentID);
+                        mgr.FRevokeComponent(component.Value);
                     }
-                    componentID = 0;
                 }
+                m_componets.Clear();
             }
             finally
             {

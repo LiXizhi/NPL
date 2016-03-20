@@ -75,8 +75,12 @@ namespace ParaEngine.Tools.Lua.Parser
 		/// <param name="location">The location.</param>
         private void Region(LexLocation location)
         {
-            if (IsSinkAvailable && Sink.ProcessHiddenRegions)
+            if (IsSinkAvailable && Sink.HiddenRegions)
+            {
+                Sink.ProcessHiddenRegions = true;
                 Sink.AddHiddenRegion(CreateTextSpan(location));
+                System.Diagnostics.Trace.WriteLine(String.Format("Region: line{0}:{1}-line{2}:{3}", location.sLin, location.sCol, location.eLin, location.eCol));
+            }
         }
 
 		/// <summary>
@@ -86,7 +90,7 @@ namespace ParaEngine.Tools.Lua.Parser
 		/// <param name="right">The right.</param>
         private void Region(LexLocation left, LexLocation right)
         {
-            if (IsSinkAvailable && Sink.ProcessHiddenRegions)
+            if (IsSinkAvailable && Sink.HiddenRegions)
                 this.Region(this.Merge(left, right));
         }
 
@@ -243,8 +247,11 @@ namespace ParaEngine.Tools.Lua.Parser
 		/// <param name="severity">The severity.</param>
         private void ReportError(TextSpan span, string message, Severity severity)
         {
-			if(IsSinkAvailable)
-				Sink.AddError(Request.FileName, message, span, severity);
+            if (IsSinkAvailable)
+            {
+                Sink.AddError(Request.FileName, message, span, severity);
+                System.Diagnostics.Trace.WriteLine(String.Format("Report Error: Line{0}:{1} msg:{2}", span.iStartLine, span.iStartIndex, message));
+            }
         }
 
 		/// <summary>

@@ -36,7 +36,12 @@ Support mixed HTML/NPL highlighting.
 * `LineScanner.cs`: main line based scanner, with cached state for each line. Used for Syntax color and by the parser as well. 
   * overwrite two virtual functions `SetSource` and `ScanTokenAndProvideInfoAboutIt` to provide text coloring, they are called for each line. 
   * for HTML/NPL mixed mode, I have used different bits in the cached state for HTML/NPL and standard lua. 
+  * `Configuration.cs` contains all default and custom definitions for syntax coloring. 
 
+###  Matching braces, code sense, goto, etc.
+* all of them is handled by `AuthoringScope ParseSource(ParseRequest request)` in `LanguageService.cs` 
+ * This function is called in the parser thread. 
+ * more information please see help in visual studio. 
 
 ### Advanced Functions
 	- AD7StackFrame::ParseText() is rewritten to support expression evaluation. 
@@ -92,6 +97,10 @@ One need to start the experimental instance of visual studio.
 ### Changes
 	- TODO: Stack view
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
+
+2016.3.20
+	- HTML/page mixed mode highlighting added. 
+	- fixed idle parsing and outlining support for NPL code. 
 
 2015.12.11
 	- fixed having to press the Attach button twice by sending the OnLoadComplete event when receiving "Attached" event from NPL process.

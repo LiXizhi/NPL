@@ -175,11 +175,20 @@ namespace ParaEngine.NPLLanguageService
                                  (uint)_OLECADVF.olecadvfWarningsOff;
             crinfo[0].uIdleTimeInterval = 500;
 
-            int hr = componentManager.FRegisterComponent(sourceOutlinerWindow, crinfo, out componentID);
-            if (!ErrorHandler.Succeeded(hr))
+            // fix a bug that component id not called. 
+            
+            if(! HasComponent("sourceOutlinerWindow"))
             {
-                Trace.WriteLine("Initialize->IOleComponent registration failed");
+                uint componentID = 0;
+                int hr = componentManager.FRegisterComponent(sourceOutlinerWindow, crinfo, out componentID);
+                if (componentID != 0)
+                    AddComponentToAutoReleasePool("sourceOutlinerWindow", componentID);
+                if (!ErrorHandler.Succeeded(hr) )
+                {
+                    Trace.WriteLine("Initialize->IOleComponent registration failed");
+                }
             }
+            
 
             sourceOutlinerWindow.InitializeDTE(dte);
             sourceOutlinerWindow.AddWindowEvents();

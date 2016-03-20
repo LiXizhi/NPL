@@ -534,18 +534,15 @@ namespace ParaEngine.Tools.Lua
 
             if (request.ShouldParse())
 			{
-				// Make sure we are processing hidden regions
-				request.Sink.ProcessHiddenRegions = true;
-
-				// Create a parser for the request, and execute parsing...
-				bool successfulParse;
+                // Create a parser for the request, and execute parsing...
+                bool successfulParse;
 				LuaParser parser = TriggerParse(request, out successfulParse);
 				InitializeFileCodeModel(parser.Chunk);
 
-				if (successfulParse)
-				{
-					RefreshDeclarationsForRequest(request, parser, true);
-				}
+                if (successfulParse)
+                {
+                    RefreshDeclarationsForRequest(request, parser, true);
+                }
 
 				if (request.NeedsDeclarations())
 				{

@@ -56,7 +56,10 @@ namespace ParaEngine.Tools.Lua.Parser
 			{
 				preferences = new LanguagePreferences(Site, typeof (LanguageService).GUID, Name);
 				preferences.Init();
-			}
+
+                // Temporarily enabled auto-outlining
+                // preferences.AutoOutlining = true;
+            }
 
 			return preferences;
 		}
@@ -92,13 +95,6 @@ namespace ParaEngine.Tools.Lua.Parser
 		/// <param name="periodic">if set to <c>true</c> [periodic].</param>
 		public override void OnIdle(bool periodic)
 		{
-			// from IronPythonLanguage sample
-			// this appears to be necessary to get a parse request with ParseReason = Check?
-			var src = (Source) GetSource(LastActiveTextView);
-			if (src != null && src.LastParseTime >= Int32.MaxValue >> 12)
-			{
-				src.LastParseTime = 0;
-			}
 			base.OnIdle(periodic);
 		}
 
