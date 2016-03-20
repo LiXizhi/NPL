@@ -4,6 +4,7 @@ using EnvDTE;
 using ParaEngine.Tools.Lua.AST;
 using ParaEngine.Tools.Lua.CodeDom.Definitions;
 using ParaEngine.Tools.Lua.Parser;
+using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace ParaEngine.Tools.Lua.CodeDom.Elements
 {
@@ -21,6 +22,15 @@ namespace ParaEngine.Tools.Lua.CodeDom.Elements
         protected LuaCodeElements childObjects;
         protected vsCMElement vsCMElementType = vsCMElement.vsCMElementOther;
 
+        public override TextSpan GetTextSpan()
+        {
+            TextSpan textSpan = new TextSpan();
+            textSpan.iStartLine = astNode.Location.sLin;
+            textSpan.iStartIndex = astNode.Location.sCol;
+            textSpan.iEndLine = astNode.Location.eLin;
+            textSpan.iEndIndex = astNode.Location.eCol;
+            return textSpan;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LuaCodeElement{LuaASTNode}<LuaASTNode>"/> class.

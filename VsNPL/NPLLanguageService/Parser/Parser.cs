@@ -55,11 +55,17 @@ namespace ParaEngine.Tools.Lua.Parser
             ReportError(CreateTextSpan(location), message);
         }
 
-		/// <summary>
-		/// Matches the specified left.
-		/// </summary>
-		/// <param name="left">The left.</param>
-		/// <param name="right">The right.</param>
+        public override void PrintError(string errorMsg)
+        {
+            LexLocation location = location_stack.array[location_stack.top - 1];
+            ReportError(CreateTextSpan(location), errorMsg);
+        }
+
+        /// <summary>
+        /// Matches the specified left.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
         private void Match(LexLocation left, LexLocation right)
         {
             if (IsSinkAvailable && Sink.BraceMatching)

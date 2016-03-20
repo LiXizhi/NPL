@@ -4,6 +4,7 @@ using EnvDTE;
 using EnvDTE80;
 using ParaEngine.Tools.Lua.AST;
 using ParaEngine.Tools.Lua.CodeDom.Elements;
+using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace ParaEngine.Tools.Lua.CodeDom.Elements
 {
@@ -26,11 +27,16 @@ namespace ParaEngine.Tools.Lua.CodeDom.Elements
             Name = name;
         }
 
+        virtual public TextSpan GetTextSpan()
+        {
+            return new TextSpan();
+        }
+
         #region CodeElement Members
 
-        /// <summary>
-        /// Returns a collection of objects contained within this <see cref="T:EnvDTE.CodeElement" />.
-        /// </summary>
+            /// <summary>
+            /// Returns a collection of objects contained within this <see cref="T:EnvDTE.CodeElement" />.
+            /// </summary>
         public abstract CodeElements Children { get; }
 
         /// <summary>

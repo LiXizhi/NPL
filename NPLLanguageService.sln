@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VsNPL\IntegrationTests.testsettings = VsNPL\IntegrationTests.testsettings
 		README.md = README.md
 		VsNPL\test.lua = VsNPL\test.lua
+		VsNPL\test.page = VsNPL\test.page
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPLLanguageService", "VsNPL\NPLLanguageService\NPLLanguageService.csproj", "{C2D1993A-D6A9-4C92-8D06-7C38B1054FE1}"

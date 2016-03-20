@@ -99,8 +99,10 @@ One need to start the experimental instance of visual studio.
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
 
 2016.3.20
-	- HTML/page mixed mode highlighting added. 
-	- fixed idle parsing and outlining support for NPL code. 
+	- NPL language service: HTML/page mixed mode highlighting added. 
+	- NPL language service: fixed idle parsing and outlining support for NPL code. 
+	- NPL language service: function navigation window implemented. 
+	- NPL language service: parsing errors will be highlighted in code. 
 
 2015.12.11
 	- fixed having to press the Attach button twice by sending the OnLoadComplete event when receiving "Attached" event from NPL process.

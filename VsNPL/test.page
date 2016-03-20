@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<body>
+<p class="title" style="font-weight:bold">
+	<?npl
+		echo "Hi, I'm a NPL script!";
+	?>
+</p>
+
+<? function test_outlining() ?>
+	<p style="width:200px;height:10px"> 
+	  npl page code outlining is support
+	</p>
+<% end %>
+
+<?npl for i = 1, 5 do ?>
+	i = <?=i?> <br/>
+<?npl end ?>
+
+<p>
+	1.  <?npl echo 'if you want to serve NPL code in XHTML or XML documents, use these tags'; ?>
+</p>
+<p>
+	2.  <? echo 'this code is within short tags'; ?>
+    Code within these tags <?= 'some text' ?> is a shortcut for this code <? echo 'some text' ?>
+</p>
+<p>
+	3.  <% echo 'You may optionally use ASP-style tags'; %>
+</p>
+
+<% nplinfo(); %>
+
+<% print("<p>filename: %s, dirname: %s</p>", __FILE__, dirname(__FILE__)); %>
+
+<%
+some_global_var = "this is global variable";
+
+-- include file in same directory
+include("test_include.page");
+-- include file relative to web root directory. however this will not print, because we use include_once, and the file is already included before.
+include_once("/test_include.page");
+-- include file using disk file path
+local result = include(dirname(__FILE__).."test_include.page");
+
+-- we can also get the result from included file
+echo(result);
+%>
+
+</body>
+</html>
+
+<% 
+--assert(false, "uncomment to test runtime error");
+
+function test_exit()
+	exit(); 
+end
+test_exit();
+assert(false, "can not reach here");
+%>
+

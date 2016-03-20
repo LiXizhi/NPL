@@ -208,7 +208,9 @@ namespace ParaEngine.Tools.Lua.Parser
 
             if (!recovering) // if not recovering from previous error
                 ReportError();
-
+            else
+                PrintError(GetErrorMessage());
+            
             if (!FindErrorRecoveryState())
                 return false;
             //
@@ -224,10 +226,7 @@ namespace ParaEngine.Tools.Lua.Parser
         }
 
 
-		/// <summary>
-		/// Reports the error.
-		/// </summary>
-        public void ReportError()
+        public string GetErrorMessage()
         {
             StringBuilder errorMsg = new StringBuilder();
             errorMsg.AppendFormat("syntax error, unexpected {0}", TerminalToString(next));
@@ -246,10 +245,24 @@ namespace ParaEngine.Tools.Lua.Parser
                     first = false;
                 }
             }
-            scanner.yyerror(errorMsg.ToString());
-            // System.Diagnostics.Trace.WriteLine(errorMsg.ToString());
+            return errorMsg.ToString();
         }
 
+        /// <summary>
+        /// Reports the error.
+        /// </summary>
+        public void ReportError()
+        {
+            string errorMsg = GetErrorMessage();
+            scanner.yyerror(errorMsg);
+            PrintError(errorMsg);
+        }
+
+        virtual public void PrintError(string errorMsg)
+        {
+            YYLTYPE location = location_stack.array[location_stack.top - 1];
+            System.Diagnostics.Trace.WriteLine(errorMsg);
+        }
 
 		/// <summary>
 		/// Shifts the error token.

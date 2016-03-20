@@ -253,11 +253,15 @@ namespace ParaEngine.Tools.Lua
             }
         }
 
+        public override TypeAndMemberDropdownBars CreateDropDownHelper(IVsTextView forView)
+        {
+            return new NPLTypeAndMemberDropdownBars(this);
+        }
 
-		/// <summary>
-		/// Called when the user clicks the menu item that shows the tool window.
-		/// </summary>
-		public void ShowSourceOutlinerToolWindow()
+        /// <summary>
+        /// Called when the user clicks the menu item that shows the tool window.
+        /// </summary>
+        public void ShowSourceOutlinerToolWindow()
 		{
 			try
 			{
@@ -338,6 +342,11 @@ namespace ParaEngine.Tools.Lua
 			if (string.Compare(path, lastAddedLuaFile, StringComparison.OrdinalIgnoreCase) == 0)
 				lastAddedLuaFile = string.Empty;
 		}
+
+        public TableDeclarationProvider GetFileDeclarationProvider(string path)
+        {
+            return luaFileDeclarationProviders[path]; 
+        }
 
 		/// <summary>
 		/// Clears all files from the list of files to be parsed.
@@ -448,13 +457,13 @@ namespace ParaEngine.Tools.Lua
 			}
 			return codeModel;
 		}
-
-		/// <summary>
-		/// Gets source code from file.
-		/// </summary>
-		/// <param name="fileName">Lua Source file name.</param>
-		/// <returns></returns>
-		private static string GetSourceFromFile(string fileName)
+        
+        /// <summary>
+        /// Gets source code from file.
+        /// </summary>
+        /// <param name="fileName">Lua Source file name.</param>
+        /// <returns></returns>
+        private static string GetSourceFromFile(string fileName)
 		{
 			if (String.IsNullOrEmpty(fileName))
 				throw new ArgumentNullException("fileName");
@@ -697,7 +706,7 @@ namespace ParaEngine.Tools.Lua
 				{
 					luaFileDeclarationProviders[luaFile] = new TableDeclarationProvider();
 					AstDeclarationParser declarationParser = new AstDeclarationParser(luaFileDeclarationProviders[luaFile]);
-					// Parse the AST and add the declaarations
+					// Parse the AST and add the declarations
 					declarationParser.AddChunk(parser.Chunk);
 				}
 			}
