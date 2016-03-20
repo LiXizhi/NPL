@@ -57,8 +57,12 @@ namespace ParaEngine.Tools.Lua.Parser
 
         public override void PrintError(string errorMsg)
         {
-            LexLocation location = location_stack.array[location_stack.top - 1];
-            ReportError(CreateTextSpan(location), errorMsg);
+            if(location_stack.top>=1)
+            {
+                LexLocation location = location_stack.array[location_stack.top - 1];
+                if (location != null)
+                    ReportError(CreateTextSpan(location), errorMsg);
+            }
         }
 
         /// <summary>

@@ -87,9 +87,9 @@ namespace ParaEngine.Tools.Lua
                         if(dropDownMembers.Count > 0)
                         {
                             dropDownMembers.Add(new DropDownMember(
-                                        String.Format("{0} function", dropDownMembers.Count),
+                                        String.Format("{0} function(s)", dropDownMembers.Count),
                                         new TextSpan(),
-                                        18, // 18 for IconImageIndex.Method
+                                        0, // 18 for IconImageIndex.Method
                                         DROPDOWNFONTATTR.FONTATTR_GRAY
                                         ));
                             selectedMember = dropDownMembers.Count - 1;
@@ -97,9 +97,9 @@ namespace ParaEngine.Tools.Lua
                         if (dropDownTypes.Count > 0)
                         {
                             dropDownTypes.Add(new DropDownMember(
-                                        String.Format("{0} variable", dropDownTypes.Count),
+                                        String.Format("{0} variable(s)", dropDownTypes.Count),
                                         new TextSpan(),
-                                        29, // 29 for IconImageIndex.Variable
+                                        0, // 29 for IconImageIndex.Variable
                                         DROPDOWNFONTATTR.FONTATTR_GRAY
                                         ));
                             selectedType = dropDownTypes.Count - 1;
