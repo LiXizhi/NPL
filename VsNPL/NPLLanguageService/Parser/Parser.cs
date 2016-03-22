@@ -241,6 +241,14 @@ namespace ParaEngine.Tools.Lua.Parser
             get { return Request != null && Request.Sink != null; }
         }
 
+
+        private bool m_bSuppressErrorSink = false;
+        public bool IsSuppressErrorSink
+        {
+            get { return m_bSuppressErrorSink; }
+            set { m_bSuppressErrorSink = value;  }
+        }
+
         /// <summary>
         /// Contains information about the source being parsed.
         /// </summary>
@@ -249,15 +257,23 @@ namespace ParaEngine.Tools.Lua.Parser
             get { return Request.Sink; }
         }
 
-		/// <summary>
-		/// Reports the error.
-		/// </summary>
-		/// <param name="span">The span.</param>
-		/// <param name="message">The message.</param>
-		/// <param name="severity">The severity.</param>
+        public override void OnPreprocess()
+        {
+            if(scanner is LuaScanner)
+            {
+                IsSuppressErrorSink = (scanner as LuaScanner).IsSuppressError;
+            }
+        }
+
+        /// <summary>
+        /// Reports the error.
+        /// </summary>
+        /// <param name="span">The span.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="severity">The severity.</param>
         private void ReportError(TextSpan span, string message, Severity severity)
         {
-            if (IsSinkAvailable)
+            if (IsSinkAvailable && !IsSuppressErrorSink)
             {
                 Sink.AddError(Request.FileName, message, span, severity);
                 System.Diagnostics.Trace.WriteLine(String.Format("Report Error: Line{0}:{1} msg:{2}", span.iStartLine, span.iStartIndex, message));

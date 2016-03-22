@@ -2,7 +2,7 @@
 Title: Scanner
 Author: LiXizhi@yeah.net
 Date: 2016/3/18
-Desc: syntax highlighting for NPL,lua and mixed NPL and html page. 
+Desc: line scanner for NPL,lua and mixed NPL and html page's syntax highlighting. 
 ***************************************************************************/
 
 using Microsoft.VisualStudio.Package;
@@ -214,6 +214,8 @@ namespace ParaEngine.Tools.Lua.Parser
 
             int token = (int)Tokens.EOF;
             int start = lex.buffer.ReadPos;
+            if (lex.buffer.GetString(start, start + 1) == "")
+                return false;
             int end = 0;
 
             if (page_state == PageLexerState.PageState_NPL)

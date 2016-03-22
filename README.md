@@ -98,6 +98,9 @@ One need to start the experimental instance of visual studio.
 	- TODO: Stack view
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
 
+2016.3.21
+	- NPL language service: quick info added
+
 2016.3.20
 	- NPL language service: HTML/page mixed mode highlighting added. 
 	- NPL language service: fixed idle parsing and outlining support for NPL code. 

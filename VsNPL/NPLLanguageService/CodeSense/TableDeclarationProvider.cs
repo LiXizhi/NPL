@@ -132,13 +132,39 @@ namespace ParaEngine.Tools.Lua
 			yield break;
 		}
 
-		/// <summary>
-		/// Resolves a qualified name to a declaration.
-		/// </summary>
-		/// <param name="table">The table to use for resolving.</param>
-		/// <param name="qualifiedName">The qualified name of the declaration.</param>
-		/// <returns></returns>
-		public Declaration ResolveDeclaration(string table, string qualifiedName)
+        /// <summary>
+        /// return {namespace, method}
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <returns></returns>
+        public IEnumerable< KeyValuePair<string, Method> > FindMethods(string methodName)
+        {
+            if (methodName == null)
+                throw new ArgumentNullException("methodName");
+            // declaration from initial table
+            foreach (var tableDef in tableDeclarations)
+            {
+                if(tableDef.Value.ContainsKey(methodName))
+                {
+                    var declaration = tableDef.Value[methodName];
+                    if (declaration != null)
+                    {
+                        if (declaration is Method)
+                            yield return new KeyValuePair<string, Method>(tableDef.Key != DeclarationsTable ? tableDef.Key : "", declaration as Method);
+                    }
+                }
+            }
+            yield break;
+        }
+
+
+        /// <summary>
+        /// Resolves a qualified name to a declaration.
+        /// </summary>
+        /// <param name="table">The table to use for resolving.</param>
+        /// <param name="qualifiedName">The qualified name of the declaration.</param>
+        /// <returns></returns>
+        public Declaration ResolveDeclaration(string table, string qualifiedName)
 		{
 			if (table == null)
 				throw new ArgumentNullException("table");

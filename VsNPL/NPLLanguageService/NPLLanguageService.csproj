@@ -247,6 +247,7 @@
     <Compile Include="CodeSense\SnippetDeclarationProvider.cs" />
     <Compile Include="ILuaLanguageService.cs" />
     <Compile Include="NPLTypeAndMemberDropdownBars.cs" />
+    <Compile Include="Parser\LuaScanner.cs" />
     <Compile Include="Refactoring\CodeConflictType.cs" />
     <Compile Include="Refactoring\UndoManager\ILuaUndoService.cs" />
     <Compile Include="Refactoring\UndoManager\ILuaUndoUnit.cs" />

@@ -27,8 +27,10 @@ using Microsoft;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using LuaParser = ParaEngine.Tools.Lua.Parser.Parser;
 using Source = ParaEngine.Tools.Lua.Parser.Source;
-using LuaScanner = ParaEngine.Tools.Lua.Lexer.Scanner;
+using LuaScanner = ParaEngine.Tools.Lua.Parser.LuaScanner;
 using ParaEngine.NPLLanguageService;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace ParaEngine.Tools.Lua
 {
@@ -345,7 +347,10 @@ namespace ParaEngine.Tools.Lua
 
         public TableDeclarationProvider GetFileDeclarationProvider(string path)
         {
-            return luaFileDeclarationProviders[path]; 
+            if (luaFileDeclarationProviders.ContainsKey(path))
+                return luaFileDeclarationProviders[path];
+            else
+                return null;
         }
 
 		/// <summary>
@@ -493,9 +498,9 @@ namespace ParaEngine.Tools.Lua
 
 			// Set the source
 			((LuaScanner)parser.scanner).SetSource(source, 0);
-
-			// Trigger the parse (hidden region and errors will be added to the AuthoringSink)
-			parser.Parse();
+            
+            // Trigger the parse (hidden region and errors will be added to the AuthoringSink)
+            parser.Parse();
 
 			return parser.Chunk;
 		}
@@ -531,12 +536,137 @@ namespace ParaEngine.Tools.Lua
 			return (string)value;
 		}
 
-		/// <summary>
-		/// Processes a Parse request.
-		/// </summary>
-		/// <param name="request">The request to process.</param>
-		/// <returns>An AuthoringScope containing the declarations and other information.</returns>
-		public override Microsoft.VisualStudio.Package.AuthoringScope ParseSource(ParseRequest request)
+        /// <summary>
+        /// thread-safty: can only be called from main thread
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="span"></param>
+        /// <returns></returns>
+        private string FindWordInfo(ParseRequest request, out TextSpan span)
+        {
+            string sWord = null;
+            TextSpan[] wordSpan = { new TextSpan() };
+            int nColFrom = 0;
+            int nColTo = 0;
+            if (VSConstants.S_OK == request.View.GetWordExtent(request.Line, request.Col, (int)WORDEXTFLAGS.WORDEXT_FINDWORD, wordSpan))
+            {
+                nColFrom = wordSpan[0].iStartIndex;
+                nColTo = wordSpan[0].iEndIndex;
+                request.View.GetTextStream(request.Line, nColFrom, request.Line, nColTo, out sWord);
+            }
+            span = wordSpan[0];
+            return sWord;
+        }
+
+        private string GetLineText(ParseRequest request)
+        {
+            string sLine = null;
+            int nLineStart = 0;
+            int nLineEnd = 0;
+            int nLineCount = 0;
+            int nLength = request.Text.Length;
+            for (int i = 0; i < nLength; ++i)
+            {
+                char c = request.Text[i];
+                if (c == '\n')
+                {
+                    nLineStart = nLineEnd == 0 ? 0 : nLineEnd + 1;
+                    nLineEnd = i;
+                    if (nLineCount++ == request.Line)
+                    {
+                        sLine = request.Text.Substring(nLineStart, nLineEnd - nLineStart);
+                        if (sLine.Length > 0 && sLine[sLine.Length - 1] == '\r')
+                            sLine = sLine.Substring(0, sLine.Length - 1);
+                        break;
+                    }
+                }
+            }
+            return sLine;
+        }
+
+        private void BuildQuickInfoString(TableDeclarationProvider declarations, string sWord, StringBuilder info, string sPrefix = null)
+        {
+            if (declarations != null)
+            {
+                foreach (var method in declarations.FindMethods(sWord))
+                {
+                    info.AppendFormat("{0}{1}",
+                        info.Length == 0 ? "" : "\n-------------------\n",
+                        method.Value.GetQuickInfo( !String.IsNullOrEmpty(sPrefix) ? sPrefix : (String.IsNullOrEmpty(method.Key) ? "" : method.Key + ".")));
+                }
+            }
+        }
+
+        /// <summary>
+        /// mouse over a text to display some info. 
+        /// called from parser thread
+        /// </summary>
+        /// <param name="request"></param>
+        private void FindQuickInfo(ParseRequest request)
+        {
+            if (request.Reason != ParseReason.QuickInfo)
+                return;
+            authoringScope.m_quickInfoText = "";
+            string sLine = GetLineText(request);
+
+            int nColFrom = request.Col;
+            int nColTo = nColFrom;
+            if (sLine != null && nColFrom < sLine.Length)
+            {
+                char cChar = sLine[nColFrom];
+                if (Char.IsLetterOrDigit(cChar))
+                {
+                    for (int i = nColFrom - 1; i >= 0; i--)
+                    {
+                        if (Char.IsLetterOrDigit(sLine[i]))
+                            nColFrom = i;
+                        else
+                            break;
+                    }
+                    for (int i = nColTo + 1; i < sLine.Length; i++)
+                    {
+                        if (Char.IsLetterOrDigit(sLine[i]))
+                            nColTo = i;
+                        else
+                            break;
+                    }
+                    string sWord = sLine.Substring(nColFrom, nColTo - nColFrom + 1);
+                    if (sWord.Length > 0 && Char.IsLetter(sWord[0]))
+                    {
+                        StringBuilder info = new StringBuilder();
+
+                        BuildQuickInfoString(GetFileDeclarationProvider(request.FileName), sWord, info, "this_file: ");
+
+                        foreach (var declareProvider in luaFileDeclarationProviders)
+                        {
+                            if(request.FileName != declareProvider.Key)
+                                BuildQuickInfoString(declareProvider.Value, sWord, info, Path.GetFileName(declareProvider.Key)+": ");
+                        }
+
+                        BuildQuickInfoString(xmlDeclarationProvider, sWord, info);
+                        
+
+                        if (info.Length > 0)
+                        {
+                            authoringScope.m_quickInfoText = info.ToString();
+                            TextSpan span = new TextSpan();
+                            span.iStartLine = request.Line;
+                            span.iEndLine = request.Line;
+                            span.iStartIndex = nColFrom;
+                            span.iEndIndex = nColTo;
+                            authoringScope.m_quickInfoSpan = span;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Processes a Parse request.
+        /// </summary>
+        /// <param name="request">The request to process.</param>
+        /// <returns>An AuthoringScope containing the declarations and other information.</returns>
+        public override Microsoft.VisualStudio.Package.AuthoringScope ParseSource(ParseRequest request)
 		{
 			Trace.WriteLine(request.Reason);
 			authoringScope.Clear();
@@ -567,7 +697,7 @@ namespace ParaEngine.Tools.Lua
             {
                 if(request.Reason == ParseReason.QuickInfo)
                 {
-                    // TODO: mouse over a text to display some info. 
+                    FindQuickInfo(request);
                 }
             }
 
@@ -796,7 +926,7 @@ namespace ParaEngine.Tools.Lua
 			var handler = new ParaEngine.Tools.Lua.Parser.ErrorHandler();
 
 			// Create scanner and parser
-            LuaScanner scanner = new ParaEngine.Tools.Lua.Lexer.Scanner();
+            LuaScanner scanner = new LuaScanner();
 			LuaParser parser = new LuaParser();
 
 			// Set the error handler for the scanner

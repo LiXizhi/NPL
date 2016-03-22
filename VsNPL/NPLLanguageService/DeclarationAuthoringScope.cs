@@ -18,11 +18,13 @@ namespace ParaEngine.Tools.Lua
 		private readonly List<ICodeSenseDeclarationProvider> declarationProviders;
 		private readonly LanguageService languageService;
 		private string qualifiedName = String.Empty;
+        public string m_quickInfoText;
+        public TextSpan m_quickInfoSpan = new TextSpan();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AuthoringScope"/> class.
-		/// </summary>
-		public DeclarationAuthoringScope(LanguageService languageService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthoringScope"/> class.
+        /// </summary>
+        public DeclarationAuthoringScope(LanguageService languageService)
 		{
 			if (languageService == null)
 				throw new ArgumentNullException("languageService");
@@ -99,14 +101,15 @@ namespace ParaEngine.Tools.Lua
 		/// <returns></returns>
 		public override string GetDataTipText(int line, int col, out TextSpan span)
 		{
-			span = new TextSpan();
-			return String.Empty;
+            // span = new TextSpan();
+            // return String.Empty;
 
-            //span.iStartLine = line-1;
             //span.iEndLine = line;
             //span.iStartIndex = col-1;
             //span.iEndIndex = col+1;
-            //return "i";
+            //span.iStartLine = line;
+            span = m_quickInfoSpan;
+            return m_quickInfoText;
 		}
 
 		/// <summary>

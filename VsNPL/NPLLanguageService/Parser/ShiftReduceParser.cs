@@ -47,6 +47,10 @@ namespace ParaEngine.Tools.Lua.Parser
 
         protected abstract void Initialize();
 
+        /// <summary>
+        /// called just before parsing
+        /// </summary>
+        virtual public void OnPreprocess() { }
 
 		/// <summary>
 		/// Parses this instance.
@@ -54,6 +58,8 @@ namespace ParaEngine.Tools.Lua.Parser
 		/// <returns></returns>
         public bool Parse()
         {
+            OnPreprocess();
+
             Initialize();	// allow derived classes to instantiate rules, states and nonTerminals
 
             next = 0;
