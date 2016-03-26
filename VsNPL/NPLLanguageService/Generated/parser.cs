@@ -21,7 +21,7 @@ public enum Tokens {
     NUMBER=49,STRING=50,DOT=51,COLON=52,maxParseToken=53,LEX_WHITE=54,LEX_COMMENT=55,LEX_ERROR=56};
 
 public partial struct LexValue
-#line 9 "Generated\parser.y"
+#line 9 "parser.y"
 			{
 	public Node node;
     public string str;
@@ -37,19 +37,9 @@ public partial struct LexValue
 		return number.ToString();			
     }
 }
-// Abstract base class for MPLEX scanners
-public abstract class ScanBase : AScanner<LexValue,LexLocation> {
-    protected abstract int CurrentSc { get; set; }
-    //
-    // Override the virtual EolState property if the scanner state is more
-    // complicated then a simple copy of the current start state ordinal
-    //
-    public virtual int EolState { get { return CurrentSc; } set { CurrentSc = value; } }
-}
-
 public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 {
-#line 25 "Generated\parser.y"
+#line 25 "parser.y"
 
     private ErrorHandler handler = null;
     public void SetHandler(ErrorHandler handler) { this.handler = handler; }
@@ -58,18 +48,18 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     this.errToken = (int)Tokens.error;
     this.eofToken = (int)Tokens.EOF;
 
-    states=new State[188];
+    states=new State[189];
     AddState(0,new State(-7,new int[]{-26,1,-6,3,-7,4}));
     AddState(1,new State(new int[]{2,2}));
     AddState(2,new State(-1));
     AddState(3,new State(-2));
-    AddState(4,new State(new int[]{48,66,24,68,12,118,5,131,23,134,18,139,9,143,11,162,14,175,1,184,4,185,19,186,2,-5,6,-5,7,-5,8,-5,22,-5},new int[]{-8,5,-9,8,-10,10,-11,116,-17,115,-16,117}));
+    AddState(4,new State(new int[]{48,66,24,68,12,119,5,132,23,135,18,140,9,144,11,163,14,176,1,185,4,186,19,187,2,-5,6,-5,7,-5,8,-5,22,-5},new int[]{-8,5,-9,8,-10,10,-11,117,-17,116,-16,118}));
     AddState(5,new State(new int[]{30,7,48,-4,24,-4,12,-4,5,-4,23,-4,18,-4,9,-4,11,-4,14,-4,1,-4,4,-4,19,-4,2,-4,6,-4,7,-4,8,-4,22,-4},new int[]{-28,6}));
     AddState(6,new State(-8));
     AddState(7,new State(-3));
     AddState(8,new State(new int[]{30,7,2,-4,6,-4,7,-4,8,-4,22,-4},new int[]{-28,9}));
     AddState(9,new State(-6));
-    AddState(10,new State(new int[]{33,11,31,113}));
+    AddState(10,new State(new int[]{33,11,31,114}));
     AddState(11,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-13,12,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
     AddState(12,new State(new int[]{31,13,30,-9,48,-9,24,-9,12,-9,5,-9,23,-9,18,-9,9,-9,11,-9,14,-9,1,-9,4,-9,19,-9,2,-9,6,-9,7,-9,8,-9,22,-9}));
     AddState(13,new State(-38,new int[]{-29,14}));
@@ -104,23 +94,23 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     AddState(42,new State(new int[]{24,46},new int[]{-23,43}));
     AddState(43,new State(-7,new int[]{-6,44,-7,4}));
     AddState(44,new State(new int[]{6,45}));
-    AddState(45,new State(-91));
+    AddState(45,new State(-92));
     AddState(46,new State(new int[]{25,47,1,48,41,57,48,60},new int[]{-22,49}));
-    AddState(47,new State(-92));
-    AddState(48,new State(-93));
+    AddState(47,new State(-93));
+    AddState(48,new State(-94));
     AddState(49,new State(new int[]{25,50,1,51,31,52}));
-    AddState(50,new State(-94));
-    AddState(51,new State(-95));
+    AddState(50,new State(-95));
+    AddState(51,new State(-96));
     AddState(52,new State(new int[]{41,53,48,56}));
     AddState(53,new State(new int[]{25,54,1,55}));
-    AddState(54,new State(-98));
-    AddState(55,new State(-99));
+    AddState(54,new State(-99));
+    AddState(55,new State(-100));
     AddState(56,new State(-36));
     AddState(57,new State(new int[]{25,58,1,59}));
-    AddState(58,new State(-96));
-    AddState(59,new State(-97));
+    AddState(58,new State(-97));
+    AddState(59,new State(-98));
     AddState(60,new State(-35));
-    AddState(61,new State(new int[]{28,62,52,97,51,110,24,108,26,72,17,-69,3,-69,44,-69,45,-69,46,-69,47,-69,42,-69,43,-69,32,-69,34,-69,35,-69,36,-69,37,-69,38,-69,39,-69,31,-69,30,-69,48,-69,12,-69,5,-69,23,-69,18,-69,9,-69,11,-69,14,-69,1,-69,4,-69,19,-69,2,-69,6,-69,7,-69,8,-69,22,-69,25,-69,29,-69,27,-69,20,-69},new int[]{-18,96,-30,100,-19,109}));
+    AddState(61,new State(new int[]{28,62,52,97,51,111,24,108,26,72,50,110,17,-69,3,-69,44,-69,45,-69,46,-69,47,-69,42,-69,43,-69,32,-69,34,-69,35,-69,36,-69,37,-69,38,-69,39,-69,31,-69,30,-69,48,-69,12,-69,5,-69,23,-69,18,-69,9,-69,11,-69,14,-69,1,-69,4,-69,19,-69,2,-69,6,-69,7,-69,8,-69,22,-69,25,-69,29,-69,27,-69,20,-69},new int[]{-18,96,-30,100,-19,109}));
     AddState(62,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,63,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
     AddState(63,new State(new int[]{29,64,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
     AddState(64,new State(-76));
@@ -132,16 +122,16 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     AddState(70,new State(-81));
     AddState(71,new State(-70));
     AddState(72,new State(new int[]{27,73,16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,80,24,68,26,72,15,85,40,86,35,87,28,88},new int[]{-20,74,-21,95,-14,79,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(73,new State(-102));
+    AddState(73,new State(-103));
     AddState(74,new State(new int[]{27,75,31,93,30,94},new int[]{-32,76}));
-    AddState(75,new State(-103));
+    AddState(75,new State(-104));
     AddState(76,new State(new int[]{27,77,16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,80,24,68,26,72,15,85,40,86,35,87,28,88},new int[]{-21,78,-14,79,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(77,new State(-104));
-    AddState(78,new State(-106));
-    AddState(79,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,27,-107,31,-107,30,-107},new int[]{-2,16}));
-    AddState(80,new State(new int[]{33,81,28,-75,52,-75,51,-75,24,-75,26,-75,17,-75,3,-75,44,-75,45,-75,46,-75,47,-75,42,-75,43,-75,32,-75,34,-75,35,-75,36,-75,37,-75,38,-75,39,-75,27,-75,31,-75,30,-75}));
+    AddState(77,new State(-105));
+    AddState(78,new State(-107));
+    AddState(79,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,27,-108,31,-108,30,-108},new int[]{-2,16}));
+    AddState(80,new State(new int[]{33,81,28,-75,52,-75,51,-75,24,-75,26,-75,50,-75,17,-75,3,-75,44,-75,45,-75,46,-75,47,-75,42,-75,43,-75,32,-75,34,-75,35,-75,36,-75,37,-75,38,-75,39,-75,27,-75,31,-75,30,-75}));
     AddState(81,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,82,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(82,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,27,-108,31,-108,30,-108},new int[]{-2,16}));
+    AddState(82,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,27,-109,31,-109,30,-109},new int[]{-2,16}));
     AddState(83,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,84,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
     AddState(84,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,31,-71,30,-71,48,-71,24,-71,12,-71,5,-71,23,-71,18,-71,9,-71,11,-71,14,-71,1,-71,4,-71,19,-71,2,-71,6,-71,7,-71,8,-71,22,-71,25,-71,29,-71,27,-71,20,-71},new int[]{-2,16}));
     AddState(85,new State(-42));
@@ -151,13 +141,13 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     AddState(89,new State(new int[]{29,90,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
     AddState(90,new State(new int[]{33,91}));
     AddState(91,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,92,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(92,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,27,-109,31,-109,30,-109},new int[]{-2,16}));
-    AddState(93,new State(-100));
-    AddState(94,new State(-101));
-    AddState(95,new State(-105));
+    AddState(92,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,27,-110,31,-110,30,-110},new int[]{-2,16}));
+    AddState(93,new State(-101));
+    AddState(94,new State(-102));
+    AddState(95,new State(-106));
     AddState(96,new State(-82));
     AddState(97,new State(new int[]{48,98}));
-    AddState(98,new State(new int[]{24,108,26,72},new int[]{-18,99,-30,100,-19,109}));
+    AddState(98,new State(new int[]{24,108,26,72,50,110},new int[]{-18,99,-30,100,-19,109}));
     AddState(99,new State(-83));
     AddState(100,new State(new int[]{1,101,25,106,16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-31,102,-13,103,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
     AddState(101,new State(-84));
@@ -165,90 +155,91 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     AddState(103,new State(new int[]{1,105,31,13,25,106},new int[]{-31,104}));
     AddState(104,new State(-86));
     AddState(105,new State(-87));
-    AddState(106,new State(-90));
+    AddState(106,new State(-91));
     AddState(107,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,31,-37,30,-37,48,-37,24,-37,12,-37,5,-37,23,-37,18,-37,9,-37,11,-37,14,-37,1,-37,4,-37,19,-37,2,-37,6,-37,7,-37,8,-37,22,-37,25,-37},new int[]{-2,16}));
-    AddState(108,new State(-89));
+    AddState(108,new State(-90));
     AddState(109,new State(-88));
-    AddState(110,new State(new int[]{48,111,1,112}));
-    AddState(111,new State(-77));
-    AddState(112,new State(-78));
-    AddState(113,new State(new int[]{48,66,24,68},new int[]{-11,114,-17,115,-16,67}));
-    AddState(114,new State(new int[]{33,-74,31,-74,28,-79,51,-79,52,-79,24,-79,26,-79}));
-    AddState(115,new State(new int[]{28,62,51,110,52,97,24,108,26,72},new int[]{-18,96,-30,100,-19,109}));
-    AddState(116,new State(new int[]{33,-73,31,-73,28,-79,51,-79,52,-79,24,-79,26,-79}));
-    AddState(117,new State(new int[]{28,-80,51,-80,52,-80,24,-10,26,-80,30,-10,48,-10,12,-10,5,-10,23,-10,18,-10,9,-10,11,-10,14,-10,1,-10,4,-10,19,-10,2,-10,6,-10,7,-10,8,-10,22,-10}));
-    AddState(118,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,119,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(119,new State(new int[]{20,120,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
-    AddState(120,new State(-7,new int[]{-24,121,-6,123,-7,4}));
-    AddState(121,new State(new int[]{6,122}));
-    AddState(122,new State(-11));
-    AddState(123,new State(-24,new int[]{-25,124}));
-    AddState(124,new State(new int[]{7,125,8,127,6,-22}));
-    AddState(125,new State(-7,new int[]{-6,126,-7,4}));
-    AddState(126,new State(-23));
-    AddState(127,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,128,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(128,new State(new int[]{20,129,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
-    AddState(129,new State(-7,new int[]{-6,130,-7,4}));
-    AddState(130,new State(-25));
-    AddState(131,new State(-7,new int[]{-6,132,-7,4}));
-    AddState(132,new State(new int[]{6,133}));
-    AddState(133,new State(-12));
-    AddState(134,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,135,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(135,new State(new int[]{5,136,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
-    AddState(136,new State(-7,new int[]{-6,137,-7,4}));
-    AddState(137,new State(new int[]{6,138}));
-    AddState(138,new State(-13));
-    AddState(139,new State(-7,new int[]{-6,140,-7,4}));
-    AddState(140,new State(new int[]{22,141}));
-    AddState(141,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,142,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(142,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,30,-14,48,-14,24,-14,12,-14,5,-14,23,-14,18,-14,9,-14,11,-14,14,-14,1,-14,4,-14,19,-14,2,-14,6,-14,7,-14,8,-14,22,-14},new int[]{-2,16}));
-    AddState(143,new State(new int[]{48,144},new int[]{-22,155}));
-    AddState(144,new State(new int[]{33,145,13,-35,31,-35}));
-    AddState(145,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-12,146,-14,150,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(146,new State(new int[]{5,147}));
-    AddState(147,new State(-7,new int[]{-6,148,-7,4}));
-    AddState(148,new State(new int[]{6,149}));
-    AddState(149,new State(-15));
-    AddState(150,new State(new int[]{31,151,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
-    AddState(151,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,152,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(152,new State(new int[]{31,153,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,5,-40},new int[]{-2,16}));
-    AddState(153,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,154,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(154,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,5,-41},new int[]{-2,16}));
-    AddState(155,new State(new int[]{13,156,31,161}));
-    AddState(156,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-13,157,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(157,new State(new int[]{5,158,31,13}));
-    AddState(158,new State(-7,new int[]{-6,159,-7,4}));
-    AddState(159,new State(new int[]{6,160}));
-    AddState(160,new State(-16));
-    AddState(161,new State(new int[]{48,56}));
-    AddState(162,new State(new int[]{48,174},new int[]{-4,163,-5,167}));
-    AddState(163,new State(new int[]{24,46},new int[]{-23,164}));
-    AddState(164,new State(-7,new int[]{-6,165,-7,4}));
-    AddState(165,new State(new int[]{6,166}));
-    AddState(166,new State(-17));
-    AddState(167,new State(new int[]{51,168,52,171,24,-29}));
-    AddState(168,new State(new int[]{48,169,1,170}));
-    AddState(169,new State(-33));
-    AddState(170,new State(-34));
-    AddState(171,new State(new int[]{48,172,1,173}));
-    AddState(172,new State(-30));
-    AddState(173,new State(-31));
-    AddState(174,new State(-32));
-    AddState(175,new State(new int[]{11,176,48,60},new int[]{-22,181}));
-    AddState(176,new State(new int[]{48,174},new int[]{-4,177,-5,167}));
-    AddState(177,new State(new int[]{24,46},new int[]{-23,178}));
-    AddState(178,new State(-7,new int[]{-6,179,-7,4}));
-    AddState(179,new State(new int[]{6,180}));
-    AddState(180,new State(-18));
-    AddState(181,new State(new int[]{33,182,31,161,30,-19,48,-19,24,-19,12,-19,5,-19,23,-19,18,-19,9,-19,11,-19,14,-19,1,-19,4,-19,19,-19,2,-19,6,-19,7,-19,8,-19,22,-19}));
-    AddState(182,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-13,183,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(183,new State(new int[]{31,13,30,-20,48,-20,24,-20,12,-20,5,-20,23,-20,18,-20,9,-20,11,-20,14,-20,1,-20,4,-20,19,-20,2,-20,6,-20,7,-20,8,-20,22,-20}));
-    AddState(184,new State(-21));
-    AddState(185,new State(-26));
-    AddState(186,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87,30,-27,2,-27,6,-27,7,-27,8,-27,22,-27},new int[]{-13,187,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
-    AddState(187,new State(new int[]{31,13,30,-28,2,-28,6,-28,7,-28,8,-28,22,-28}));
+    AddState(110,new State(-89));
+    AddState(111,new State(new int[]{48,112,1,113}));
+    AddState(112,new State(-77));
+    AddState(113,new State(-78));
+    AddState(114,new State(new int[]{48,66,24,68},new int[]{-11,115,-17,116,-16,67}));
+    AddState(115,new State(new int[]{33,-74,31,-74,28,-79,51,-79,52,-79,24,-79,26,-79,50,-79}));
+    AddState(116,new State(new int[]{28,62,51,111,52,97,24,108,26,72,50,110},new int[]{-18,96,-30,100,-19,109}));
+    AddState(117,new State(new int[]{33,-73,31,-73,28,-79,51,-79,52,-79,24,-79,26,-79,50,-79}));
+    AddState(118,new State(new int[]{28,-80,51,-80,52,-80,24,-10,26,-80,50,-80,30,-10,48,-10,12,-10,5,-10,23,-10,18,-10,9,-10,11,-10,14,-10,1,-10,4,-10,19,-10,2,-10,6,-10,7,-10,8,-10,22,-10}));
+    AddState(119,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,120,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(120,new State(new int[]{20,121,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
+    AddState(121,new State(-7,new int[]{-24,122,-6,124,-7,4}));
+    AddState(122,new State(new int[]{6,123}));
+    AddState(123,new State(-11));
+    AddState(124,new State(-24,new int[]{-25,125}));
+    AddState(125,new State(new int[]{7,126,8,128,6,-22}));
+    AddState(126,new State(-7,new int[]{-6,127,-7,4}));
+    AddState(127,new State(-23));
+    AddState(128,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,129,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(129,new State(new int[]{20,130,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
+    AddState(130,new State(-7,new int[]{-6,131,-7,4}));
+    AddState(131,new State(-25));
+    AddState(132,new State(-7,new int[]{-6,133,-7,4}));
+    AddState(133,new State(new int[]{6,134}));
+    AddState(134,new State(-12));
+    AddState(135,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,136,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(136,new State(new int[]{5,137,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
+    AddState(137,new State(-7,new int[]{-6,138,-7,4}));
+    AddState(138,new State(new int[]{6,139}));
+    AddState(139,new State(-13));
+    AddState(140,new State(-7,new int[]{-6,141,-7,4}));
+    AddState(141,new State(new int[]{22,142}));
+    AddState(142,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,143,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(143,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,30,-14,48,-14,24,-14,12,-14,5,-14,23,-14,18,-14,9,-14,11,-14,14,-14,1,-14,4,-14,19,-14,2,-14,6,-14,7,-14,8,-14,22,-14},new int[]{-2,16}));
+    AddState(144,new State(new int[]{48,145},new int[]{-22,156}));
+    AddState(145,new State(new int[]{33,146,13,-35,31,-35}));
+    AddState(146,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-12,147,-14,151,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(147,new State(new int[]{5,148}));
+    AddState(148,new State(-7,new int[]{-6,149,-7,4}));
+    AddState(149,new State(new int[]{6,150}));
+    AddState(150,new State(-15));
+    AddState(151,new State(new int[]{31,152,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32},new int[]{-2,16}));
+    AddState(152,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,153,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(153,new State(new int[]{31,154,17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,5,-40},new int[]{-2,16}));
+    AddState(154,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-14,155,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(155,new State(new int[]{17,18,3,19,44,20,45,21,46,22,47,23,42,24,43,25,32,26,34,27,35,28,36,29,37,30,38,31,39,32,5,-41},new int[]{-2,16}));
+    AddState(156,new State(new int[]{13,157,31,162}));
+    AddState(157,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-13,158,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(158,new State(new int[]{5,159,31,13}));
+    AddState(159,new State(-7,new int[]{-6,160,-7,4}));
+    AddState(160,new State(new int[]{6,161}));
+    AddState(161,new State(-16));
+    AddState(162,new State(new int[]{48,56}));
+    AddState(163,new State(new int[]{48,175},new int[]{-4,164,-5,168}));
+    AddState(164,new State(new int[]{24,46},new int[]{-23,165}));
+    AddState(165,new State(-7,new int[]{-6,166,-7,4}));
+    AddState(166,new State(new int[]{6,167}));
+    AddState(167,new State(-17));
+    AddState(168,new State(new int[]{51,169,52,172,24,-29}));
+    AddState(169,new State(new int[]{48,170,1,171}));
+    AddState(170,new State(-33));
+    AddState(171,new State(-34));
+    AddState(172,new State(new int[]{48,173,1,174}));
+    AddState(173,new State(-30));
+    AddState(174,new State(-31));
+    AddState(175,new State(-32));
+    AddState(176,new State(new int[]{11,177,48,60},new int[]{-22,182}));
+    AddState(177,new State(new int[]{48,175},new int[]{-4,178,-5,168}));
+    AddState(178,new State(new int[]{24,46},new int[]{-23,179}));
+    AddState(179,new State(-7,new int[]{-6,180,-7,4}));
+    AddState(180,new State(new int[]{6,181}));
+    AddState(181,new State(-18));
+    AddState(182,new State(new int[]{33,183,31,162,30,-19,48,-19,24,-19,12,-19,5,-19,23,-19,18,-19,9,-19,11,-19,14,-19,1,-19,4,-19,19,-19,2,-19,6,-19,7,-19,8,-19,22,-19}));
+    AddState(183,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87},new int[]{-13,184,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(184,new State(new int[]{31,13,30,-20,48,-20,24,-20,12,-20,5,-20,23,-20,18,-20,9,-20,11,-20,14,-20,1,-20,4,-20,19,-20,2,-20,6,-20,7,-20,8,-20,22,-20}));
+    AddState(185,new State(-21));
+    AddState(186,new State(-26));
+    AddState(187,new State(new int[]{16,33,21,34,10,35,49,36,50,39,41,40,11,42,48,66,24,68,26,72,15,85,40,86,35,87,30,-27,2,-27,6,-27,7,-27,8,-27,22,-27},new int[]{-13,188,-14,107,-3,37,-15,41,-17,61,-11,65,-16,67,-19,71,-1,83}));
+    AddState(188,new State(new int[]{31,13,30,-28,2,-28,6,-28,7,-28,8,-28,22,-28}));
 
-    rules=new Rule[110];
+    rules=new Rule[111];
     rules[1]=new Rule(-27, new int[]{-26,2});
     rules[2]=new Rule(-26, new int[]{-6});
     rules[3]=new Rule(-28, new int[]{30});
@@ -337,27 +328,28 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     rules[86]=new Rule(-18, new int[]{-30,-13,-31});
     rules[87]=new Rule(-18, new int[]{-30,-13,1});
     rules[88]=new Rule(-18, new int[]{-19});
-    rules[89]=new Rule(-30, new int[]{24});
-    rules[90]=new Rule(-31, new int[]{25});
-    rules[91]=new Rule(-15, new int[]{11,-23,-6,6});
-    rules[92]=new Rule(-23, new int[]{24,25});
-    rules[93]=new Rule(-23, new int[]{24,1});
-    rules[94]=new Rule(-23, new int[]{24,-22,25});
-    rules[95]=new Rule(-23, new int[]{24,-22,1});
-    rules[96]=new Rule(-23, new int[]{24,41,25});
-    rules[97]=new Rule(-23, new int[]{24,41,1});
-    rules[98]=new Rule(-23, new int[]{24,-22,31,41,25});
-    rules[99]=new Rule(-23, new int[]{24,-22,31,41,1});
-    rules[100]=new Rule(-32, new int[]{31});
-    rules[101]=new Rule(-32, new int[]{30});
-    rules[102]=new Rule(-19, new int[]{26,27});
-    rules[103]=new Rule(-19, new int[]{26,-20,27});
-    rules[104]=new Rule(-19, new int[]{26,-20,-32,27});
-    rules[105]=new Rule(-20, new int[]{-21});
-    rules[106]=new Rule(-20, new int[]{-20,-32,-21});
-    rules[107]=new Rule(-21, new int[]{-14});
-    rules[108]=new Rule(-21, new int[]{48,33,-14});
-    rules[109]=new Rule(-21, new int[]{28,-14,29,33,-14});
+    rules[89]=new Rule(-18, new int[]{50});
+    rules[90]=new Rule(-30, new int[]{24});
+    rules[91]=new Rule(-31, new int[]{25});
+    rules[92]=new Rule(-15, new int[]{11,-23,-6,6});
+    rules[93]=new Rule(-23, new int[]{24,25});
+    rules[94]=new Rule(-23, new int[]{24,1});
+    rules[95]=new Rule(-23, new int[]{24,-22,25});
+    rules[96]=new Rule(-23, new int[]{24,-22,1});
+    rules[97]=new Rule(-23, new int[]{24,41,25});
+    rules[98]=new Rule(-23, new int[]{24,41,1});
+    rules[99]=new Rule(-23, new int[]{24,-22,31,41,25});
+    rules[100]=new Rule(-23, new int[]{24,-22,31,41,1});
+    rules[101]=new Rule(-32, new int[]{31});
+    rules[102]=new Rule(-32, new int[]{30});
+    rules[103]=new Rule(-19, new int[]{26,27});
+    rules[104]=new Rule(-19, new int[]{26,-20,27});
+    rules[105]=new Rule(-19, new int[]{26,-20,-32,27});
+    rules[106]=new Rule(-20, new int[]{-21});
+    rules[107]=new Rule(-20, new int[]{-20,-32,-21});
+    rules[108]=new Rule(-21, new int[]{-14});
+    rules[109]=new Rule(-21, new int[]{48,33,-14});
+    rules[110]=new Rule(-21, new int[]{28,-14,29,33,-14});
 
     nonTerminals = new string[] {"", "UnaryOperator", "BinaryOperator", 
       "String", "FunctionName", "DottedName", "Block", "StatementList", "Statement", 
@@ -373,51 +365,51 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
     switch (action)
     {
       case 2: // Chunk -> Block 
-#line 70 "Generated\parser.y"
+#line 70 "parser.y"
 			{
 		Chunk = new Chunk(yyloc) { Block = (Block)value_stack.array[value_stack.top-1].node };
     }
         break;
       case 5: // Block -> StatementList 
-#line 82 "Generated\parser.y"
+#line 82 "parser.y"
 			{
 		yyval.node = new Block(yyloc) { StatementList = value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 6: // Block -> StatementList LastStatement Semicolon 
-#line 86 "Generated\parser.y"
+#line 86 "parser.y"
 			{
 		yyloc = Merge(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-2]);
 		yyval.node = new Block(yyloc) { StatementList = AppendNode(value_stack.array[value_stack.top-3].node, value_stack.array[value_stack.top-2].node) };
 	}
         break;
       case 8: // StatementList -> StatementList Statement Semicolon 
-#line 95 "Generated\parser.y"
+#line 95 "parser.y"
 			{
 		yyloc = Merge(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-2]);
 		yyval.node = AppendNode(value_stack.array[value_stack.top-3].node, value_stack.array[value_stack.top-2].node);
 	}
         break;
       case 9: // Statement -> VariableList EQUAL ExpressionList 
-#line 103 "Generated\parser.y"
+#line 103 "parser.y"
 			{
 		yyval.node = new Assignment(yyloc) { VariableList = value_stack.array[value_stack.top-3].node, ExpressionList = value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 10: // Statement -> FunctionCall 
-#line 107 "Generated\parser.y"
+#line 107 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 11: // Statement -> KWIF Expression KWTHEN ThenBlock KWEND 
-#line 111 "Generated\parser.y"
+#line 111 "parser.y"
 			{
 		yyval.node = new If(yyloc) { Expression = value_stack.array[value_stack.top-4].node, ThenBlock = (ThenBlock)value_stack.array[value_stack.top-2].node };
 	}
         break;
       case 12: // Statement -> KWDO Block KWEND 
-#line 115 "Generated\parser.y"
+#line 115 "parser.y"
 			{
 		yyval.node = new ExplicitBlock(yyloc) { Block = (Block)value_stack.array[value_stack.top-2].node };
 		
@@ -425,31 +417,31 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 13: // Statement -> KWWHILE Expression KWDO Block KWEND 
-#line 121 "Generated\parser.y"
+#line 121 "parser.y"
 			{
 		yyval.node = new WhileLoop(yyloc) { Expression = value_stack.array[value_stack.top-4].node, Block = (Block)value_stack.array[value_stack.top-2].node };
 	}
         break;
       case 14: // Statement -> KWREPEAT Block KWUNTIL Expression 
-#line 125 "Generated\parser.y"
+#line 125 "parser.y"
 			{
 		yyval.node = new RepeatUntilLoop(yyloc) { Expression = value_stack.array[value_stack.top-1].node, Block = (Block)value_stack.array[value_stack.top-3].node };
 	}
         break;
       case 15: // Statement -> KWFOR IDENTIFIER EQUAL ExpressionList23 KWDO Block KWEND 
-#line 129 "Generated\parser.y"
+#line 129 "parser.y"
 			{
 		yyval.node = new ForLoop(yyloc) { Identifier = new Identifier(location_stack.array[location_stack.top-6]) { Name = value_stack.array[value_stack.top-6].str }, Expression = value_stack.array[value_stack.top-4].node, Block = (Block)value_stack.array[value_stack.top-2].node };
 	}
         break;
       case 16: // Statement -> KWFOR IdentifierList KWIN ExpressionList KWDO Block KWEND 
-#line 133 "Generated\parser.y"
+#line 133 "parser.y"
 			{
 		yyval.node = new ForLoop(yyloc) { IdentifierList = (Identifier)value_stack.array[value_stack.top-6].node, Expression = value_stack.array[value_stack.top-4].node, Block = (Block)value_stack.array[value_stack.top-2].node };
 	}
         break;
       case 17: // Statement -> KWFUNCTION FunctionName ParameterList Block KWEND 
-#line 137 "Generated\parser.y"
+#line 137 "parser.y"
 			{
 		yyval.node = new FunctionDeclaration(yyloc) { Name = value_stack.array[value_stack.top-4].str, ParameterList = value_stack.array[value_stack.top-3].node as ParameterList, Body = (Block)value_stack.array[value_stack.top-2].node };
 
@@ -457,7 +449,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 18: // Statement -> KWLOCAL KWFUNCTION FunctionName ParameterList Block KWEND 
-#line 143 "Generated\parser.y"
+#line 143 "parser.y"
 			{
 		yyval.node = new FunctionDeclaration(yyloc) { Name = value_stack.array[value_stack.top-4].str, ParameterList = value_stack.array[value_stack.top-3].node as ParameterList, Body = (Block)value_stack.array[value_stack.top-2].node, IsLocal = true };
 		
@@ -465,64 +457,64 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 19: // Statement -> KWLOCAL IdentifierList 
-#line 149 "Generated\parser.y"
+#line 149 "parser.y"
 			{
 		yyval.node = new LocalDeclaration(yyloc) { IdentifierList = (Identifier)value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 20: // Statement -> KWLOCAL IdentifierList EQUAL ExpressionList 
-#line 153 "Generated\parser.y"
+#line 153 "parser.y"
 			{
 		yyval.node = new Assignment(yyloc) { VariableList = value_stack.array[value_stack.top-3].node, ExpressionList = value_stack.array[value_stack.top-1].node, IsLocal = true };
 	}
         break;
       case 21: // Statement -> error 
-#line 157 "Generated\parser.y"
+#line 157 "parser.y"
 			{
 	}
         break;
       case 22: // ThenBlock -> Block ElseIfBlockList 
-#line 163 "Generated\parser.y"
+#line 163 "parser.y"
 			{
 		yyval.node = new ThenBlock(Merge(location_stack.array[location_stack.top-2], location_stack.array[location_stack.top-1])) { Block = (Block)value_stack.array[value_stack.top-2].node, ElseIfBlockList = (ElseIfBlock)value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 23: // ThenBlock -> Block ElseIfBlockList KWELSE Block 
-#line 167 "Generated\parser.y"
+#line 167 "parser.y"
 			{
 		yyval.node = new ThenBlock(Merge(location_stack.array[location_stack.top-4], location_stack.array[location_stack.top-1])) { Block = (Block)value_stack.array[value_stack.top-4].node, ElseIfBlockList = (ElseIfBlock)value_stack.array[value_stack.top-3].node, ElseBlock = (Block)value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 25: // ElseIfBlockList -> ElseIfBlockList KWELSEIF Expression KWTHEN Block 
-#line 175 "Generated\parser.y"
+#line 175 "parser.y"
 			{
 		yyval.node = AppendNode(value_stack.array[value_stack.top-5].node, new ElseIfBlock(Merge(location_stack.array[location_stack.top-4], location_stack.array[location_stack.top-1])) { Expression = value_stack.array[value_stack.top-3].node, Block = (Block)value_stack.array[value_stack.top-1].node });
 	}
         break;
       case 26: // LastStatement -> KWBREAK 
-#line 182 "Generated\parser.y"
+#line 182 "parser.y"
 			{
 		yyval.node = new Break(yyloc);
 	}
         break;
       case 27: // LastStatement -> KWRETURN 
-#line 186 "Generated\parser.y"
+#line 186 "parser.y"
 			{
 		yyval.node = new Return(yyloc);
 	}
         break;
       case 28: // LastStatement -> KWRETURN ExpressionList 
-#line 190 "Generated\parser.y"
+#line 190 "parser.y"
 			{
 		yyval.node = new Return(yyloc) { ExpressionList = value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 29: // FunctionName -> DottedName 
-#line 196 "Generated\parser.y"
+#line 196 "parser.y"
 			{ yyval.str = value_stack.array[value_stack.top-1].str; }
         break;
       case 30: // FunctionName -> DottedName COLON IDENTIFIER 
-#line 198 "Generated\parser.y"
+#line 198 "parser.y"
 			{ 
 		yyval.str = value_stack.array[value_stack.top-3].str + ':' + value_stack.array[value_stack.top-1].str; 
 		
@@ -530,12 +522,12 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 31: // FunctionName -> DottedName COLON error 
-#line 204 "Generated\parser.y"
+#line 204 "parser.y"
 			{
 	}
         break;
       case 32: // DottedName -> IDENTIFIER 
-#line 210 "Generated\parser.y"
+#line 210 "parser.y"
 			{
 		StartName(location_stack.array[location_stack.top-1], value_stack.array[value_stack.top-1].str);
 		
@@ -543,7 +535,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 33: // DottedName -> DottedName DOT IDENTIFIER 
-#line 216 "Generated\parser.y"
+#line 216 "parser.y"
 			{ 
 		yyval.str = value_stack.array[value_stack.top-3].str + '.' + value_stack.array[value_stack.top-1].str; 
 		
@@ -551,13 +543,13 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 34: // DottedName -> DottedName DOT error 
-#line 222 "Generated\parser.y"
+#line 222 "parser.y"
 			{
 		yyval.str = value_stack.array[value_stack.top-3].str;
 	}
         break;
       case 35: // IdentifierList -> IDENTIFIER 
-#line 229 "Generated\parser.y"
+#line 229 "parser.y"
 			{
 		StartName(location_stack.array[location_stack.top-1], value_stack.array[value_stack.top-1].str);
 		
@@ -565,7 +557,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 36: // IdentifierList -> IdentifierList COMMA IDENTIFIER 
-#line 235 "Generated\parser.y"
+#line 235 "parser.y"
 			{
 		StartName(location_stack.array[location_stack.top-1], value_stack.array[value_stack.top-1].str);
 		
@@ -573,124 +565,124 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 37: // ExpressionList -> Expression 
-#line 244 "Generated\parser.y"
+#line 244 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 38: // @1 -> 
-#line 247 "Generated\parser.y"
+#line 247 "parser.y"
 			{ Parameter(location_stack.array[location_stack.top-1]); }
         break;
       case 39: // ExpressionList -> ExpressionList COMMA @1 Expression 
-#line 248 "Generated\parser.y"
+#line 248 "parser.y"
 			{
 		yyval.node = AppendNode(value_stack.array[value_stack.top-4].node, value_stack.array[value_stack.top-1].node);		
 	}
         break;
       case 40: // ExpressionList23 -> Expression COMMA Expression 
-#line 255 "Generated\parser.y"
+#line 255 "parser.y"
 			{
 		yyval.node = AppendNode(value_stack.array[value_stack.top-3].node, value_stack.array[value_stack.top-1].node);
 	}
         break;
       case 41: // ExpressionList23 -> Expression COMMA Expression COMMA Expression 
-#line 259 "Generated\parser.y"
+#line 259 "parser.y"
 			{
 		yyval.node = AppendNodes(value_stack.array[value_stack.top-5].node, value_stack.array[value_stack.top-3].node, value_stack.array[value_stack.top-1].node);
 	}
         break;
       case 60: // String -> STRING 
-#line 278 "Generated\parser.y"
+#line 278 "parser.y"
 			{
 		yyval.str = value_stack.array[value_stack.top-1].str;
 	}
         break;
       case 61: // String -> String STRING 
-#line 282 "Generated\parser.y"
+#line 282 "parser.y"
 			{
 		yyval.str = String.Concat(value_stack.array[value_stack.top-2].str, value_stack.array[value_stack.top-1].str);
 	}
         break;
       case 62: // Expression -> KWNIL 
-#line 289 "Generated\parser.y"
+#line 289 "parser.y"
 			{
 		yyval.node = new Literal(yyloc) { Type = LuaType.Nil, Value = value_stack.array[value_stack.top-1].str };
 	}
         break;
       case 63: // Expression -> KWTRUE 
-#line 293 "Generated\parser.y"
+#line 293 "parser.y"
 			{
 		yyval.node = new Literal(yyloc) { Type = LuaType.Boolean, Value = value_stack.array[value_stack.top-1].str };
 	}
         break;
       case 64: // Expression -> KWFALSE 
-#line 297 "Generated\parser.y"
+#line 297 "parser.y"
 			{
 		yyval.node = new Literal(yyloc) { Type = LuaType.Boolean, Value = value_stack.array[value_stack.top-1].str };
 	}
         break;
       case 65: // Expression -> NUMBER 
-#line 301 "Generated\parser.y"
+#line 301 "parser.y"
 			{
 		yyval.node = new Literal(yyloc) { Type = LuaType.Number, Value = value_stack.array[value_stack.top-1].str };
 	}
         break;
       case 66: // Expression -> String 
-#line 305 "Generated\parser.y"
+#line 305 "parser.y"
 			{
 		yyval.node = new Literal(yyloc) { Type = LuaType.String, Value = value_stack.array[value_stack.top-1].str };
 	}
         break;
       case 67: // Expression -> ELLIPSIS 
-#line 309 "Generated\parser.y"
+#line 309 "parser.y"
 			{
 	}
         break;
       case 68: // Expression -> Function 
-#line 312 "Generated\parser.y"
+#line 312 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 69: // Expression -> PrefixExpression 
-#line 316 "Generated\parser.y"
+#line 316 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 70: // Expression -> TableConstructor 
-#line 320 "Generated\parser.y"
+#line 320 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 71: // Expression -> UnaryOperator Expression 
-#line 324 "Generated\parser.y"
+#line 324 "parser.y"
 			{
 		yyval.node = new UnaryExpression(yyloc) { Operator = value_stack.array[value_stack.top-2].str, Expression = value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 72: // Expression -> Expression BinaryOperator Expression 
-#line 328 "Generated\parser.y"
+#line 328 "parser.y"
 			{
 		yyval.node = new BinaryExpression(yyloc) { Operator = value_stack.array[value_stack.top-2].str, LeftExpression = value_stack.array[value_stack.top-3].node, RightExpression = value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 73: // VariableList -> Variable 
-#line 335 "Generated\parser.y"
+#line 335 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 74: // VariableList -> VariableList COMMA Variable 
-#line 339 "Generated\parser.y"
+#line 339 "parser.y"
 			{
 		yyval.node = AppendNode(value_stack.array[value_stack.top-3].node, value_stack.array[value_stack.top-1].node);
 	}
         break;
       case 75: // Variable -> IDENTIFIER 
-#line 346 "Generated\parser.y"
+#line 346 "parser.y"
 			{
 		StartName(location_stack.array[location_stack.top-1], value_stack.array[value_stack.top-1].str);
 		
@@ -698,7 +690,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 76: // Variable -> PrefixExpression LBRACKET Expression RBRACKET 
-#line 352 "Generated\parser.y"
+#line 352 "parser.y"
 			{
 		Match(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 		
@@ -706,7 +698,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 77: // Variable -> PrefixExpression DOT IDENTIFIER 
-#line 358 "Generated\parser.y"
+#line 358 "parser.y"
 			{
 		// If the PrefixExpression is an Identifier, we can just append the scoped name
 		if (value_stack.array[value_stack.top-3].node is Identifier)
@@ -724,25 +716,25 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 78: // Variable -> PrefixExpression DOT error 
-#line 374 "Generated\parser.y"
+#line 374 "parser.y"
 			{
 		// TODO: Should we return something?
 	}
         break;
       case 79: // PrefixExpression -> Variable 
-#line 381 "Generated\parser.y"
+#line 381 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 80: // PrefixExpression -> FunctionCall 
-#line 385 "Generated\parser.y"
+#line 385 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
       case 81: // PrefixExpression -> LPAREN Expression RPAREN 
-#line 389 "Generated\parser.y"
+#line 389 "parser.y"
 			{
 		Match(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 		
@@ -750,13 +742,13 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 82: // FunctionCall -> PrefixExpression Arguments 
-#line 398 "Generated\parser.y"
+#line 398 "parser.y"
 			{
 		yyval.node = new FunctionCall(yyloc) { PrefixExpression = value_stack.array[value_stack.top-2].node, Arguments = value_stack.array[value_stack.top-1].node };
 	}
         break;
       case 83: // FunctionCall -> PrefixExpression COLON IDENTIFIER Arguments 
-#line 402 "Generated\parser.y"
+#line 402 "parser.y"
 			{
 		QualifyName(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-2], value_stack.array[value_stack.top-2].str);
 		
@@ -764,18 +756,18 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 84: // Arguments -> StartArg error 
-#line 411 "Generated\parser.y"
+#line 411 "parser.y"
 			{
 	}
         break;
       case 85: // Arguments -> StartArg EndArg 
-#line 414 "Generated\parser.y"
+#line 414 "parser.y"
 			{
 		Match(location_stack.array[location_stack.top-2], location_stack.array[location_stack.top-1]);
 	}
         break;
       case 86: // Arguments -> StartArg ExpressionList EndArg 
-#line 418 "Generated\parser.y"
+#line 418 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-2].node;
 		
@@ -783,7 +775,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 87: // Arguments -> StartArg ExpressionList error 
-#line 424 "Generated\parser.y"
+#line 424 "parser.y"
 			{
 		EndParameters(location_stack.array[location_stack.top-1]);
 		
@@ -791,85 +783,91 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 	}
         break;
       case 88: // Arguments -> TableConstructor 
-#line 430 "Generated\parser.y"
+#line 430 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
-      case 89: // StartArg -> LPAREN 
-#line 437 "Generated\parser.y"
+      case 89: // Arguments -> STRING 
+#line 434 "parser.y"
+			{
+		yyval.node = new Literal(yyloc) { Type = LuaType.String, Value = value_stack.array[value_stack.top-1].str };
+	}
+        break;
+      case 90: // StartArg -> LPAREN 
+#line 441 "parser.y"
 			{
 		StartParameters(location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 90: // EndArg -> RPAREN 
-#line 444 "Generated\parser.y"
+      case 91: // EndArg -> RPAREN 
+#line 448 "parser.y"
 			{
 		EndParameters(location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 91: // Function -> KWFUNCTION ParameterList Block KWEND 
-#line 451 "Generated\parser.y"
+      case 92: // Function -> KWFUNCTION ParameterList Block KWEND 
+#line 455 "parser.y"
 			{
 		yyval.node = new Function(yyloc) { ParameterList = value_stack.array[value_stack.top-3].node as ParameterList, Body = (Block)value_stack.array[value_stack.top-2].node };
 		
 		Region(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 92: // ParameterList -> LPAREN RPAREN 
-#line 460 "Generated\parser.y"
+      case 93: // ParameterList -> LPAREN RPAREN 
+#line 464 "parser.y"
 			{
 		Match(location_stack.array[location_stack.top-2], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 93: // ParameterList -> LPAREN error 
-#line 463 "Generated\parser.y"
+      case 94: // ParameterList -> LPAREN error 
+#line 467 "parser.y"
 			{ Error(location_stack.array[location_stack.top-2], "Unmatched parentheses."); }
         break;
-      case 94: // ParameterList -> LPAREN IdentifierList RPAREN 
-#line 465 "Generated\parser.y"
+      case 95: // ParameterList -> LPAREN IdentifierList RPAREN 
+#line 469 "parser.y"
 			{
 		yyval.node = new ParameterList(yyloc) { IdentifierList = (Identifier)value_stack.array[value_stack.top-2].node };
 		
 		Match(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 95: // ParameterList -> LPAREN IdentifierList error 
-#line 470 "Generated\parser.y"
+      case 96: // ParameterList -> LPAREN IdentifierList error 
+#line 474 "parser.y"
 			{ Error(location_stack.array[location_stack.top-3], "Unmatched parentheses."); }
         break;
-      case 96: // ParameterList -> LPAREN ELLIPSIS RPAREN 
-#line 472 "Generated\parser.y"
+      case 97: // ParameterList -> LPAREN ELLIPSIS RPAREN 
+#line 476 "parser.y"
 			{
 		Match(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 97: // ParameterList -> LPAREN ELLIPSIS error 
-#line 475 "Generated\parser.y"
+      case 98: // ParameterList -> LPAREN ELLIPSIS error 
+#line 479 "parser.y"
 			{ Error(location_stack.array[location_stack.top-3], "Unmatched parentheses."); }
         break;
-      case 98: // ParameterList -> LPAREN IdentifierList COMMA ELLIPSIS RPAREN 
-#line 477 "Generated\parser.y"
+      case 99: // ParameterList -> LPAREN IdentifierList COMMA ELLIPSIS RPAREN 
+#line 481 "parser.y"
 			{
 		yyval.node = new ParameterList(yyloc) { IdentifierList = (Identifier)value_stack.array[value_stack.top-4].node };
 		
 		Match(location_stack.array[location_stack.top-5], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 99: // ParameterList -> LPAREN IdentifierList COMMA ELLIPSIS error 
-#line 482 "Generated\parser.y"
+      case 100: // ParameterList -> LPAREN IdentifierList COMMA ELLIPSIS error 
+#line 486 "parser.y"
 			{ Error(location_stack.array[location_stack.top-5], "Unmatched parentheses."); }
         break;
-      case 102: // TableConstructor -> LBRACE RBRACE 
-#line 492 "Generated\parser.y"
+      case 103: // TableConstructor -> LBRACE RBRACE 
+#line 496 "parser.y"
 			{
 		yyval.node = new TableConstructor(yyloc);
 		
 		Match(location_stack.array[location_stack.top-2], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 103: // TableConstructor -> LBRACE FieldList RBRACE 
-#line 498 "Generated\parser.y"
+      case 104: // TableConstructor -> LBRACE FieldList RBRACE 
+#line 502 "parser.y"
 			{
 		yyval.node = new TableConstructor(yyloc) { FieldList = (Field)value_stack.array[value_stack.top-2].node };
 		
@@ -877,8 +875,8 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 		Region(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 104: // TableConstructor -> LBRACE FieldList FieldSeparator RBRACE 
-#line 505 "Generated\parser.y"
+      case 105: // TableConstructor -> LBRACE FieldList FieldSeparator RBRACE 
+#line 509 "parser.y"
 			{
 		yyval.node = new TableConstructor(yyloc) { FieldList = (Field)value_stack.array[value_stack.top-3].node };
 		
@@ -886,32 +884,32 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
 		Region(location_stack.array[location_stack.top-4], location_stack.array[location_stack.top-1]);
 	}
         break;
-      case 105: // FieldList -> Field 
-#line 515 "Generated\parser.y"
+      case 106: // FieldList -> Field 
+#line 519 "parser.y"
 			{
 		yyval.node = value_stack.array[value_stack.top-1].node;
 	}
         break;
-      case 106: // FieldList -> FieldList FieldSeparator Field 
-#line 519 "Generated\parser.y"
+      case 107: // FieldList -> FieldList FieldSeparator Field 
+#line 523 "parser.y"
 			{
 		yyval.node = AppendNode(value_stack.array[value_stack.top-3].node, value_stack.array[value_stack.top-1].node);
 	}
         break;
-      case 107: // Field -> Expression 
-#line 526 "Generated\parser.y"
+      case 108: // Field -> Expression 
+#line 530 "parser.y"
 			{
 		yyval.node = new Field(yyloc) { Expression  = value_stack.array[value_stack.top-1].node };
 	}
         break;
-      case 108: // Field -> IDENTIFIER EQUAL Expression 
-#line 530 "Generated\parser.y"
+      case 109: // Field -> IDENTIFIER EQUAL Expression 
+#line 534 "parser.y"
 			{
 		yyval.node = new Field(yyloc) { Identifier = new Identifier(location_stack.array[location_stack.top-3]) { Name = value_stack.array[value_stack.top-3].str }, Expression = value_stack.array[value_stack.top-1].node };		
 	}
         break;
-      case 109: // Field -> LBRACKET Expression RBRACKET EQUAL Expression 
-#line 534 "Generated\parser.y"
+      case 110: // Field -> LBRACKET Expression RBRACKET EQUAL Expression 
+#line 538 "parser.y"
 			{
 		yyval.node = new Field(yyloc) { LeftExpression = value_stack.array[value_stack.top-4].node, Expression = value_stack.array[value_stack.top-1].node };		
 		
@@ -929,7 +927,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
       return CharToString((char)terminal);
   }
 
-#line 540 "Generated\parser.y"
+#line 544 "parser.y"
 
 }
 }

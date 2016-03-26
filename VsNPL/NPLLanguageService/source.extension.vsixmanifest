@@ -3,7 +3,7 @@
   <Identifier Id="a85e31a8-79a8-4028-b3e0-6e8923873197">
     <Name>NPL_LuaLanguageService</Name>
     <Author>LiXizhi</Author>
-    <Version>1.18.0</Version>
+    <Version>2.0.0</Version>
     <Description xml:space="preserve">NPL/Lua language service for vs 2010/2012/2013/2015</Description>
     <Locale>1033</Locale>
     <InstalledByMsi>false</InstalledByMsi>

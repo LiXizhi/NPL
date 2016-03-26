@@ -1,5 +1,17 @@
 namespace ParaEngine.Tools.Lua.Parser
 {
+    // Abstract base class for MPLEX scanners
+    public abstract class ScanBase : AScanner<LexValue, LexLocation>
+    {
+        protected abstract int CurrentSc { get; set; }
+        //
+        // Override the virtual EolState property if the scanner state is more
+        // complicated then a simple copy of the current start state ordinal
+        //
+        public virtual int EolState { get { return CurrentSc; } set { CurrentSc = value; } }
+    }
+
+
     /// <summary>
     /// Abstract scanner class that MPPG expects its scanners to extend.
     /// </summary>

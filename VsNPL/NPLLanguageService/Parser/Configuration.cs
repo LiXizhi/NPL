@@ -142,6 +142,8 @@ namespace ParaEngine.Tools.Lua.Parser
             TokenColor NPLMarker = CreateColor("NPL.Marker", COLORINDEX.CI_PURPLE, COLORINDEX.CI_SYSWIDGETMGN_BK, true, false);
             TokenColor NPLGreyText = CreateColor("NPL.GreyText", COLORINDEX.CI_DARKGRAY, COLORINDEX.CI_USERTEXT_BK, false, false);
             TokenColor NPLGreyBoldText= CreateColor("NPL.NPLGreyBoldText", COLORINDEX.CI_DARKGRAY, COLORINDEX.CI_USERTEXT_BK, true, false);
+            TokenColor NPLSelf = CreateColor("NPL.NPLSelf", COLORINDEX.CI_DARKBLUE, COLORINDEX.CI_USERTEXT_BK, true, false);
+            TokenColor NPLFunction = CreateColor("NPL.NPLFunction", COLORINDEX.CI_MAROON, COLORINDEX.CI_USERTEXT_BK, true, false);
 
             ColorToken((int)Tokens.KWAND, TokenType.Keyword, TokenColor.Keyword, TokenTriggers.None);
             ColorToken((int)Tokens.KWBREAK, TokenType.Keyword, TokenColor.Keyword, TokenTriggers.None);
@@ -190,7 +192,8 @@ namespace ParaEngine.Tools.Lua.Parser
             ColorToken((int)NPLTokens.LEX_NPL_BEGINCODE, TokenType.Comment, NPLMarker, TokenTriggers.None);
             ColorToken((int)NPLTokens.LEX_NPL_ENDCODE, TokenType.Comment, NPLMarker, TokenTriggers.None);
             ColorToken((int)NPLTokens.LEX_NPL_HTML_ATTR_VALUE, TokenType.Comment, NPLGreyBoldText, TokenTriggers.None);
-
+            ColorToken((int)NPLTokens.LEX_NPL_SELF, TokenType.Identifier, NPLSelf, TokenTriggers.None);
+            ColorToken((int)NPLTokens.LEX_NPL_FUNCTION, TokenType.Identifier, NPLFunction, TokenTriggers.None);
         }
     }
 }

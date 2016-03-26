@@ -18,15 +18,18 @@ NPL.activate("(gl)script/test/TestMultithread.lua");
 ]]
 NPL.load("(gl)script/ide/commonlib.lua");
 
+local L = function(text) return text end;
+
 local function Start()
-   for i=1, 5 do
-      local thead_name = "T"..i;
-      NPL.CreateRuntimeState(thead_name, 0):Start();
-	  NPL.activate(format("(%s)script/test/TestMultithread.lua", thead_name), {
-		text = "hello world", 
-		sleep_time = math.random()*5,
-	  });
-   end
+	local self = nil;
+	for i=1, 0x05 do
+		local thead_name = "T"..i;
+		NPL.CreateRuntimeState(thead_name, 0):Start();
+		NPL.activate(format("(%s)script/test/TestMultithread.lua", thead_name), {
+			text = L"hello world", 
+			sleep_time = math.random()*5,
+		});
+	end
 end
 
 local isStarted;

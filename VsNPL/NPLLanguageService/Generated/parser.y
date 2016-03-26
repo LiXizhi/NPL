@@ -430,6 +430,10 @@ Arguments
 	{
 		$$ = $1;
 	}
+	| STRING
+	{
+		$$ = new Literal(@$) { Type = LuaType.String, Value = $1 };
+	}
 	;
 
 StartArg

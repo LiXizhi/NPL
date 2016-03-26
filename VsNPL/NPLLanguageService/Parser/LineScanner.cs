@@ -28,7 +28,9 @@ namespace ParaEngine.Tools.Lua.Parser
         LEX_COMMENT_LIGHT = 256,
         LEX_NPL_BEGINCODE,
         LEX_NPL_ENDCODE,
-        LEX_NPL_HTML_ATTR_VALUE
+        LEX_NPL_HTML_ATTR_VALUE,
+        LEX_NPL_SELF,
+        LEX_NPL_FUNCTION,
     }
 
     /// <summary>
@@ -73,7 +75,20 @@ namespace ParaEngine.Tools.Lua.Parser
         }
         private void FillTokenInfo(int token, TokenInfo tokenInfo, int start, int end)
         {
+            if (token == (int)Tokens.IDENTIFIER)
+            {
+                if ( (end - start) == 3 && lex.buffer.GetString(start, end + 1)== "self")
+                {
+                    token = (int)NPLTokens.LEX_NPL_SELF;
+                }
+                else if(end > start && lex.buffer.GetString(end + 1, end + 2) == "(")
+                {
+                    token = (int)NPLTokens.LEX_NPL_FUNCTION;
+                }
+            }
+
             Configuration.TokenDefinition definition = Configuration.GetDefinition(token);
+            
             tokenInfo.StartIndex = start;
             tokenInfo.EndIndex = end;
             tokenInfo.Color = definition.TokenColor;
