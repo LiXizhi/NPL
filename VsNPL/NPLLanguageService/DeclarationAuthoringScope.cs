@@ -179,16 +179,16 @@ namespace ParaEngine.Tools.Lua
 		/// <param name="col">The col.</param>
 		/// <param name="span">The span.</param>
 		/// <returns></returns>
-        public override string Goto(VSConstants.VSStd97CmdID cmd, IVsTextView textView, int line, int col, out TextSpan span)
+        public override string Goto(Microsoft.VisualStudio.VSConstants.VSStd97CmdID cmd, IVsTextView textView, int line, int col, out TextSpan span)
         {
 			span = new TextSpan();
 			return String.Empty;
 		}
 
-		/// <summary>
-		/// Defines methods to support the comparison of objects for equality.
-		/// </summary>
-		private class DeclarationEqualityComparer : IEqualityComparer<Declaration>
+        /// <summary>
+        /// Defines methods to support the comparison of objects for equality.
+        /// </summary>
+        private class DeclarationEqualityComparer : IEqualityComparer<Declaration>
 		{
 			/// <summary>
 			/// Determines whether the specified objects are equal.

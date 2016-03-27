@@ -13,3 +13,4 @@ Release/
 dgml/
 ipch/
 *.user
+packages/

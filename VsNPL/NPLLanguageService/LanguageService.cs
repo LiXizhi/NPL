@@ -699,6 +699,10 @@ namespace ParaEngine.Tools.Lua
                 {
                     FindQuickInfo(request);
                 }
+                else if (request.Reason == ParseReason.Goto)
+                {
+
+                }
             }
 
 			// Return authoring scope

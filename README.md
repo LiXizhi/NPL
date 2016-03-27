@@ -80,6 +80,9 @@ IPCDebugger.StartDebugEngine();
 One need to start the experimental instance of visual studio. 
 "D:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe" /RootSuffix Exp
 
+To install pre-requisite packages
+ * In NuGet console, run `Install-Package VSSDK.Shell.12`
+
 ### Known Issues
    - Run as administrators in order to register C++ dll successfully. 
    - Attach process with mixed Native C++/NPL debugging will fail to detach, because the NPL handler thread are paused when the debug engine send the detach message causing the IDE to hang. 
