@@ -20,6 +20,8 @@ namespace ParaEngine.Tools.Lua
 		private string qualifiedName = String.Empty;
         public string m_quickInfoText;
         public TextSpan m_quickInfoSpan = new TextSpan();
+        public string m_goto_filename = null;
+        public TextSpan m_goto_textspan = new TextSpan();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthoringScope"/> class.
@@ -181,9 +183,14 @@ namespace ParaEngine.Tools.Lua
 		/// <returns></returns>
         public override string Goto(Microsoft.VisualStudio.VSConstants.VSStd97CmdID cmd, IVsTextView textView, int line, int col, out TextSpan span)
         {
-			span = new TextSpan();
-			return String.Empty;
-		}
+			span = m_goto_textspan;
+            return m_goto_filename;
+
+            // testing: 
+            // span.iStartLine = span.iEndLine = 23;
+            // span.iStartIndex = 16; span.iEndIndex = 21;
+            // return "E:/Temp/NPL/VsNPL/test.lua";
+        }
 
         /// <summary>
         /// Defines methods to support the comparison of objects for equality.

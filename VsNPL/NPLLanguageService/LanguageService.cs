@@ -597,20 +597,12 @@ namespace ParaEngine.Tools.Lua
             }
         }
 
-        /// <summary>
-        /// mouse over a text to display some info. 
-        /// called from parser thread
-        /// </summary>
-        /// <param name="request"></param>
-        private void FindQuickInfo(ParseRequest request)
+        private string GetWordFromRequest(ParseRequest request, out int nColFrom, out int nColTo)
         {
-            if (request.Reason != ParseReason.QuickInfo)
-                return;
-            authoringScope.m_quickInfoText = "";
             string sLine = GetLineText(request);
+            nColFrom = request.Col;
+            nColTo = nColFrom;
 
-            int nColFrom = request.Col;
-            int nColTo = nColFrom;
             if (sLine != null && nColFrom < sLine.Length)
             {
                 char cChar = sLine[nColFrom];
@@ -633,34 +625,105 @@ namespace ParaEngine.Tools.Lua
                     string sWord = sLine.Substring(nColFrom, nColTo - nColFrom + 1);
                     if (sWord.Length > 0 && Char.IsLetter(sWord[0]))
                     {
-                        StringBuilder info = new StringBuilder();
-
-                        BuildQuickInfoString(GetFileDeclarationProvider(request.FileName), sWord, info, "this_file: ");
-
-                        foreach (var declareProvider in luaFileDeclarationProviders)
-                        {
-                            if(request.FileName != declareProvider.Key)
-                                BuildQuickInfoString(declareProvider.Value, sWord, info, Path.GetFileName(declareProvider.Key)+": ");
-                        }
-
-                        BuildQuickInfoString(xmlDeclarationProvider, sWord, info);
-                        
-
-                        if (info.Length > 0)
-                        {
-                            authoringScope.m_quickInfoText = info.ToString();
-                            TextSpan span = new TextSpan();
-                            span.iStartLine = request.Line;
-                            span.iEndLine = request.Line;
-                            span.iStartIndex = nColFrom;
-                            span.iEndIndex = nColTo;
-                            authoringScope.m_quickInfoSpan = span;
-                        }
+                        return sWord;
                     }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// mouse over a text to display some info. 
+        /// called from parser thread
+        /// </summary>
+        /// <param name="request"></param>
+        private void FindQuickInfo(ParseRequest request)
+        {
+            if (request.Reason != ParseReason.QuickInfo)
+                return;
+            authoringScope.m_quickInfoText = "";
+            int nColFrom, nColTo;
+            string sWord = GetWordFromRequest(request, out nColFrom, out nColTo);
+            if (sWord!=null && sWord.Length > 0)
+            {
+                StringBuilder info = new StringBuilder();
+
+                BuildQuickInfoString(GetFileDeclarationProvider(request.FileName), sWord, info, "this_file: ");
+
+                foreach (var declareProvider in luaFileDeclarationProviders)
+                {
+                    if(request.FileName != declareProvider.Key)
+                        BuildQuickInfoString(declareProvider.Value, sWord, info, Path.GetFileName(declareProvider.Key)+": ");
+                }
+
+                BuildQuickInfoString(xmlDeclarationProvider, sWord, info);
+
+                if (info.Length > 0)
+                {
+                    authoringScope.m_quickInfoText = info.ToString();
+                    TextSpan span = new TextSpan();
+                    span.iStartLine = request.Line;
+                    span.iEndLine = request.Line;
+                    span.iStartIndex = nColFrom;
+                    span.iEndIndex = nColTo;
+                    authoringScope.m_quickInfoSpan = span;
                 }
             }
         }
 
+        private bool BuildGotoDefinitionUri(TableDeclarationProvider declarations, DeclarationAuthoringScope authoringScope, string sWord)
+        {
+            if (declarations != null)
+            {
+                foreach (var method in declarations.FindMethods(sWord))
+                {
+                    var func = method.Value;
+                    if(func.FilenameDefinedIn != null)
+                    {
+                        authoringScope.m_goto_filename = func.FilenameDefinedIn;
+                        authoringScope.m_goto_textspan.iStartLine = func.TextspanDefinedIn.sLin;
+                        authoringScope.m_goto_textspan.iEndLine = func.TextspanDefinedIn.eLin;
+                        authoringScope.m_goto_textspan.iStartIndex = func.TextspanDefinedIn.sCol;
+                        authoringScope.m_goto_textspan.iEndIndex = func.TextspanDefinedIn.eCol;
+                        return true;
+                    }
+                    // TODO:
+                    //method.
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// in parser thread, find the goto uri and location.
+        /// </summary>
+        /// <param name="request"></param>
+        private bool FindGotoDefinition(ParseRequest request)
+        {
+            if (request.Reason != ParseReason.Goto)
+                return false;
+            authoringScope.m_goto_filename = null;
+            authoringScope.m_goto_textspan = new TextSpan();
+
+            int nColFrom, nColTo;
+            string sWord = GetWordFromRequest(request, out nColFrom, out nColTo);
+            if (sWord != null && sWord.Length > 0)
+            {
+                if(! BuildGotoDefinitionUri(GetFileDeclarationProvider(request.FileName), authoringScope, sWord) )
+                {
+                    foreach (var declareProvider in luaFileDeclarationProviders)
+                    {
+                        if (request.FileName != declareProvider.Key)
+                            if(BuildGotoDefinitionUri(declareProvider.Value, authoringScope, sWord))
+                                return true;
+                    }
+
+                    return BuildGotoDefinitionUri(xmlDeclarationProvider, authoringScope, sWord);
+                }
+            }
+            return false;
+        }
+        
         /// <summary>
         /// Processes a Parse request.
         /// </summary>
@@ -701,7 +764,7 @@ namespace ParaEngine.Tools.Lua
                 }
                 else if (request.Reason == ParseReason.Goto)
                 {
-
+                    FindGotoDefinition(request);
                 }
             }
 
@@ -717,9 +780,9 @@ namespace ParaEngine.Tools.Lua
 
 			// Parse the AST and add the declarations
 			if(addLocals)
-				declarationParser.AddChunk(parser.Chunk, request.Line, request.Col);
+				declarationParser.AddChunk(parser.Chunk, request.Line, request.Col, request.FileName);
 			else
-				declarationParser.AddChunk(parser.Chunk);
+				declarationParser.AddChunk(parser.Chunk, request.FileName);
 		}
 
 		/// <summary>
