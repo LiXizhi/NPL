@@ -43,6 +43,10 @@ Support mixed HTML/NPL highlighting.
  * This function is called in the parser thread. 
  * more information please see help in visual studio. 
 
+#### XML documetation
+ IntelliSense and code completion using XML files under ${SolutionDir}/Documentation.  Users can add new XML files for their own application. 
+ See ${install path}/Documentation for [examples](https://github.com/LiXizhi/NPL/blob/master/Documentation/NplDocumentation.xml). Filepath can be found in NPL output panel.
+
 ### Advanced Functions
 	- AD7StackFrame::ParseText() is rewritten to support expression evaluation. 
 
