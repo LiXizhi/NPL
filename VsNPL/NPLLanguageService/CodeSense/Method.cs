@@ -4,7 +4,7 @@ using System.Text;
 namespace ParaEngine.Tools.Lua
 {
     public class Method : Declaration
-    {
+    {   
         /// <summary>
         /// Gets or sets the parameters of the method.
         /// </summary>

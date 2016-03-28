@@ -102,7 +102,7 @@ namespace ParaEngine.Tools.Lua
 			authoringScope = new DeclarationAuthoringScope(this);
 			DTE = GetService(typeof(DTE)) as DTE2;
             
-            if(!bOneTimeInited)
+            if (!bOneTimeInited)
             {
                 bOneTimeInited = true;
                 OneTimeInitialize();
@@ -121,8 +121,12 @@ namespace ParaEngine.Tools.Lua
         /// </summary>
         public void LoadXmlDocumentation(string documentationRootPath = null)
 		{
-			// Retrieve install directory
-		    if (documentationRootPath == null)
+            if(xmlDeclarationProvider == null)
+            {
+                xmlDeclarationProvider = new TableDeclarationProvider();
+            }
+            // Retrieve install directory
+            if (documentationRootPath == null)
             {
                 // documentationRootPath = ParaEngine.NPLLanguageService.NPLLanguageServicePackage.PackageRootPath;
                 documentationRootPath = ObtainInstallationFolder()+"\\";
@@ -671,24 +675,52 @@ namespace ParaEngine.Tools.Lua
             }
         }
 
+        /// <summary>
+        /// we will search in current solution directory, and `./src` and `./Documentation` directory. 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        private string GetAbsolutionFilePath(string filename)
+        {
+            if (!File.Exists(filename) && !filename.Contains(":"))
+            {
+                DTE2 dte = (DTE2)GetService(typeof(DTE));
+                string solutionDir = System.IO.Path.GetDirectoryName(DTE.Solution.FullName);
+
+                string fullpath = solutionDir + "\\" + filename;
+                if (File.Exists(fullpath))
+                    return fullpath;
+                else
+                {
+                    fullpath = solutionDir + "\\src\\" + filename;
+                    if (File.Exists(fullpath))
+                        return fullpath;
+                    else 
+                    {
+                        fullpath = solutionDir + "\\Documentation\\" + filename;
+                        if (File.Exists(fullpath))
+                            return fullpath;
+                    }
+                }
+            }
+            return filename;
+        }
         private bool BuildGotoDefinitionUri(TableDeclarationProvider declarations, DeclarationAuthoringScope authoringScope, string sWord)
         {
             if (declarations != null)
             {
-                foreach (var method in declarations.FindMethods(sWord))
+                foreach (var method in declarations.FindDeclarations(sWord, true))
                 {
                     var func = method.Value;
                     if(func.FilenameDefinedIn != null)
                     {
-                        authoringScope.m_goto_filename = func.FilenameDefinedIn;
-                        authoringScope.m_goto_textspan.iStartLine = func.TextspanDefinedIn.sLin;
-                        authoringScope.m_goto_textspan.iEndLine = func.TextspanDefinedIn.eLin;
-                        authoringScope.m_goto_textspan.iStartIndex = func.TextspanDefinedIn.sCol;
-                        authoringScope.m_goto_textspan.iEndIndex = func.TextspanDefinedIn.eCol;
+                        authoringScope.m_goto_filename = GetAbsolutionFilePath(func.FilenameDefinedIn);
+                        authoringScope.m_goto_textspan.iEndLine = authoringScope.m_goto_textspan.iStartLine = func.TextspanDefinedIn.sLin;
+                        // authoringScope.m_goto_textspan.iEndLine = func.TextspanDefinedIn.eLin;
+                        authoringScope.m_goto_textspan.iEndIndex = authoringScope.m_goto_textspan.iStartIndex = func.TextspanDefinedIn.sCol;
+                        // authoringScope.m_goto_textspan.iEndIndex = func.TextspanDefinedIn.eCol;
                         return true;
                     }
-                    // TODO:
-                    //method.
                 }
             }
             return false;
@@ -709,17 +741,18 @@ namespace ParaEngine.Tools.Lua
             string sWord = GetWordFromRequest(request, out nColFrom, out nColTo);
             if (sWord != null && sWord.Length > 0)
             {
-                if(! BuildGotoDefinitionUri(GetFileDeclarationProvider(request.FileName), authoringScope, sWord) )
+                if (!BuildGotoDefinitionUri(GetFileDeclarationProvider(request.FileName), authoringScope, sWord))
                 {
                     foreach (var declareProvider in luaFileDeclarationProviders)
                     {
                         if (request.FileName != declareProvider.Key)
-                            if(BuildGotoDefinitionUri(declareProvider.Value, authoringScope, sWord))
+                            if (BuildGotoDefinitionUri(declareProvider.Value, authoringScope, sWord))
                                 return true;
                     }
-
                     return BuildGotoDefinitionUri(xmlDeclarationProvider, authoringScope, sWord);
                 }
+                else
+                    return true;
             }
             return false;
         }

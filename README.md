@@ -101,6 +101,9 @@ To install pre-requisite packages
 	- TODO: Stack view
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
 
+2016.3.28
+	- NPL language service: added goto definition for opened files and xml configuration files
+
 2016.3.24
 	- NPL language service: fixed hex number display, added highlighting for functions and self identifier.
 	- NPL language service: quick info added

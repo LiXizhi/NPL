@@ -20,7 +20,9 @@ NPL.load("(gl)script/ide/commonlib.lua");
 
 local L = function(text) return text end;
 
-local function Start()
+local MyApp = {};
+
+function MyApp:Start()
 	local self = nil;
 	for i=1, 0x05 do
 		local thead_name = "T"..i;
@@ -41,7 +43,7 @@ local function activate()
    elseif(not isStarted) then
       -- initialize on first call 
       isStarted = true;
-      Start();
+      MyApp:Start();
    end
 end
 

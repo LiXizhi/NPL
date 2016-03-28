@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CB13814-9AFB-46F0-AD00-36B4D0BE9D30}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,6 +35,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugger", "Debugger", "{C6
 		script\ide\Debugger\NPLProfiler.lua = script\ide\Debugger\NPLProfiler.lua
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{4B25D4CC-17BC-4EA0-A205-ABDA86547646}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\NplDocumentation.xml = Documentation\NplDocumentation.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,5 +58,6 @@ Global
 		{AA2B5807-E328-4C77-BE36-9F358D95B025} = {8CB13814-9AFB-46F0-AD00-36B4D0BE9D30}
 		{3C6E53F5-1344-42B8-8026-1B42C6F3CBF7} = {AA2B5807-E328-4C77-BE36-9F358D95B025}
 		{C61F8DC8-322A-46DF-BC5B-7FA07388451F} = {3C6E53F5-1344-42B8-8026-1B42C6F3CBF7}
+		{4B25D4CC-17BC-4EA0-A205-ABDA86547646} = {8CB13814-9AFB-46F0-AD00-36B4D0BE9D30}
 	EndGlobalSection
 EndGlobal

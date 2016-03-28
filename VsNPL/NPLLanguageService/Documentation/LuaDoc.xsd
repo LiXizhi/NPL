@@ -17,6 +17,7 @@
                     <xs:element name="function" type="function" minOccurs="0" maxOccurs="unbounded" />
                   </xs:sequence>
                   <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="src" type="xs:string" use="optional" />
                   <xs:attribute name="inherits" type="xs:string" use="optional" />
                 </xs:complexType>
               </xs:element>
@@ -77,5 +78,7 @@
       </xs:element>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="line" type="xs:string" use="optional" />
+    <xs:attribute name="src" type="xs:string" use="optional" />
   </xs:complexType>
 </xs:schema>

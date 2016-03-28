@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--this is an example XML documentation, put this under `./{solution_dir}/Documentation/` to be loaded automatically
+@param table.src: the source file uri, in order to support goto definition
+@param table.function.line: the line in the src at which the function is defined. 
+@param variables.variable.ns: the namespace in which a table is defined. 
+-->
+<doc>
+  <tables>
+    <table name="MyApp" src="VsNPL/test.lua">
+      <function name="log" line="25">
+        <summary>test goto definition</summary>
+      </function>
+    </table>
+    <table name="commonlib">
+      <function name="log">
+        <summary>write any object, table, string, formatted text to log</summary>
+        <parameter name="object" />
+        <parameter name="format_values" optional="true"/>
+      </function>
+      <function name="echo">
+        <summary>write any object, table, string, formatted text to log </summary>
+        <parameter name="object" />
+      </function>
+    </table>
+    <table name="XPath">
+      <function name="selectNodes">
+        <summary> XPath uses path expressions to select nodes in an XML document. </summary>
+        <parameter name="xmlLuaTable" />
+        <parameter name="xpath"/>
+        <returns>a table array of nodes</returns>
+      </function>
+      <function name="eachNode">
+        <summary>return an iterator of selected nodes in the XML document.</summary>
+        <parameter name="xmlLuaTable" />
+        <parameter name="xpath"/>
+        <parameter name="object" />
+        <returns>a iterator function </returns>
+      </function>
+    </table>
+  </tables>
+  <globals>
+    <!-- Generated based on http://pedn.paraengine.com/NPL -->
+    <function name="log">
+      <summary>output to log.txt</summary>
+      <parameter name="text" />
+    </function>
+  </globals>
+  <variables>
+    <variable name="commonlib" type="commonlib"/>
+    <variable name="XPath" type="XPath" ns="commonlib.XPath"/>
+  </variables>
+</doc>

@@ -157,6 +157,31 @@ namespace ParaEngine.Tools.Lua
             yield break;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fieldName"></param>
+        /// <param name="bHasDefinition">if true, we will only return those with definition available. </param>
+        /// <returns></returns>
+        public IEnumerable<KeyValuePair<string, Declaration>> FindDeclarations(string fieldName, bool bHasDefinition = true)
+        {
+            if (fieldName == null)
+                throw new ArgumentNullException("fieldName");
+            // declaration from initial table
+            foreach (var tableDef in tableDeclarations)
+            {
+                if (tableDef.Value.ContainsKey(fieldName))
+                {
+                    var declaration = tableDef.Value[fieldName];
+                    if (declaration != null && (!bHasDefinition || declaration.FilenameDefinedIn!=null))
+                    {
+                        yield return new KeyValuePair<string, Declaration>(tableDef.Key != DeclarationsTable ? tableDef.Key : "", declaration);
+                    }
+                }
+            }
+            yield break;
+        }
+
 
         /// <summary>
         /// Resolves a qualified name to a declaration.

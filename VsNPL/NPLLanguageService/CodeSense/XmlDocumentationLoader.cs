@@ -63,11 +63,14 @@ namespace ParaEngine.Tools.Lua
         {
 			//Add a declaration to the global list
 			var name = (string)table.Attribute("name");
-			XElement variableElement = doc.XPathSelectElement(String.Format("./variables/variable[@name='{0}']", name));
+            string src = (string)table.Attribute("src");
+            XElement variableElement = doc.XPathSelectElement(String.Format("./variables/variable[@name='{0}']", name));
 
             /// Added by LiXizhi. 2008.10.21. we now support namespace (ns) attribute to variables, so that a table can reside in a nested namespace. such as 
             /// <variable name="Class1" type="Class1" ns="MyCompany.MyProject.Class1"/>
-            String nameSpace = (String)variableElement.Attribute("ns");
+            String nameSpace = null;
+            if (variableElement!= null)
+                nameSpace = (String)variableElement.Attribute("ns");
             bool bSkipRootDeclaration = false;
             if (!String.IsNullOrEmpty(nameSpace))
             {
@@ -126,9 +129,8 @@ namespace ParaEngine.Tools.Lua
                     Name = name,
                     DeclarationType = DeclarationType.Table,
                     Description = string.Empty,
-                    Type = variableElement.Attribute("type").Value
+                    Type = variableElement==null ? name : variableElement.Attribute("type").Value,
                 };
-
                 tableDeclarationProvider.AddDeclaration(d);
             }
 
@@ -151,7 +153,7 @@ namespace ParaEngine.Tools.Lua
             }
 
             // Go through all declarations and add them to the table
-            table.Elements().ForEach(element => AddDeclaration(tableDeclarationProvider, name, element));
+            table.Elements().ForEach(element => AddDeclaration(tableDeclarationProvider, name, element, src));
         }
 
 		/// <summary>
@@ -160,11 +162,11 @@ namespace ParaEngine.Tools.Lua
 		/// <param name="tableDeclarationProvider">The table declaration provider.</param>
 		/// <param name="tableName">Name of the table.</param>
 		/// <param name="element">The element.</param>
-        private static void AddDeclaration(TableDeclarationProvider tableDeclarationProvider, string tableName, XElement element)
+        private static void AddDeclaration(TableDeclarationProvider tableDeclarationProvider, string tableName, XElement element, string src = null)
         {
             try
             {
-                Declaration declaration = XmlDocumentationLoader.CreateDeclaration(element);
+                Declaration declaration = XmlDocumentationLoader.CreateDeclaration(element, src);
 
                 // Add the declaration 
                 if (declaration != null)
@@ -181,7 +183,7 @@ namespace ParaEngine.Tools.Lua
 		/// </summary>
 		/// <param name="element">The element.</param>
 		/// <returns></returns>
-        private static Declaration CreateDeclaration(XElement element)
+        private static Declaration CreateDeclaration(XElement element, string src)
         {
             try
             {
@@ -210,7 +212,9 @@ namespace ParaEngine.Tools.Lua
                         DeclarationType = declarationType,
                         Description = summary,
                         Type = type,
-                        Parameters = parameters 
+                        Parameters = parameters,
+                        FilenameDefinedIn = element.Attribute("src") == null ? src : (string)element.Attribute("src"),
+                        LineDefined = (string)element.Attribute("line"),
                     };
                 }
 

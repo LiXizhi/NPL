@@ -43,6 +43,24 @@ namespace ParaEngine.Tools.Lua
         public LexLocation TextspanDefinedIn { get; set; }
 
         /// <summary>
+        /// helper function to set the line defined
+        /// </summary>
+        public string LineDefined {
+            set {
+                if(value!=null)
+                {
+                    int nLine = Int32.Parse(value);
+                    TextspanDefinedIn = new LexLocation {
+                        sLin = nLine,
+                        sCol = 0,
+                        eLin = nLine,
+                        eCol = 0,
+                    };
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the type of declaration.
         /// </summary>
         /// <value>The type of the declaration.</value>
