@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TextManager.Interop;
+using ParaEngine.Tools.Lua.Parser;
+using System;
 using System.Diagnostics;
 
 namespace ParaEngine.Tools.Lua
@@ -30,10 +32,20 @@ namespace ParaEngine.Tools.Lua
 			get { return !IsLocal; }
     	}
 
-		/// <summary>
-		/// Gets or sets the type of declaration.
-		/// </summary>
-		/// <value>The type of the declaration.</value>
+        /// <summary>
+        /// in which file this declaration is defined
+        /// </summary>
+        public string FilenameDefinedIn { get; set; }
+
+        /// <summary>
+        /// in which line and columns the declaration is defined. 
+        /// </summary>
+        public LexLocation TextspanDefinedIn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of declaration.
+        /// </summary>
+        /// <value>The type of the declaration.</value>
         public DeclarationType DeclarationType { get; set; }
 
 		/// <summary>

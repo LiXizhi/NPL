@@ -27,26 +27,26 @@ namespace ParaEngine.Tools.Lua
         /// <summary>
         /// Adds a chunk with location information.
         /// </summary>
-        public void AddChunk(Chunk chunk, int line, int column)
+        public void AddChunk(Chunk chunk, int line, int column, string filename = null)
         {
             if (chunk == null)
                 throw new ArgumentNullException("chunk");
 
 			chunk.InitializeContext();
-			AddNode(chunk, line, column, TableDeclarationProvider.DeclarationsTable, false);
+			AddNode(chunk, line, column, TableDeclarationProvider.DeclarationsTable, false, filename);
         }
 
     	/// <summary>
         /// Adds the full chunk.
         /// </summary>
         /// <param name="chunk"></param>
-        public void AddChunk(Chunk chunk)
+        public void AddChunk(Chunk chunk, string filename = null)
         {
             if (chunk == null)
                 throw new ArgumentNullException("chunk");
 
 			chunk.InitializeContext();
-			AddNode(chunk, Int32.MaxValue, Int32.MaxValue, TableDeclarationProvider.DeclarationsTable, false);
+			AddNode(chunk, Int32.MaxValue, Int32.MaxValue, TableDeclarationProvider.DeclarationsTable, false, filename);
         }
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace ParaEngine.Tools.Lua
 		/// <param name="column">The column.</param>
 		/// <param name="tableName">Name of the table.</param>
 		/// <param name="isInScope">if set to <c>true</c> [is in scope].</param>
-		private void AddNode(Node node, int line, int column, string tableName, bool isInScope)
+		private void AddNode(Node node, int line, int column, string tableName, bool isInScope, string filename)
 		{
 			string innerTableName = tableName;
 
@@ -67,18 +67,18 @@ namespace ParaEngine.Tools.Lua
 				innerTableName = ((TableConstructor)node).Name;
 			}
 
-			bool currentlyInScope = AddDeclarations(node, line, column, innerTableName, isInScope);
+			bool currentlyInScope = AddDeclarations(node, line, column, innerTableName, isInScope, filename);
 
 			if(node!=null)
 			{
 				foreach (var childNode in node.GetChildNodes())
 				{
-					AddNode(childNode, line, column, innerTableName, currentlyInScope);
+					AddNode(childNode, line, column, innerTableName, currentlyInScope, filename);
 				}
 
 				if (node.Next != null)
 				{
-					AddNode(node.Next, line, column, tableName, isInScope);
+					AddNode(node.Next, line, column, tableName, isInScope, filename);
 				}
 			}
 		}
@@ -92,7 +92,7 @@ namespace ParaEngine.Tools.Lua
 		/// <param name="tableName">Name of the table.</param>
 		/// <param name="isInScope">if set to <c>true</c> [is in scope].</param>
 		/// <returns></returns>
-		private bool AddDeclarations(Node node, int line, int column, string tableName, bool isInScope)
+		private bool AddDeclarations(Node node, int line, int column, string tableName, bool isInScope, string filename)
 		{
 			bool currentlyInScope = isInScope;
 
@@ -104,13 +104,19 @@ namespace ParaEngine.Tools.Lua
 				{
 					if (declaration.IsGlobal && !node.HasLocalVariableInScope((declaration.Name)))
 					{
-						AddDeclaration(tableName, declaration);
+                        declaration.FilenameDefinedIn = filename;
+                        declaration.TextspanDefinedIn = node.Location;
+                        AddDeclaration(tableName, declaration);
 					}
 					else
 					{
 						if (isInScope && (node.Location.eLin<=line || (node.Location.eLin==line+1 &&
-							node.Location.eCol<column)))
-							AddDeclaration(tableName, declaration);
+                            node.Location.eCol < column)))
+                        {
+                            declaration.FilenameDefinedIn = filename;
+                            declaration.TextspanDefinedIn = node.Location;
+                            AddDeclaration(tableName, declaration);
+                        }
 					}
 				}
 			}
@@ -125,12 +131,18 @@ namespace ParaEngine.Tools.Lua
 				{
 					if (declaration.IsGlobal && !node.HasLocalVariableInScope((declaration.Name)))
 					{
-						AddDeclaration(tableName, declaration);
+                        declaration.FilenameDefinedIn = filename;
+                        declaration.TextspanDefinedIn = node.Location;
+                        AddDeclaration(tableName, declaration);
 					}
 					else
 					{
 						if (currentlyInScope)
-							AddDeclaration(tableName, declaration);
+                        {
+                            declaration.FilenameDefinedIn = filename;
+                            declaration.TextspanDefinedIn = node.Location;
+                            AddDeclaration(tableName, declaration);
+                        }
 					}
 				}
 			}
