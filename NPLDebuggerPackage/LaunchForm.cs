@@ -79,7 +79,7 @@ namespace ParaEngine.NPLDebuggerPackage
 
         private void LaunchForm_Load(object sender, EventArgs e)
         {
-            this.toolTip1.SetToolTip(this.btnAttach, "Click Attach button twice");
+            this.toolTip1.SetToolTip(this.btnAttach, "Click Attach button to debug the process");
             this.toolTip2.SetToolTip(this.btnRegisterDebugEngine, "One need to manually register the NPLEngine.dll once to complete installation");
 
             if (_dte.Solution.Projects.Count == 0)
@@ -213,20 +213,17 @@ namespace ParaEngine.NPLDebuggerPackage
             {
                 _SelectedProcess = proc.Name;
                 SelectedProcessID = proc.ProcessID;
-                // old method: 
-                // Tricky: Attach2 will cause the main thread to hang at delayhlp.cpp, which is pretty strange, press the attach button twice will solve the problem. This has something to do with DELAYLOAD of dlls
-                // IMPORTANT: One needs to wait a while until cursor is turned to normal cursor before clicking the attach button, 
-                // otherwise attach will not work.  In case of error, try disable and reenable the plugin.
-                (proc as Process2).Attach2("NPLDebugEngineV2");
-                //try
-                //{
-                //    (proc as Process2).Attach2("NPLDebugEngineV2");
-                //}
-                //catch (Exception err)
-                //{
-                //    MessageBox.Show(err.ToString());
-                //    throw err;
-                //}
+
+                // (proc as Process2).Attach2("NPLDebugEngineV2");
+                try
+                {
+                    (proc as Process2).Attach2("NPLDebugEngineV2");
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.ToString());
+                    // throw err;
+                }
                 this.Close();
             }
         }

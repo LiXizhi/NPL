@@ -246,6 +246,23 @@ bool DebuggedProcess::TranslateNPLMsgToDebugEvent(LPDEBUG_EVENT lpDebugEvent, In
 		unsigned int dwAddress = GetAddressByFileLine(filename, line);
 		// m_callback->OnOutputString(String::Format(gcnew String("file {0} address {1}\n"), filename, dwAddress));
 		
+		m_curStackInfos->Clear();
+		NPLInterface::NPLObjectProxy stack_info = msg["stack_info"];
+		if (stack_info->GetType() == NPLInterface::NPLObjectBase::NPLObjectType_Table)
+		{
+			int stack_level = 0;
+			for (auto iter = stack_info.index_begin(); iter != stack_info.index_end(); iter++, stack_level++)
+			{
+				NPLInterface::NPLObjectProxy& stackInfo = iter->second;
+				// source, short_src, currentline, what, namewhat
+				std::string source = (string)stackInfo["source"];
+				String^ filename = gcnew String(source.c_str());
+				int line = (int)((double)stackInfo["currentline"]);
+				unsigned int dwStackAddress = GetAddressByFileLine(filename, line);
+				m_curStackInfos->Add(dwStackAddress);
+			}
+		}
+
 		lpDebugEvent->u.Exception.ExceptionRecord.ExceptionAddress = (PVOID)(dwAddress);
 	}
 	else if(msg_in.m_filename == "DebuggerOutput" || msg_in.m_filename == "ExpValue")
@@ -1335,6 +1352,7 @@ bool DebuggedProcess::DispatchDebugEvent()
 
 	if(IsDebuggingNPL())
 	{
+		// NPL breakpoint event is not handled here, but in following code
 		if(DispatchNPLDebugEvent(fContinue))
 		{
 			return fContinue;
@@ -1346,11 +1364,12 @@ bool DebuggedProcess::DispatchDebugEvent()
 		// otherwise we will continue to handle using the raw m_lastDebugEvent
 	}
 
-
+	
 	switch (m_lastDebugEvent.dwDebugEventCode)
 	{
 	case EXCEPTION_DEBUG_EVENT: /* 1 */
 		{
+			// both C++ and NPL breakpoint event are handled here
 			if (!m_fSeenEntrypointBreakpoint)
 			{
 				// The Win32 Debugger API sends a breakpoint event once all of the modules for the process are loaded but before any code runs.
@@ -1706,8 +1725,21 @@ void DebuggedProcess::DoStackWalk(DebuggedThread^ thread)
 
 		CONTEXT context;
 		ZeroMemory(&context, sizeof(context));
-		context.Eip = (DWORD)m_curBreakpointAddress;
-		thread->AddStackFrame(gcnew X86ThreadContext(context));
+
+		// newer NPL debugger client support stack info, so if it is available we will use it.
+		if (m_curStackInfos->Count > 0)
+		{
+			for (int i = 0; i < m_curStackInfos->Count; ++i)
+			{
+				context.Eip = (DWORD)m_curStackInfos[i];
+				thread->AddStackFrame(gcnew X86ThreadContext(context));
+			}
+		}
+		else
+		{
+			context.Eip = (DWORD)m_curBreakpointAddress;
+			thread->AddStackFrame(gcnew X86ThreadContext(context));
+		}
 		return;
 	}
 

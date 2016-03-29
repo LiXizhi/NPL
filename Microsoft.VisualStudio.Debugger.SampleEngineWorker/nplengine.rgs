@@ -12,7 +12,7 @@ HKLM
                    {
                        NoRemove Engine
                        {
-                           '{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}' = s 'guidDebuggingSampleEngine'
+                           ForceRemove '{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}' = s 'guidDebuggingSampleEngine'
                            {
 						        val 'CLSID' = s '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
                                 val 'ProgramProvider' = s '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
@@ -36,7 +36,7 @@ HKLM
                    
                    NoRemove CLSID
                    {
-                       '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
+                       ForceRemove '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
                        {
                             val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
                             val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7Engine'
@@ -44,7 +44,7 @@ HKLM
                             val 'CodeBase' = s '%WORKERPATH%\Microsoft.VisualStudio.Debugger.NPLEngine.dll'
                        }
                        
-                       '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
+                       ForceRemove '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
                        {
                             val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
                             val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7ProgramProvider'
@@ -59,7 +59,7 @@ HKLM
                    {
                        NoRemove Engine
                        {
-                           '{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}' = s 'guidDebuggingSampleEngine'
+                           ForceRemove '{0B18F022-A5F5-41EA-8532-4CF3B894A7C6}' = s 'guidDebuggingSampleEngine'
                            {
                                 val 'CLSID' = s '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
                                 val 'ProgramProvider' = s '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
@@ -83,7 +83,7 @@ HKLM
                    
                    NoRemove CLSID
                    {
-                       '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
+                       ForceRemove '{2FF5BAB7-CA45-4140-A51D-06C0F549EC44}'
                        {
                             val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
                             val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7Engine'
@@ -91,7 +91,7 @@ HKLM
                             val 'CodeBase' = s '%WORKERPATH%\Microsoft.VisualStudio.Debugger.NPLEngine.dll'
                        }
                        
-                       '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
+                       ForceRemove '{98F3B228-D4BA-42FB-9005-E44C83D8E125}'
                        {
                             val 'Assembly' = s 'Microsoft.VisualStudio.Debugger.SampleEngine'
                             val 'Class' = s 'Microsoft.VisualStudio.Debugger.SampleEngine.AD7ProgramProvider'

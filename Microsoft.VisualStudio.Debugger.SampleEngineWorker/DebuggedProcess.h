@@ -230,7 +230,8 @@ private:
 	//bool NPLAttachProcess();
 	bool NPLDetachProcess();
 	unsigned int m_curBreakpointAddress;
-
+	Collections::Generic::List<unsigned int>^ m_curStackInfos = gcnew Collections::Generic::List<unsigned int>();
+	
 	// lower cased forward slash /, that ends with /
 	String^ m_workingDir;
 	// whether we are expecting a step into/over/out breakpoints from NPL 

@@ -53,7 +53,6 @@
             this.btnKillProc = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -207,7 +206,6 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.listViewProcs);
             this.groupBox1.Controls.Add(this.btnRefreshProcList);
             this.groupBox1.Controls.Add(this.btnRegisterDebugEngine);
@@ -283,6 +281,7 @@
             // btnAttach
             // 
             this.btnAttach.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAttach.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnAttach.Location = new System.Drawing.Point(585, 220);
             this.btnAttach.Margin = new System.Windows.Forms.Padding(4);
             this.btnAttach.Name = "btnAttach";
@@ -307,16 +306,6 @@
             // toolTip1
             // 
             this.toolTip1.ToolTipTitle = "Attach to selected process";
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(467, 227);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(111, 15);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "click twice->";
             // 
             // LaunchForm
             // 
@@ -346,7 +335,6 @@
             this.Text = "NPL Debug Engine v2 Launcher";
             this.Load += new System.EventHandler(this.LaunchForm_Load);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -378,6 +366,5 @@
         private System.Windows.Forms.Button btnRegisterDebugEngine;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
-        private System.Windows.Forms.Label label7;
     }
 }

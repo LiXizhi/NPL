@@ -105,6 +105,9 @@ To install pre-requisite packages
 	- TODO: Stack view
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
 
+2016.3.29
+	- NPL debugger: support stack view 
+
 2016.3.28
 	- NPL language service: added goto definition for opened files and xml configuration files
 
