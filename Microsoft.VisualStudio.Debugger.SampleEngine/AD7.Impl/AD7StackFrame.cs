@@ -44,7 +44,11 @@ namespace Microsoft.VisualStudio.Debugger.SampleEngine
                                                             ref m_lineNum,
                                                             ref m_numParameters,
                                                             ref m_numLocals);
-
+            if(!String.IsNullOrEmpty(threadContext.sName))
+            {
+                m_functionName = string.Format("{0} in function {1}()", m_functionName, threadContext.sName);
+            }
+                
             // If source information is available, create the collections of locals and parameters and populate them with
             // values from the debuggee.
             if (m_hasSource)

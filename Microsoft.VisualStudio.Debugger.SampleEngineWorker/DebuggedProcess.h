@@ -59,6 +59,17 @@ public enum class ResumeEventPumpFlags
 	ResumeWithExceptionHandled = 0x2
 };
 
+public ref class StackInfo sealed
+{
+public:
+	StackInfo(unsigned int nAddress, String^ sName) {
+		m_nAddress = nAddress;
+		m_sName = sName;
+	}
+	unsigned int m_nAddress;
+	String^ m_sName;
+};
+
 // Constants for exception types that are interesting to the sample engine.
 // BreakpointExceptionCode is when the debuggee executes and int3. 
 // SingleStepExceptionCode is sent when the processor is in trace mode and has completed
@@ -230,7 +241,8 @@ private:
 	//bool NPLAttachProcess();
 	bool NPLDetachProcess();
 	unsigned int m_curBreakpointAddress;
-	Collections::Generic::List<unsigned int>^ m_curStackInfos = gcnew Collections::Generic::List<unsigned int>();
+
+	Collections::Generic::List<StackInfo^>^ m_curStackInfos = gcnew Collections::Generic::List<StackInfo^>();
 	
 	// lower cased forward slash /, that ends with /
 	String^ m_workingDir;

@@ -8,6 +8,12 @@ Basic functions
 - Currently, we only support debugging one NPL state (usually the main state). To start the debugging, simply call IPCDebugger.StartDebugEngine(); in the NPL state to be debugged. 
 	alternatively, we can start it automatically when loading IPCDebugger.lua, provided the command line parameter "debug" is the current NPL state name, such as "main". The queue name can be specified by "debugqueue", which defaults to "NPLDebug"
 - Note: there is no performance penalties when starting a debug engine, it only starts a timer to receive from IPC queue. The IPCdebugger only starts the debug hook whenever visual studio attaches or launched the process. 
+### Notice for Luajit users
+I have fixed stack level when steping over functions for luajit.
+The fix is due to following reason:
+  * The Lua debug API is missing a couple of features (return hooks for non-Lua functions) and shows slightly different behavior in LuaJIT (no per-coroutine hooks, no tail call counting).
+  * see also here: http://luajit.org/status.html  and http://www.freelists.org/post/luajit/Debug-hooks-and-JIT,2
+
 Use Lib:
 -------------------------------------------------------
 NPL.load("(gl)script/ide/Debugger/IPCDebugger.lua");
@@ -76,7 +82,7 @@ local pause_off = false
 local _g      = _G
 local cocreate, cowrap = coroutine.create, coroutine.wrap
 local pausemsg = 'pause'
-
+local is_luajit = (jit and jit.version~=nil);
 -- call this when game is loaded. Please note, if one delete all timers, such as restart a game level, one need to call this function again. 
 -- @param bForceStart: if true, we will force start the debugger regardless when the app is started with command line debug="main". 
 function IPCDebugger.Start(bForceStart)
@@ -95,6 +101,12 @@ end
 -- So there is no performance impact to the runtime until we explicitly enable debug hook of the NPL runtime. 
 -- @param input_queue_name: the input IPC queue name, default to "NPLDebug"
 function IPCDebugger.StartDebugEngine(input_queue_name)
+	if(not ParaIPC) then
+		commonlib.log("ParaIPC C++ implementation not found\n");
+		return;
+	end
+	-- IPCDebugger.TurnOffJit();
+
 	if(IPCDebugger.IsIPCStarted) then
 		if(IPCDebugger.input_timer) then
 			IPCDebugger.input_timer:Change(IPCDebugger.polling_interval, IPCDebugger.polling_interval)
@@ -191,8 +203,8 @@ function IPCDebugger.WriteOutput(msg)
 end
 
 -- send a break point event to the debugger UI. 
-function IPCDebugger.WriteBreakPoint(filename, line)
-	IPCDebugger.Write({filename="BP", type=debug_events_enum.BREAKPOINT, code = {filename=filename, line=line}});
+function IPCDebugger.WriteBreakPoint(filename, line, stack_info)
+	IPCDebugger.Write({filename="BP", type=debug_events_enum.BREAKPOINT, code = {filename=filename, line=line, stack_info=stack_info}});
 end
 
 -- read the next debug message. 
@@ -455,18 +467,36 @@ local function trace(set)
   end
 end
 
-local function info() dumpvar( traceinfo, 0, 'traceinfo' ) end
+local function info()
+	dumpvar( traceinfo, 0, 'traceinfo' )
+end
 
+local function GetRelativeNPLPath(file)
+	if(file:match(":")) then
+		-- only relative path
+		file = string.gsub(file, "^.*/script/", "script/");
+		file = string.gsub(file, "^.*/source/", "source/");
+	end
+	return file;
+end
 
 local function set_breakpoint(file, line)
-  if not breakpoints[line] then breakpoints[line] = {} end  
-  breakpoints[line][file] = true;
+	if not breakpoints[line] then 
+		breakpoints[line] = {} 
+	end  
+	file = GetRelativeNPLPath(file);
+	breakpoints[line][file] = true;
 end
+
 IPCDebugger.set_breakpoint = set_breakpoint;
 
 local function remove_breakpoint(file, line)
-  if breakpoints[line] then breakpoints[line][file] = nil  end
+	if breakpoints[line] then 
+		file = GetRelativeNPLPath(file);
+		breakpoints[line][file] = nil;
+	end
 end
+
 IPCDebugger.remove_breakpoint = remove_breakpoint;
 
 -- normalize file name
@@ -477,7 +507,8 @@ local function NormalizeFileName(filename)
 		-- use forward slash
 		filename = string.gsub(filename, "\\", "/");
 		-- let us remove 
-		filename = string.gsub(filename, "^.*/script/", "script/");
+		-- filename = string.gsub(filename, "^.*/script/", "script/");
+		-- filename = string.gsub(filename, "^.*/source/", "source/");
 	end
 	return filename;
 end
@@ -552,6 +583,37 @@ local function capture_vars(ref,level,line)
 
   return vars,file,line
 
+end
+
+function IPCDebugger.GetStackLevel(level, hint_start)
+	local count = 0;
+	if(hint_start and debug.getinfo(level + hint_start - 1, "l")) then
+		count = hint_start;
+		level = level + hint_start;
+	end
+	
+	while true do
+		local info = debug.getinfo(level, "l")
+		if not info then break end
+		level = level + 1;
+		count = count + 1;
+    end
+	return count;
+end
+
+-- get all function, lines on the stack. 
+-- @return array of {source, short_src, currentline, what, namewhat, }
+local function do_stackwalk(level)
+	local stackwalk_info = {};
+    level = level or 1
+    while true do
+		local info = debug.getinfo(level, "nSl")
+		if not info then break end
+		stackwalk_info[#stackwalk_info+1] = info;
+		level = level + 1;
+    end
+	-- echo(stackwalk_info);
+	return stackwalk_info;
 end
 
 local function restore_vars(ref,vars)
@@ -673,6 +735,7 @@ local function debug_hook(event, line)
 		--echo({"return", stack_level})
 		--if stack_level < 0 then stack_level = 0 end
 	else
+		-- TODO: debug.getinfo return a new table each time, we should use a C function that return source directly. 
 		local file = strlower(debug.getinfo(2, "S").source);
 		if string.find(file, "@") == 1 then
 			file = string.sub(file, 2)
@@ -681,6 +744,13 @@ local function debug_hook(event, line)
 		local ev = events.STEP
 
 		--echo({step_into= step_into, step_over=step_over, stack_level=stack_level, step_level=step_level})
+		if(step_over and is_luajit) then
+			if(stack_level > step_level) then
+				-- luajit does not have "tail return" hook for C function, we need to correct stack_level.
+				-- this will slow the execution, so we need to correct it here for step_over event only. 
+				stack_level = IPCDebugger.GetStackLevel(level + 1, step_level);
+			end
+		end
 
 		if step_into or (step_over and stack_level <= step_level)then
 			step_into = false
@@ -720,10 +790,14 @@ local function debug_hook(event, line)
 		  --end
 		  --return
 		--end
-		tracestack(level)
+
+		-- tracestack(level)
 
 		local last_next = 1
-		local err, next = coroutine.resume(coro_debugger, ev, vars, file, line, idx)
+		local stacks = do_stackwalk(level+1);
+		-- fix stack level, since luajit has no tail return for C functions.
+		stack_level = #stacks;
+		local err, next = coroutine.resume(coro_debugger, ev, vars, file, line, idx, stacks);
 
 		while true do
 			if next == 'cont' then
@@ -738,7 +812,7 @@ local function debug_hook(event, line)
 				last_next = next
 				restore_vars(level,vars)
 				vars, file, line = capture_vars(level,next)
-				err, next = coroutine.resume(coro_debugger, events.SET, vars, file, line, idx)
+				err, next = coroutine.resume(coro_debugger, events.SET, vars, file, line, idx, do_stackwalk(level+next))
 			else
 				write('Unknown command from debugger_loop: '..tostring(next)..'\n')
 				write('Stopping debugger\n')
@@ -749,7 +823,7 @@ local function debug_hook(event, line)
 end
 
 -- whenever a stopping event occurs
-local function report(ev, vars, file, line, idx_watch)
+local function report(ev, vars, file, line, idx_watch, stack_info)
   local vars = vars or {}
   local file = file or '?'
   local line = line or 0
@@ -773,15 +847,16 @@ local function report(ev, vars, file, line, idx_watch)
 		end
 	end
     pausemsg = ''
-    IPCDebugger.WriteBreakPoint(file, line);
+    IPCDebugger.WriteBreakPoint(file, line, stack_info);
   end
   
   return vars, file, line
 end
 
-local function debugger_loop(ev, vars, file, line, idx_watch)
+-- this is the coroutine main loop when process is paused, we will wait on messages from the debugger IDE. 
+local function debugger_loop(ev, vars, file, line, idx_watch, stack_info)
 	write("NPL debugger_loop started\n")
-	local eval_env, breakfile, breakline = report(ev, vars, file, line, idx_watch)
+	local eval_env, breakfile, breakline = report(ev, vars, file, line, idx_watch, stack_info)
 
 	local command, params, args;
 
@@ -1121,12 +1196,37 @@ function IPCDebugger.pause(x)
   end
 end
 
+function IPCDebugger.GetSourceDirectory()
+	local working_dir = ParaIO.GetCurDirectory(0);
+
+	return working_dir;
+end
+
+-- turn jit off based on Mike Pall's comment in this discussion:
+-- http://www.freelists.org/post/luajit/Debug-hooks-and-JIT,2
+-- "You need to turn it off at the start if you plan to receive
+-- reliable hook calls at any later point in time."
+function IPCDebugger.TurnOffJit()
+	if(jit and jit.off) then
+		jit.off();
+		log("\n==================\nNPL IPCDebugger turned jit compiler off for debugging\n==================\n\n")
+	end
+end
+
 -- start the debug hook but does not pause.
 function IPCDebugger.Attach()
 	log("NPL debugger attached\n")
+	
+	if(jit and jit.version) then
+		IPCDebugger.TurnOffJit();
+		IPCDebugger.WriteDebugOutput("NPL debugger WARNING: please turn off luajit at very beginning for accurate debugging\n");
+	end
+		
+	log("NPL debugger src directory:"..IPCDebugger.GetSourceDirectory().."\n")
+
 	IPCDebugger.Write({filename="Attached", type=debug_events_enum.ATTACHED, code = {
-		desc = "NPL debugger 1.0 attached\n",
-		workingdir = ParaIO.GetCurDirectory(0),
+		desc = "NPL debugger 2.0 attached\n",
+		workingdir = IPCDebugger.GetSourceDirectory(),
 	}});
 	
 	if(not started) then

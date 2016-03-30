@@ -3,7 +3,7 @@
   <Identifier Id="b63940d7-a819-4793-9de8-f55a8085deb6">
     <Name>NPL_LuaDebuggerPackage</Name>
     <Author>LiXizhi</Author>
-    <Version>2.0</Version>
+    <Version>2.0.1</Version>
     <Description xml:space="preserve">NPL/Lua debug engine</Description>
     <Locale>1033</Locale>
     <InstalledByMsi>false</InstalledByMsi>

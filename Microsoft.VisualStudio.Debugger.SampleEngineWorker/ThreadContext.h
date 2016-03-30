@@ -17,6 +17,7 @@ internal:
 		ebp(threadContext.Ebp),
 		EFlags(threadContext.EFlags)
 	{
+		sName = nullptr;
 	}
 
 public:
@@ -30,6 +31,8 @@ public:
 	DWORD esp;
 	DWORD ebp;
 	DWORD EFlags;
+	// function name
+	String^ sName;
 };
 
 END_NAMESPACE

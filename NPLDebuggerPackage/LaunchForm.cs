@@ -56,6 +56,12 @@ namespace ParaEngine.NPLDebuggerPackage
 
         private void btnLaunch_Click(object sender, EventArgs e)
         {
+            if (_dte.Solution.Projects.Count == 0)
+            {
+                MessageBox.Show("You need to open at least one project");
+                return;
+            }
+
             // for the type of projects the sample is interested in, the project output will be the primary output of the
             // active output group
             int selectedIndex = this.cmbProjects.SelectedIndex + 1;
@@ -79,66 +85,75 @@ namespace ParaEngine.NPLDebuggerPackage
 
         private void LaunchForm_Load(object sender, EventArgs e)
         {
-            this.toolTip1.SetToolTip(this.btnAttach, "Click Attach button to debug the process");
-            this.toolTip2.SetToolTip(this.btnRegisterDebugEngine, "One need to manually register the NPLEngine.dll once to complete installation");
+            RefreshProcessList();
 
             if (_dte.Solution.Projects.Count == 0)
             {
                 // If the misc files project is the only project, display an error.
-                MessageBox.Show("A project must be opened");
-                this.Close();
-                return;
+                //MessageBox.Show("A project must be opened");
+                //this.Close();
+                //return;
             }
-
-            // Add all the projects except the misc files project to the combobox.
-            for (int i = 1; i <= _dte.Solution.Projects.Count; i++)
+            else
             {
-                Project proj = _dte.Solution.Projects.Item(i);
-                this.cmbProjects.Items.Add(proj.Name);
-            }
+                // Add all the projects except the misc files project to the combobox.
+                for (int i = 1; i <= _dte.Solution.Projects.Count; i++)
+                {
+                    Project proj = _dte.Solution.Projects.Item(i);
+                    this.cmbProjects.Items.Add(proj.Name);
+                }
 
-            RefreshProcessList();
-            
-            // TODO: maybe we should select the active project. 
-            this.cmbProjects.SelectedIndex = 0;
-            cmbProjects_SelectionChangeCommitted(null, null);
+
+                // TODO: maybe we should select the active project. 
+                this.cmbProjects.SelectedIndex = 0;
+                cmbProjects_SelectionChangeCommitted(null, null);
+            }
         }
 
         private void cmbProjects_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            // for the type of projects the sample is interested in, the project output will be the primary output of the
-            // active output group
-            int selectedIndex = this.cmbProjects.SelectedIndex + 1;
-            Project selectedProject = _dte.Solution.Projects.Item(selectedIndex);
-
-            // selectedProject.ConfigurationManager.ActiveConfiguration;
-            Configuration config = selectedProject.ConfigurationManager.ActiveConfiguration;
-            Properties props = config.Properties;
-            foreach (Property prop in props)
+            if (_dte.Solution.Projects.Count == 0)
+                return;
+            try
             {
-                if (prop.Name == "WorkingDirectory")
+                // for the type of projects the sample is interested in, the project output will be the primary output of the
+                // active output group
+                int selectedIndex = this.cmbProjects.SelectedIndex + 1;
+                Project selectedProject = _dte.Solution.Projects.Item(selectedIndex);
+
+                // selectedProject.ConfigurationManager.ActiveConfiguration;
+                Configuration config = selectedProject.ConfigurationManager.ActiveConfiguration;
+                Properties props = config.Properties;
+                foreach (Property prop in props)
                 {
-                    _workingDir = prop.Value as String;
-                }
-                else if (prop.Name == "CommandArguments")
-                {
-                    _CommandArguments = prop.Value as String;
-                    if( _CommandArguments.IndexOf("debug=\"") <=0 )
+                    if (prop.Name == "WorkingDirectory")
                     {
-                        if (cmbNPLStates.Text != "" && cmbNPLStates.Text != "none")
+                        _workingDir = prop.Value as String;
+                    }
+                    else if (prop.Name == "CommandArguments")
+                    {
+                        _CommandArguments = prop.Value as String;
+                        if (_CommandArguments.IndexOf("debug=\"") <= 0)
                         {
-                            _CommandArguments += String.Format(" debug=\"{0}\"", cmbNPLStates.Text);
+                            if (cmbNPLStates.Text != "" && cmbNPLStates.Text != "none")
+                            {
+                                _CommandArguments += String.Format(" debug=\"{0}\"", cmbNPLStates.Text);
+                            }
                         }
                     }
+                    else if (prop.Name == "Command")
+                    {
+                        _Command = prop.Value as String;
+                    }
                 }
-                else if (prop.Name == "Command")
-                {
-                    _Command = prop.Value as String;
-                }
+                textBoxCommandLine.Text = Command;
+                textBoxCmdArguments.Text = CommandArguments;
+                textBoxWorkingDir.Text = WorkingDir;
             }
-            textBoxCommandLine.Text = Command;
-            textBoxCmdArguments.Text = CommandArguments;
-            textBoxWorkingDir.Text = WorkingDir;
+            catch
+            {
+
+            }
         }
 
         private void cmbNPLStates_TextChanged(object sender, EventArgs e)
@@ -246,7 +261,7 @@ namespace ParaEngine.NPLDebuggerPackage
 
         private void btnRegisterDebugEngine_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("NPL debug engine only needs to be registered once in registry after installation. In order to register NPL debug engine, you need to run visual studio as administrator. Are you running as administrator?", "Register NPL/lua debug engine", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(MessageBox.Show("NPL debug engine only needs to be registered once in registry after initial installation or upgrade. In order to register NPL debug engine, you need to run visual studio as administrator. Are you running as administrator?", "Register NPL/lua debug engine", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 NPLDebuggerConnect.RegisterNPLDebugEngineDll();
             }

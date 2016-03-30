@@ -257,9 +257,11 @@ bool DebuggedProcess::TranslateNPLMsgToDebugEvent(LPDEBUG_EVENT lpDebugEvent, In
 				// source, short_src, currentline, what, namewhat
 				std::string source = (string)stackInfo["source"];
 				String^ filename = gcnew String(source.c_str());
+				std::string name_ = (string)stackInfo["name"];
+				String^ name = gcnew String(name_.c_str());
 				int line = (int)((double)stackInfo["currentline"]);
 				unsigned int dwStackAddress = GetAddressByFileLine(filename, line);
-				m_curStackInfos->Add(dwStackAddress);
+				m_curStackInfos->Add(gcnew StackInfo(dwStackAddress, name));
 			}
 		}
 
@@ -1731,8 +1733,10 @@ void DebuggedProcess::DoStackWalk(DebuggedThread^ thread)
 		{
 			for (int i = 0; i < m_curStackInfos->Count; ++i)
 			{
-				context.Eip = (DWORD)m_curStackInfos[i];
-				thread->AddStackFrame(gcnew X86ThreadContext(context));
+				context.Eip = m_curStackInfos[i]->m_nAddress;
+				X86ThreadContext^ threadContext = gcnew X86ThreadContext(context);
+				threadContext->sName = m_curStackInfos[i]->m_sName;
+				thread->AddStackFrame(threadContext);
 			}
 		}
 		else
