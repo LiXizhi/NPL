@@ -1,10 +1,10 @@
 <SnippetCollection>
-    <Language Lang="NPL" Guid="{16AEA62B-0A31-45a5-9207-DD2CD290C145}">
+    <Language Lang="Lua" Guid="{16AEA62B-0A31-45a5-9207-DD2CD290C145}">
         <SnippetDir>
             <OnOff>On</OnOff>
             <Installed>true</Installed>
             <Locale>1033</Locale>
-            <DirPath>%InstallRoot%\Snippets\%LCID%\Lua\</DirPath>	
+            <DirPath>%InstallRoot%\NPL\Snippets\%LCID%\Lua\</DirPath>
             <LocalizedName>NPL</LocalizedName>
         </SnippetDir>
     </Language>

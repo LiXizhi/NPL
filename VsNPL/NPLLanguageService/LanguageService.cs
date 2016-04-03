@@ -162,7 +162,8 @@ namespace ParaEngine.Tools.Lua
 			    textView.RemoveCommandFilter(commandFilter);
 			    textView.AddCommandFilter(commandFilter, out target);
 			    commandFilter.VsCommandFilter = target;
-			}
+                commandFilter.SetTextView(textView);
+            }
 			else
 			{
 				//textView.RemoveCommandFilter()

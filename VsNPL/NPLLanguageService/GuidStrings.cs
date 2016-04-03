@@ -5,7 +5,8 @@
 
 #if DEBUG
         public const string LuaLanguageServicePackage = "C5AA7DA8-C129-4cc7-ADBD-B71283E03AA7";
-        public const string LuaLanguageService = "16AEA62B-0A31-45a5-9207-DD2CD290C145";
+        // public const string LuaLanguageService = "16AEA62B-0A31-45a5-9207-DD2CD290C145";
+        public const string LuaLanguageService = "F8C85CC7-E3C2-4efb-AA8E-9F6C38A761A4";
         public const string LuaRefactoringService = "80DA149C-E8E1-48e4-8228-DCA3EC4CBB53";
         public const string SourceOutlinerToolWindow = "4A831EC8-29C2-436c-9C80-57E43D8EA883";
         public const string RefactorRenameCommand = "8C6CA9FA-FBC4-4025-A711-7D802CFC8950";

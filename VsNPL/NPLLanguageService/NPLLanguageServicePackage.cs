@@ -80,7 +80,15 @@ namespace ParaEngine.NPLLanguageService
     
     // VSPackages can be set to autoload when a particular user interface (UI) context exists.For example, a VSPackage can be set to load whenever a solution exists. 
     [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82")] // = VSConstants.UICONTEXT_SolutionExists.ToString()
-    // [ProvideLanguageCodeExpansion(typeof(LanguageService), Configuration.Name, 110, "NPL", ""]
+    // there is bug in vs 2015 for associating language service with code expansion
+    // https://social.msdn.microsoft.com/Forums/vstudio/en-US/41f559c9-fa86-4108-b516-2d2fabd432a2/code-snippets-not-working-in-vs-2012?forum=vsx
+    [ProvideLanguageCodeExpansion(typeof(LanguageService), Configuration.Name, 110, Configuration.Name,
+            @"%InstallRoot%\NPL\Snippets\%LCID%\SnippetsIndex.xml",
+            // the paths of the snippet files
+            SearchPaths = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" + 
+                    @"%TestDocs%\Code Snippets\NPL\Lua\",
+            ForceCreateDirs = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" +
+                    @"%TestDocs%\Code Snippets\NPL\Lua\")]
     [Guid(GuidList.guidNPLLanguageServicePkgString)]
     public sealed class NPLLanguageServicePackage : BasePackage
     {

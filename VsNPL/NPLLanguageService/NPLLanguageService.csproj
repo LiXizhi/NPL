@@ -55,6 +55,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="microsoft.msxml, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Designer.Interfaces, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -459,16 +462,40 @@
     <None Include="Refactoring\UndoManager\UndoManager.cd" />
   </ItemGroup>
   <ItemGroup>
-    <SnippetsIndex Include="Snippets\1033\SnippetsIndex.xml" />
-    <LuaSnippet Include="Snippets\1033\Lua\compare.snippet" />
-    <LuaSnippet Include="Snippets\1033\Lua\elseif.snippet" />
-    <LuaSnippet Include="Snippets\1033\Lua\for.snippet">
+    <Content Include="Snippets\1033\SnippetsIndex.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
       <SubType>Designer</SubType>
-    </LuaSnippet>
-    <LuaSnippet Include="Snippets\1033\Lua\foreach.snippet" />
-    <LuaSnippet Include="Snippets\1033\Lua\function.snippet" />
-    <LuaSnippet Include="Snippets\1033\Lua\if.snippet" />
-    <LuaSnippet Include="Snippets\1033\Lua\print.snippet" />
+    </Content>
+    <Content Include="Snippets\1033\Lua\compare.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\1033\Lua\elseif.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\1033\Lua\for.snippet">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\1033\Lua\foreach.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\1033\Lua\function.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\1033\Lua\if.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Snippets\1033\Lua\print.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyControl.xaml.cs">
@@ -535,6 +562,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Snippets\1033\Lua\log.snippet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

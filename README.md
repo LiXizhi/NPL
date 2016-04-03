@@ -105,6 +105,9 @@ To install pre-requisite packages
 	- TODO: Stack view
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
 
+2016.4.3
+	- NPL code snippets added: One still needs to manually copy snippets
+
 2016.3.29
 	- NPL debugger: support stack view 
 
