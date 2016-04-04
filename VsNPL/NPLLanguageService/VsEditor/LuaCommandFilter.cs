@@ -11,6 +11,8 @@ using ParaEngine.NPLLanguageService;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
 using MSXML;
+using Microsoft.Win32;
+using System.Windows.Forms;
 
 namespace ParaEngine.Tools.Lua.VsEditor
 {
@@ -203,6 +205,44 @@ namespace ParaEngine.Tools.Lua.VsEditor
             return VsCommandFilter.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
 		}
 
+        public bool RegisterCodeSnippets()
+        {
+            if(MessageBox.Show("NPL/Lua Code snippets are not registered. Do you want to register now? (Please note, you can also import your own snippets in `menu::tools::code snippet manager`)", "Code snippets", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                using (RegistryKey k = NPLLanguageServicePackage.m_currentPackage.ApplicationRegistryRoot)
+                {
+                    // define paths
+                    using (RegistryKey paths = k.OpenSubKey(@"Languages\CodeExpansions\Lua\Paths", true))
+                    {
+                        string sPath = (string)paths.GetValue("Lua");
+                        if (!String.IsNullOrEmpty(sPath))
+                        {
+                            string sInstallDir = LanguageService.ObtainInstallationFolder();
+                            if (!sPath.Contains(sInstallDir))
+                            {
+                                string nplPath = sInstallDir + @"\Snippets\1033\Lua\";
+                                try
+                                {
+                                    paths.SetValue("Lua", sPath + ";" + nplPath);
+                                    MessageBox.Show("Successfully added code snippet path: " + nplPath + " Please restart visual studio for changes to take effect.");
+                                }
+                                catch (Exception err)
+                                {
+                                    MessageBox.Show(err.ToString());
+                                }
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show(string.Format("Already registered to {0}. Now goto `menu::tools::code snippet manager`(Ctrl+K+B), and remove unused folders and restart visual studio for changes to take effect.", sInstallDir));
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
 		/// <summary>
 		/// Executes a specified command or displays help for a command.
 		/// </summary>
@@ -226,7 +266,6 @@ namespace ParaEngine.Tools.Lua.VsEditor
 		///                The user canceled the execution of the command.</returns>
 		public int Exec(ref Guid pguidCmdGroupRef, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
 		{
-			const int retval = VSConstants.S_OK;
 			string commandId = VSIDECommands.GetCommandId(pguidCmdGroupRef, nCmdID);
             
 
@@ -237,6 +276,25 @@ namespace ParaEngine.Tools.Lua.VsEditor
 
                 textManager.GetExpansionManager(out m_exManager);
 
+                IVsExpansionEnumeration expansionEnumerator = null;
+                int ret = m_exManager.EnumerateExpansions(Guids.LuaLanguageService,
+                                                               0,     // return all info
+                                                               null,    // return all types
+                                                               0,     // return all types
+                                                               1,     // include snippets without types
+                                                               0,     // do not include duplicates
+                                                               out expansionEnumerator);
+
+                uint count = 0;
+                if (expansionEnumerator != null)
+                {
+                    expansionEnumerator.GetCount(out count);
+                }
+                if(count == 0)
+                {
+                    RegisterCodeSnippets();
+                    return VSConstants.S_OK;
+                }
                 m_exManager.InvokeInsertionUI(
                     m_vsTextView,
                     this,      //the expansion client

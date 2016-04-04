@@ -43,6 +43,12 @@ Support mixed HTML/NPL highlighting.
  * This function is called in the parser thread. 
  * more information please see help in visual studio. 
 
+### Code Snippets Support
+ Context Menu Implemetation is in LuaCommandFilter. It can also be activated by code-completion by SnippetDeclarationProvider. 
+ Vsix package can not install snippet files into desired folder. So all I can do it to instruct the user to do it manually. 
+ Right click to bring up the context menu, then click "insert snippets...", a dialog will guide you to register preinstalled code snippets.
+ After that, goto `menu::tools::code snippet manager`(Ctrl+K+B), and make some modifications, such as removing unused folders to force vs to refresh its code snippet cache, and restart visual studio.
+
 #### XML documetation
  IntelliSense and code completion using XML files under ${SolutionDir}/Documentation.  Users can add new XML files for their own application. 
  See ${install path}/Documentation for [examples](https://github.com/LiXizhi/NPL/blob/master/Documentation/NplDocumentation.xml). Filepath can be found in NPL output panel.

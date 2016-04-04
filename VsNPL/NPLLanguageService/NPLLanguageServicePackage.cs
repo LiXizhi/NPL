@@ -95,8 +95,7 @@ namespace ParaEngine.NPLLanguageService
         private IOleComponentManager componentManager;
         private SourceOutlineToolWindow sourceOutlinerWindow;
         private ILuaUndoService undoService;
-        public static String PackageRootPath;
-
+        public static NPLLanguageServicePackage m_currentPackage;
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -107,12 +106,14 @@ namespace ParaEngine.NPLLanguageService
         public NPLLanguageServicePackage()
         {
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
+            m_currentPackage = this;
+            
         }
 
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
         #region Package Members
-
+            
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -121,16 +122,7 @@ namespace ParaEngine.NPLLanguageService
         {
             Trace.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
-
-            // retrieve the installation directory 
-            using (RegistryKey rootKey = this.UserRegistryRoot)
-            {
-                using (RegistryKey packageKey = rootKey.OpenSubKey("ExtensionManager\\EnabledExtensions"))
-                {
-                    PackageRootPath = packageKey.GetValue(GuidList.guidNPLLanguageServicePkgString + ",1.0") as String;
-                }
-            }
-
+            
             ////Create Editor Factory. Note that the base Package class will call Dispose on it.
             // base.RegisterEditorFactory(new EditorFactory(this));
 

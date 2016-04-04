@@ -1103,7 +1103,7 @@ namespace ParaEngine.Tools.Lua
 			return String.Empty;
 		}
 
-        private static string ObtainInstallationFolder()
+        public static string ObtainInstallationFolder()
         {
             Type packageType = typeof(NPLLanguageServicePackage);
             Uri uri = new Uri(packageType.Assembly.CodeBase);
@@ -1111,65 +1111,6 @@ namespace ParaEngine.Tools.Lua
             return assemblyFileInfo.Directory.FullName;
         }   
 
-		/// <summary>
-		/// Gets the install directory.
-		/// </summary>
-		/// <returns></returns>
-		private string GetInstallDirectory()
-		{
-            string installPath = null;
-            // added by LiXizhi, 2008.10.14
-            // use the ParaEngine SDK path
-#if DEBUG
-            //return null;
-            installPath = System.IO.Directory.GetCurrentDirectory();
-            if (!string.IsNullOrEmpty(installPath))
-            {
-                int nIndex = installPath.LastIndexOf("\\");
-                if (nIndex > 0)
-                {
-                    return installPath.Remove(nIndex);
-                }
-            }
-            return installPath;
-#else
-            // use the module path, if previous path does not exist. 
-            String sPackagePath = "Software\\Microsoft\\VisualStudio\\9.0\\Packages\\{";
-            sPackagePath += GuidStrings.LuaLanguageServicePackage;
-            sPackagePath += "}";
-            using (RegistryKey setupKey = Registry.LocalMachine.OpenSubKey(
-                 sPackagePath))
-            {
-                if (setupKey != null)
-                {
-                    installPath = setupKey.GetValue("CodeBase").ToString();
-                    if (!string.IsNullOrEmpty(installPath))
-                    {
-                        int nIndex = installPath.LastIndexOf("\\");
-                        if (nIndex > 0)
-                        {
-                            return installPath.Remove(nIndex);
-                        }
-                    }
-                }
-            }
-#endif
-
-            //// Get the IVsShell service
-            //IVsShell shell = (IVsShell)GetService(typeof(IVsShell));
-
-            //if (shell != null)
-            //{
-            //    // Retrieve the install directory from the shell
-            //    object installDirectoryValue;
-            //    shell.GetProperty((int)__VSSPROPID.VSSPROPID_InstallDirectory, out installDirectoryValue);
-
-            //    if (installDirectoryValue != null)
-            //        return (string)installDirectoryValue;
-            //}
-
-			return null;
-		}
 
 		/// <summary>
 		/// Performs application-defined tasks associated with freeing, 
