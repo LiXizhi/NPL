@@ -548,8 +548,18 @@ namespace ParaEngine.Tools.Lua.SourceOutliner
                     {
                         // Load the documentation
                         langService.LoadXmlDocumentation(solutionDir + "\\");
-                    }
 
+                        foreach (Project proj in dte.Solution.Projects)
+                        {
+                            string projDir = System.IO.Path.GetDirectoryName(proj.FullName);
+                            if (projDir != null && projDir != solutionDir)
+                            {
+                                WriteOutput("  Open Project: " + projDir);
+                                // Load the documentation
+                                langService.LoadXmlDocumentation(projDir + "\\");
+                            }
+                        }
+                    }
                 }
             }
             catch(Exception)

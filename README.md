@@ -111,8 +111,13 @@ To install pre-requisite packages
    - modify NPLEngineWorker's include and lib to point to latest visual studio DIA SDK path. 
 
 ### Changes
-	- TODO: Stack view
+	- TODO: Stack view, please use NPL Code Wiki's HTTP debugger
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
+
+2016.7.1
+	- support Documentation in each project's folder.
+	- support npl file extension.
+	- support NPL.load F12 to goto file
 
 2016.4.3
 	- NPL code snippets added: One still needs to manually copy snippets
