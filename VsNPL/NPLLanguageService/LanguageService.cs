@@ -31,6 +31,10 @@ using LuaScanner = ParaEngine.Tools.Lua.Parser.LuaScanner;
 using ParaEngine.NPLLanguageService;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Net;
+using System.Net.Http;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 namespace ParaEngine.Tools.Lua
 {
@@ -386,7 +390,24 @@ namespace ParaEngine.Tools.Lua
 			return "Lua File (*.lua)\n*.lua\nNPL Page File (*.page)\n*.page\nNPL File (*.npl)\n*.npl";
 		}
 
-        public void SetBreakPointAtCurrentLine()
+        /// <summary>
+        /// Turn the key and value pairs into a multipart form
+        /// </summary>
+        private static string MakeMultipartForm(Dictionary<string, string> values, string boundary)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var pair in values)
+            {
+                sb.AppendFormat("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary, pair.Key, pair.Value);
+            }
+
+            sb.AppendFormat("--{0}--\r\n", boundary);
+
+            return sb.ToString();
+        }
+
+        async public Task<int> SetBreakPointAtCurrentLine()
         {
             //Retrieve TextDocument from ProjectItem
             if(DTE!=null)
@@ -397,12 +418,33 @@ namespace ParaEngine.Tools.Lua
                     var ts = DTE.ActiveDocument.Selection as TextSelection;
                     int lineNumber = ts.CurrentLine;
                     // System.Windows.MessageBox.Show("Set breakpoint here..." + sFileName + lineNumber.ToString());
-                }
-                catch
-                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri("http://localhost:8099/");
+                        var content = new FormUrlEncodedContent(new[]
+                        {
+                            new KeyValuePair<string, string>("action", "addbreakpoint"),
+                            new KeyValuePair<string, string>("filename", sFileName),
+                            new KeyValuePair<string, string>("line", lineNumber.ToString()),
+                        });
+                        var result = client.PostAsync("/ajax/debugger", content).Result;
+                        string resultContent = await result.Content.ReadAsStringAsync();
 
+                        string url = "http://localhost:8099/debugger";
+                        // url += string.Format("?filename={0}&line={1}", sFileName, lineNumber);
+                        System.Diagnostics.Process.Start(url);
+                    }
+                }
+                catch(Exception e)
+                {
+                    WriteOutput(e.Message);
+                    if (System.Windows.MessageBox.Show("Please start your NPL process first and start NPL Code Wiki http://localhost:8099/ \nDo you want to see help page?", "NPL HTTP Debugger", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start("https://github.com/LiXizhi/NPLRuntime/wiki/NPLCodeWiki");
+                    }
                 }
             }
+            return 0;
         }
 
         /// <summary>
