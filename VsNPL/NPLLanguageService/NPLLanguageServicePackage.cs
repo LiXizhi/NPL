@@ -60,6 +60,8 @@ namespace ParaEngine.NPLLanguageService
     [ProvideLanguageExtension(typeof(LanguageService), Configuration.Extension)]
     // Provide the language service for the .page NPL web server page extension
     [ProvideLanguageExtension(typeof(LanguageService), ".page")]
+    // Provide the language service for the .npl NPL file extension
+    [ProvideLanguageExtension(typeof(LanguageService), ".npl")]
     // Provide and configure the language service features
     [ProvideLanguageService(typeof(LanguageService), Configuration.Name, 110,
         CodeSense = true,

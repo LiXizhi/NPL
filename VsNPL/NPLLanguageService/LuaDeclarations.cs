@@ -91,7 +91,8 @@ namespace ParaEngine.Tools.Lua
             if (commitCharacter == 13)
                 return '\0';
 */
-
+            if(index < 0)
+                return '\0';
             Declaration declaration = declarations[index];
             if (declaration != null)
             {

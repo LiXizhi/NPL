@@ -134,16 +134,23 @@ namespace ParaEngine.Tools.Lua
 
             if (documentationRootPath != null)
             {
-                documentationRootPath += "Documentation";
-                int nFileCount = 0;
-                //Look for XML files and load them using the XML documentation loader
-                foreach (string path in Directory.GetFiles(documentationRootPath, "*.xml"))
+                try
                 {
-                    nFileCount++;
-                    xmlDocumentationLoader.LoadXml(path);
+                    documentationRootPath += "Documentation";
+                    int nFileCount = 0;
+                    //Look for XML files and load them using the XML documentation loader
+                    foreach (string path in Directory.GetFiles(documentationRootPath, "*.xml"))
+                    {
+                        nFileCount++;
+                        xmlDocumentationLoader.LoadXml(path);
+                    }
+                    WriteOutput(String.Format("Load {0} NPL doc file(s) in folder: {1}", nFileCount, documentationRootPath));
+                    xmlDocumentationLoader.AddDeclarations(xmlDeclarationProvider);
                 }
-                WriteOutput(String.Format("Load {0} NPL doc file(s) in folder: {1}", nFileCount, documentationRootPath));
-                xmlDocumentationLoader.AddDeclarations(xmlDeclarationProvider);
+                catch (Exception)
+                {
+
+                }
             }
 		}
 
@@ -376,7 +383,7 @@ namespace ParaEngine.Tools.Lua
 		/// <returns></returns>
 		public override string GetFormatFilterList()
 		{
-			return "Lua File (*.lua)\n*.lua\nNPL Page File (*.page)\n*.page";
+			return "Lua File (*.lua)\n*.lua\nNPL Page File (*.page)\n*.page\nNPL File (*.npl)\n*.npl";
 		}
 
 		/// <summary>
@@ -676,6 +683,26 @@ namespace ParaEngine.Tools.Lua
             }
         }
 
+        private string FindDocFileInDir(string filename, string solutionDir)
+        {
+            string fullpath = solutionDir + "\\" + filename;
+            if (File.Exists(fullpath))
+                return fullpath;
+            else
+            {
+                fullpath = solutionDir + "\\src\\" + filename;
+                if (File.Exists(fullpath))
+                    return fullpath;
+                else
+                {
+                    fullpath = solutionDir + "\\Documentation\\" + filename;
+                    if (File.Exists(fullpath))
+                        return fullpath;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// we will search in current solution directory, and `./src` and `./Documentation` directory. 
         /// </summary>
@@ -688,19 +715,20 @@ namespace ParaEngine.Tools.Lua
                 DTE2 dte = (DTE2)GetService(typeof(DTE));
                 string solutionDir = System.IO.Path.GetDirectoryName(DTE.Solution.FullName);
 
-                string fullpath = solutionDir + "\\" + filename;
-                if (File.Exists(fullpath))
-                    return fullpath;
-                else
+                string fullname = FindDocFileInDir(filename, solutionDir);
+                if (fullname == null)
                 {
-                    fullpath = solutionDir + "\\src\\" + filename;
-                    if (File.Exists(fullpath))
-                        return fullpath;
-                    else 
+                    foreach (Project proj in dte.Solution.Projects)
                     {
-                        fullpath = solutionDir + "\\Documentation\\" + filename;
-                        if (File.Exists(fullpath))
-                            return fullpath;
+                        string projDir = System.IO.Path.GetDirectoryName(proj.FullName);
+                        if (projDir != null && projDir != solutionDir)
+                        {
+                            fullname = FindDocFileInDir(filename, projDir);
+                            if(fullname!=null)
+                            {
+                                return fullname;
+                            }
+                        }
                     }
                 }
             }
@@ -750,10 +778,41 @@ namespace ParaEngine.Tools.Lua
                             if (BuildGotoDefinitionUri(declareProvider.Value, authoringScope, sWord))
                                 return true;
                     }
-                    return BuildGotoDefinitionUri(xmlDeclarationProvider, authoringScope, sWord);
+                    if (BuildGotoDefinitionUri(xmlDeclarationProvider, authoringScope, sWord))
+                        return true;
                 }
                 else
                     return true;
+            }
+            
+            // look for NPL.load and implement open file
+            string sLine = GetLineText(request);
+            if (sLine != null)
+            {
+                if (sLine.Contains("NPL.load("))
+                {
+                    // we will goto the file specified in NPL.load
+                    Regex reg = new Regex("NPL\\.load\\(\"([^\"]+)\"\\)");
+                    Match m = reg.Match(sLine);
+                    if (m.Success && m.Groups.Count >= 2)
+                    {
+                        string sFilename = m.Groups[1].Value;
+                        if (sFilename.StartsWith("("))
+                        {
+                            int nIndex = sFilename.IndexOf(')');
+                            if (nIndex > 0)
+                            {
+                                sFilename = sFilename.Substring(nIndex + 1);
+                            }
+                        }
+                        sFilename = GetAbsolutionFilePath(sFilename);
+                        if(sFilename!=null)
+                        {
+                            authoringScope.m_goto_filename = sFilename;
+                            return true;
+                        }
+                    }
+                }
             }
             return false;
         }
