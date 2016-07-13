@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 using ParaEngine.Tools.Lua.Parser;
 using System;
+using System.Collections.Generic;
 using Source = ParaEngine.Tools.Lua.Parser.Source;
 
 namespace ParaEngine.Tools.Lua
@@ -52,6 +53,36 @@ namespace ParaEngine.Tools.Lua
                     this.Completion(textView, tokenInfo, ParseReason.CompleteWord);
             }
 */
+        }
+
+        public override void ReformatSpan(EditArray mgr, TextSpan span)
+        {
+            string description = "Reformat code";
+            CompoundAction ca = new CompoundAction(this, description);
+            using (ca)
+            {
+                ca.FlushEditActions();      // Flush any pending edits
+                DoFormatting(mgr, span);    // Format the span
+            }
+        }
+
+        private void DoFormatting(EditArray mgr, TextSpan span)
+        {
+            // Make sure there is one space after every comma unless followed
+            // by a tab or comma is at end of line.
+            IVsTextLines pBuffer = GetTextLines();
+            if (pBuffer != null)
+            {
+                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, span, LanguageService.GetLanguagePreferences().TabSize);
+                if (changeList != null)
+                {
+                    foreach (EditSpan editSpan in changeList)
+                    {
+                        // Add edit operation
+                        mgr.Add(editSpan);
+                    }
+                }
+            }
         }
     }
 }

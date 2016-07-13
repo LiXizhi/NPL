@@ -49,6 +49,9 @@ Support mixed HTML/NPL highlighting.
  Right click to bring up the context menu, then click "insert snippets...", a dialog will guide you to register preinstalled code snippets.
  After that, goto `menu::tools::code snippet manager`(Ctrl+K+B), and make some modifications, such as removing unused folders to force vs to refresh its code snippet cache, and restart visual studio.
 
+ ### Reformat Code
+ See NPLFormatHelper.cs and ReformatSpan function in LuaSource.cs
+
 #### XML documetation
  IntelliSense and code completion using XML files under ${SolutionDir}/Documentation.  Users can add new XML files for their own application. 
  See ${install path}/Documentation for [examples](https://github.com/LiXizhi/NPL/blob/master/Documentation/NplDocumentation.xml). Filepath can be found in NPL output panel.

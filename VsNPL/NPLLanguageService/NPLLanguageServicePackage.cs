@@ -70,6 +70,7 @@ namespace ParaEngine.NPLLanguageService
         AutoOutlining = true,
         EnableAsyncCompletion = true,
         QuickInfo = true,
+        EnableFormatSelection = true,
         CodeSenseDelay = 1000)]
     // This attribute registers a tool window exposed by this package.
     // It will initially be docked at the toolbox window location.

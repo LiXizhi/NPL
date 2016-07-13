@@ -266,9 +266,6 @@ namespace ParaEngine.Tools.Lua.VsEditor
 		///                The user canceled the execution of the command.</returns>
 		public int Exec(ref Guid pguidCmdGroupRef, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
 		{
-			string commandId = VSIDECommands.GetCommandId(pguidCmdGroupRef, nCmdID);
-            
-
             //the snippet picker code starts here
             if (nCmdID == (uint)VSConstants.VSStd2KCmdID.INSERTSNIPPET)
             {
@@ -345,12 +342,13 @@ namespace ParaEngine.Tools.Lua.VsEditor
             //    if (InsertAnyExpansion(textString, null, null))
             //        return VSConstants.S_OK;
             //}
-            
+
+#if SUPPORT_REFACTOR 
+            string commandId = VSIDECommands.GetCommandId(pguidCmdGroupRef, nCmdID);
 
             if (!string.IsNullOrEmpty(commandId))
 			{
                 // refactor and undo are not working anyway.
-                if(false)
                 {
                     //Refactor command
                     if (VSIDECommands.IsRightClick(pguidCmdGroupRef, nCmdID))
@@ -370,8 +368,8 @@ namespace ParaEngine.Tools.Lua.VsEditor
                     }
                 }
 			}
-
-			return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+#endif
+            return ExecVsHandler(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 		}
 
 		#endregion

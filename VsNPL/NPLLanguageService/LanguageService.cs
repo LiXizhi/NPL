@@ -602,6 +602,11 @@ namespace ParaEngine.Tools.Lua
             }
         }
 
+        static bool IsFunctionWordChar(char cChar)
+        {
+            return Char.IsLetterOrDigit(cChar) || cChar == '_';
+        }
+
         private string GetWordFromRequest(ParseRequest request, out int nColFrom, out int nColTo)
         {
             string sLine = GetLineText(request);
@@ -611,18 +616,19 @@ namespace ParaEngine.Tools.Lua
             if (sLine != null && nColFrom < sLine.Length)
             {
                 char cChar = sLine[nColFrom];
-                if (Char.IsLetterOrDigit(cChar))
+                
+                if (IsFunctionWordChar(cChar))
                 {
                     for (int i = nColFrom - 1; i >= 0; i--)
                     {
-                        if (Char.IsLetterOrDigit(sLine[i]))
+                        if (IsFunctionWordChar(sLine[i]))
                             nColFrom = i;
                         else
                             break;
                     }
                     for (int i = nColTo + 1; i < sLine.Length; i++)
                     {
-                        if (Char.IsLetterOrDigit(sLine[i]))
+                        if (IsFunctionWordChar(sLine[i]))
                             nColTo = i;
                         else
                             break;
