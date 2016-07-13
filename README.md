@@ -114,6 +114,10 @@ To install pre-requisite packages
 	- TODO: Stack view, please use NPL Code Wiki's HTTP debugger
 	- TODO: show a hierarchy of table sub objects in expression evaluation result. 
 
+2016.7.13
+	- fixed function name with underscore
+	- added set breakpoint to NPL http debugger via context menu. 
+
 2016.7.1
 	- support Documentation in each project's folder.
 	- support npl file extension.
