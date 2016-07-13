@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>comment_file</Title>
+      <Shortcut>file</Shortcut>
+      <Description>Code snippet for file statement</Description>
+      <Author>LiXizhi</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>title</ID>
+          <ToolTip>file title</ToolTip>
+          <Default>title</Default>
+        </Literal>
+        <Literal>
+          <ID>author</ID>
+          <ToolTip>author</ToolTip>
+          <Default>GPL</Default>
+        </Literal>
+        <Literal>
+          <ID>date</ID>
+          <ToolTip>creation date</ToolTip>
+          <Default>2016/12/31</Default>
+        </Literal>
+        <Literal>
+          <ID>desc</ID>
+          <ToolTip>desc</ToolTip>
+          <Default>TODO: </Default>
+        </Literal>
+      </Declarations>
+      <Code Language="Lua">
+        <![CDATA[--[[
+Title: $title$ $selected$
+Author: $author$
+Date: $date$
+Desc: $desc$
+
+-----------------------------------------------
+NPL.load("(gl)script/XXX/XXX.lua");
+-----------------------------------------------
+]]
+]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

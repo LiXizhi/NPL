@@ -379,12 +379,31 @@ namespace ParaEngine.Tools.Lua
 			return "Lua File (*.lua)\n*.lua\nNPL Page File (*.page)\n*.page";
 		}
 
-		/// <summary>
-		/// Creates the source for the buffer.
-		/// </summary>
-		/// <param name="buffer">The buffer.</param>
-		/// <returns>An instance of the <see cref="LuaSource"/> class.</returns>
-		public override Microsoft.VisualStudio.Package.Source CreateSource(IVsTextLines buffer)
+        public void SetBreakPointAtCurrentLine()
+        {
+            //Retrieve TextDocument from ProjectItem
+            if(DTE!=null)
+            {
+                try
+                {
+                    String sFileName = DTE.ActiveDocument.FullName;
+                    var ts = DTE.ActiveDocument.Selection as TextSelection;
+                    int lineNumber = ts.CurrentLine;
+                    // System.Windows.MessageBox.Show("Set breakpoint here..." + sFileName + lineNumber.ToString());
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates the source for the buffer.
+        /// </summary>
+        /// <param name="buffer">The buffer.</param>
+        /// <returns>An instance of the <see cref="LuaSource"/> class.</returns>
+        public override Microsoft.VisualStudio.Package.Source CreateSource(IVsTextLines buffer)
 		{
 			return new LuaSource(this, buffer, GetColorizer(buffer));
 		}

@@ -132,9 +132,39 @@ namespace ParaEngine.NPLLanguageService
             if (null != mcs)
             {
                 // Create the command for the tool window
-                CommandID toolwndCommandID = new CommandID(GuidList.guidNPLLanguageServiceCmdSet, (int)PkgCmdIDList.cmdidMyNPLOutlineTool);
-                MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
-                mcs.AddCommand(menuToolWin);
+                {
+                    CommandID toolwndCommandID = new CommandID(GuidList.guidNPLLanguageServiceCmdSet, (int)PkgCmdIDList.cmdidMyNPLOutlineTool);
+                    MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
+                    mcs.AddCommand(menuToolWin);
+                }
+                // Context menu
+                {
+                    // added by LiXizhi: help page: http://stackoverflow.com/questions/16842795/why-isnt-my-vspackages-context-menu-showing
+
+                    // NPL Set breakpoint at current source location: 
+                    CommandID contextmenuCommandID = new CommandID(GuidList.guidNPLLanguageServiceCmdSet, (int)PkgCmdIDList.cmdidNPLSetBreakPoint);
+                    OleMenuCommand menuCmd = new OleMenuCommand(delegate (object sender, EventArgs e) {
+                        LanguageService service = (LanguageService)GetService(typeof(ILuaLanguageService));
+                        if (service != null)
+                            service.SetBreakPointAtCurrentLine();
+                    }, contextmenuCommandID);
+                    // http://stackoverflow.com/questions/21929372/dynamic-visibility-of-menu-item
+                    menuCmd.BeforeQueryStatus += delegate (object sender, EventArgs e){
+                        OleMenuCommand menuCommand = sender as OleMenuCommand;
+                        if (menuCommand != null)
+                        {
+                            bool bVisible = false;
+                            
+                            LanguageService service = (LanguageService)GetService(typeof(ILuaLanguageService));
+                            if (service != null && service.DTE!=null)
+                            {
+                                bVisible = true;
+                            }
+                            menuCommand.Visible = bVisible;
+                        }
+                    };
+                    mcs.AddCommand(menuCmd);
+                }
             }
 
             componentManager = (IOleComponentManager)GetService(typeof(SOleComponentManager));
@@ -215,7 +245,7 @@ namespace ParaEngine.NPLLanguageService
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
 
         }
-
+        
         /// <summary>
         /// Called when [create refactoring service].
         /// </summary>

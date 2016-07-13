@@ -104,6 +104,10 @@
         <Parent guid="guidNPLLanguageServiceCmdSet" id="IDMX_RTF" />
       </Group>
 
+      <!--NPL code window context menu-->
+      <Group guid="guidNPLLanguageServiceCmdSet" id="NPLCodeWindowContextMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+      </Group>
     </Groups>
     
     <!--Buttons section. -->
@@ -128,6 +132,15 @@
         </Strings>
       </Button>
 
+      <Button guid="guidNPLLanguageServiceCmdSet" id="cmdidNPLSetBreakPoint" priority="0x0100" type="Button">
+        <Parent guid="guidNPLLanguageServiceCmdSet" id="NPLCodeWindowContextMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <CommandName>cmdidNPLSetBreakPoint</CommandName>
+          <ButtonText>NPL Set Breakpoint...</ButtonText>
+        </Strings>
+      </Button>
 
       <Button guid="guidNPLLanguageServiceCmdSet" id="commandIDStrike" priority="0x0400" type="Button">
         <Parent guid="guidSharedMenuGroup" id="IDG_VS_FORMAT_FONTFACE" />
@@ -299,6 +312,9 @@
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidMyNPLOutlineTool" value="0x0101" />
       <IDSymbol name="commandIDStrike" value="0x0102" />
+      <IDSymbol name="cmdidNPLSetBreakPoint" value="0x0103" />
+      <IDSymbol name="NPLCodeWindowContextMenuGroup" value="0x0104" />
+      
     </GuidSymbol>
     
     <GuidSymbol name="guidNPLLanguageServiceEditorFactory" value="{5bcdb184-0ce4-429b-991a-2c3ee429e72a}" />

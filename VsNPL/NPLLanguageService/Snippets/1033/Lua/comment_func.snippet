@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>comment_func</Title>
+      <Shortcut>doc</Shortcut>
+      <Description>Code snippet for doc statement</Description>
+      <Author>LiXizhi</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>desc</ID>
+          <ToolTip>description</ToolTip>
+          <Default>description</Default>
+        </Literal>
+        <Literal>
+          <ID>param</ID>
+          <ToolTip>param name</ToolTip>
+          <Default>var1</Default>
+        </Literal>
+        <Literal>
+          <ID>param_desc</ID>
+          <ToolTip>param description</ToolTip>
+          <Default></Default>
+        </Literal>
+      </Declarations>
+      <Code Language="Lua">
+        <![CDATA[-- $desc$ $selected$
+--@param $param$: $param_desc$
+--@return ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

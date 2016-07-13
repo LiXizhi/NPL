@@ -8,7 +8,8 @@ namespace ParaEngine.NPLLanguageService
     {
 
         public const uint cmdidMyNPLOutlineTool =    0x101;
-
+        public const uint cmdidNPLSetBreakPoint = 0x103;
+        
         // Menus
         public const int IDM_TLB_RTF = 0x0001;			// toolbar
         public const int IDMX_RTF = 0x0002;			// context menu
