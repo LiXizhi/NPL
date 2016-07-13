@@ -138,7 +138,7 @@
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <CommandName>cmdidNPLSetBreakPoint</CommandName>
-          <ButtonText>NPL Set Breakpoint...</ButtonText>
+          <ButtonText>NPL Set Breakpoint Here</ButtonText>
         </Strings>
       </Button>
 

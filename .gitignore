@@ -1,4 +1,5 @@
 .svn*
+.vs
 *.max
 *.psd
 *.bak

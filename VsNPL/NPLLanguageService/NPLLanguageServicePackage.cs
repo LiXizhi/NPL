@@ -160,7 +160,7 @@ namespace ParaEngine.NPLLanguageService
                             LanguageService service = (LanguageService)GetService(typeof(ILuaLanguageService));
                             if (service != null && service.DTE!=null)
                             {
-                                bVisible = true;
+                                bVisible = service.IsKnownFileName();
                             }
                             menuCommand.Visible = bVisible;
                         }

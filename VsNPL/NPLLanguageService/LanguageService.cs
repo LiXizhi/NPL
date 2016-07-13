@@ -407,7 +407,24 @@ namespace ParaEngine.Tools.Lua
             return sb.ToString();
         }
 
-        async public Task<int> SetBreakPointAtCurrentLine()
+        public bool IsKnownFileName()
+        {
+            if (DTE != null)
+            {
+                try
+                {
+                    String sFileName = DTE.ActiveDocument.FullName;
+                    if (sFileName.EndsWith(".lua") || sFileName.EndsWith(".npl") || sFileName.EndsWith(".page"))
+                        return true;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return false;
+        }
+
+        public async Task<int> SetBreakPointAtCurrentLine()
         {
             //Retrieve TextDocument from ProjectItem
             if(DTE!=null)
@@ -438,7 +455,7 @@ namespace ParaEngine.Tools.Lua
                 catch(Exception e)
                 {
                     WriteOutput(e.Message);
-                    if (System.Windows.MessageBox.Show("Please start your NPL process first and start NPL Code Wiki http://localhost:8099/ \nDo you want to see help page?", "NPL HTTP Debugger", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Yes)
+                    if (System.Windows.MessageBox.Show("Please start your NPL process first \nand start NPL Code Wiki at: \n http://localhost:8099/ \nDo you want to see help page?", "NPL HTTP Debugger", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Yes)
                     {
                         System.Diagnostics.Process.Start("https://github.com/LiXizhi/NPLRuntime/wiki/NPLCodeWiki");
                     }
