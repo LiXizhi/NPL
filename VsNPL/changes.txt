@@ -26,6 +26,9 @@ You can put your per solution code completion files at that folder.
 See example files in Documentation/*.xml folder. Select property and then change Build action to Content, and Include in VISX to true. 
 
 ---++ TODO 
+2016.9.15
+	- set NPL breakpoint is async now. localhost:8099 is changed to 127.0.0.1:8099.
+
 2015.7.10
 	- search in solution:  // LiXizhi: codeModel is always null, need to register a code model somewhere. 
 	- NPL outliner tool window reenabled in menu.view.other_windows.NPL outliner. 
