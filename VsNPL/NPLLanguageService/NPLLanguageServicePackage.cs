@@ -38,7 +38,7 @@ namespace ParaEngine.NPLLanguageService
     // This attribute is used to register the informations needed to show the this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    
+
     //This attribute registers a tool window exposed by this package.
     //[ProvideToolWindow(typeof(SourceOutlineToolWindow))]
     //[ProvideEditorExtension(typeof(EditorFactory), ".npllanguageservice", 50, 
@@ -53,9 +53,9 @@ namespace ParaEngine.NPLLanguageService
 #if DEBUG
     [ProvideService(typeof(ILuaLanguageService), ServiceName = "NPL Language Service (test)")]
 #else
-    [ProvideService(typeof (ILuaLanguageService), ServiceName = "NPL Language Service")]
+    [ProvideService(typeof(ILuaLanguageService), ServiceName = "NPL Language Service")]
 #endif
-    
+
     // Provide the language service for the .lua extension
     [ProvideLanguageExtension(typeof(LanguageService), Configuration.Extension)]
     // Provide the language service for the .page NPL web server page extension
@@ -77,10 +77,10 @@ namespace ParaEngine.NPLLanguageService
     // This attribute registers a tool window exposed by this package.
     // It will initially be docked at the toolbox window location.
     [ProvideToolWindow(typeof(SourceOutlineToolWindow), Style = VsDockStyle.Tabbed)]
-    
+
     //This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    
+
     // VSPackages can be set to autoload when a particular user interface (UI) context exists.For example, a VSPackage can be set to load whenever a solution exists. 
     [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82")] // = VSConstants.UICONTEXT_SolutionExists.ToString()
     // there is bug in vs 2015 for associating language service with code expansion
@@ -88,7 +88,7 @@ namespace ParaEngine.NPLLanguageService
     [ProvideLanguageCodeExpansion(typeof(LanguageService), Configuration.Name, 110, Configuration.Name,
             @"%InstallRoot%\NPL\Snippets\%LCID%\SnippetsIndex.xml",
             // the paths of the snippet files
-            SearchPaths = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" + 
+            SearchPaths = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" +
                     @"%TestDocs%\Code Snippets\NPL\Lua\",
             ForceCreateDirs = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" +
                     @"%TestDocs%\Code Snippets\NPL\Lua\")]
@@ -110,22 +110,22 @@ namespace ParaEngine.NPLLanguageService
         {
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
             m_currentPackage = this;
-            
+
         }
 
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
         #region Package Members
-            
+
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
         /// </summary>
         protected override void Initialize()
         {
-            Trace.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
-            
+
             ////Create Editor Factory. Note that the base Package class will call Dispose on it.
             // base.RegisterEditorFactory(new EditorFactory(this));
 
@@ -145,20 +145,22 @@ namespace ParaEngine.NPLLanguageService
 
                     // NPL Set breakpoint at current source location: 
                     CommandID contextmenuCommandID = new CommandID(GuidList.guidNPLLanguageServiceCmdSet, (int)PkgCmdIDList.cmdidNPLSetBreakPoint);
-                    OleMenuCommand menuCmd = new OleMenuCommand(delegate (object sender, EventArgs e) {
+                    OleMenuCommand menuCmd = new OleMenuCommand(delegate (object sender, EventArgs e)
+                    {
                         LanguageService service = (LanguageService)GetService(typeof(ILuaLanguageService));
                         if (service != null)
                             service.SetBreakPointAtCurrentLine();
                     }, contextmenuCommandID);
                     // http://stackoverflow.com/questions/21929372/dynamic-visibility-of-menu-item
-                    menuCmd.BeforeQueryStatus += delegate (object sender, EventArgs e){
+                    menuCmd.BeforeQueryStatus += delegate (object sender, EventArgs e)
+                    {
                         OleMenuCommand menuCommand = sender as OleMenuCommand;
                         if (menuCommand != null)
                         {
                             bool bVisible = false;
-                            
+
                             LanguageService service = (LanguageService)GetService(typeof(ILuaLanguageService));
-                            if (service != null && service.DTE!=null)
+                            if (service != null && service.DTE != null)
                             {
                                 bVisible = service.IsKnownFileName();
                             }
@@ -209,19 +211,19 @@ namespace ParaEngine.NPLLanguageService
             crinfo[0].uIdleTimeInterval = 500;
 
             // fix a bug that component id not called. 
-            
-            if(! HasComponent("sourceOutlinerWindow"))
+
+            if (!HasComponent("sourceOutlinerWindow"))
             {
                 uint componentID = 0;
                 int hr = componentManager.FRegisterComponent(sourceOutlinerWindow, crinfo, out componentID);
                 if (componentID != 0)
                     AddComponentToAutoReleasePool("sourceOutlinerWindow", componentID);
-                if (!ErrorHandler.Succeeded(hr) )
+                if (!ErrorHandler.Succeeded(hr))
                 {
                     Trace.WriteLine("Initialize->IOleComponent registration failed");
                 }
             }
-            
+
 
             sourceOutlinerWindow.InitializeDTE(dte);
             sourceOutlinerWindow.AddWindowEvents();
@@ -247,7 +249,7 @@ namespace ParaEngine.NPLLanguageService
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
 
         }
-        
+
         /// <summary>
         /// Called when [create refactoring service].
         /// </summary>
