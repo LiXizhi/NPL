@@ -88,10 +88,8 @@ namespace ParaEngine.NPLLanguageService
     [ProvideLanguageCodeExpansion(typeof(LanguageService), Configuration.Name, 110, Configuration.Name,
             @"%InstallRoot%\NPL\Snippets\%LCID%\SnippetsIndex.xml",
             // the paths of the snippet files
-            SearchPaths = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" +
-                    @"%TestDocs%\Code Snippets\NPL\Lua\",
-            ForceCreateDirs = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;" +
-                    @"%TestDocs%\Code Snippets\NPL\Lua\")]
+            SearchPaths = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;",
+            ForceCreateDirs = @"%InstallRoot%\NPL\Snippets\%LCID%\Lua\;")]
     [Guid(GuidList.guidNPLLanguageServicePkgString)]
     public sealed class NPLLanguageServicePackage : BasePackage
     {
