@@ -15,3 +15,5 @@ dgml/
 ipch/
 *.user
 packages/
+*.htm
+Backup1/
