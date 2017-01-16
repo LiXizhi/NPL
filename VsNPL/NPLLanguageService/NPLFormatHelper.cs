@@ -51,8 +51,9 @@ namespace ParaEngine.Tools.Lua
                 //rule 2: insert space after comma, semicolon if there not any
                 //rule 3: indentation increase inside block
                 //rule 4: multiple spaces replaced by a single space
+                //rule 5: no spaces after left parentheses("(") and before right parentheses(")")
                 int state = 0, start = 0, end = 0;
-                int firstSpaceEnd = 0;
+                int firstSpaceEnd = -1;
                 lex.SetSource(line, 0);
 
                 int token = lex.GetNext(ref state, out start, out end);
@@ -63,44 +64,52 @@ namespace ParaEngine.Tools.Lua
                 }
                 
                 // set indentation
-                string indentation = "";
-                for (int j = 0; j < tabSize * indents[i]; ++j)
-                    indentation = " " + indentation;
-                TextSpan firstSpaceSpan = new TextSpan();
-                firstSpaceSpan.iStartLine = i;
-                firstSpaceSpan.iEndLine = i;
-                firstSpaceSpan.iStartIndex = 0;
-                firstSpaceSpan.iEndIndex = firstSpaceEnd + 1;
-                changeList.Add(new EditSpan(firstSpaceSpan, indentation));
+                if( !(firstSpaceEnd == -1 && indents[i] == 0))
+                {
+                    string indentation = "";
+                    for (int j = 0; j < tabSize * indents[i]; ++j)
+                        indentation = " " + indentation;
+                    TextSpan firstSpaceSpan = new TextSpan();
+                    firstSpaceSpan.iStartLine = i;
+                    firstSpaceSpan.iEndLine = i;
+                    firstSpaceSpan.iStartIndex = 0;
+                    firstSpaceSpan.iEndIndex = firstSpaceEnd + 1;
+                    changeList.Add(new EditSpan(firstSpaceSpan, indentation));
+                }
 
                 FormatToken currentToken = new FormatToken((int)token, start, end);
                 FormatToken lastToken = new FormatToken((int)Tokens.EOF, start - 1, start - 1);
                 while (currentToken.token != (int)Tokens.EOF)
                 {
                     token = lex.GetNext(ref state, out start, out end);
+                    // fix issue of last unknow space
+                    if (start > end) break;
                     FormatToken nextToken = new FormatToken(token, start, end);
 
                     if (currentToken.token == (int)Tokens.LEX_WHITE)    // spaces
                     {
-                        string space = " ";
+                        string SpaceorEmpty = " ";
+                        if (nextToken.token == (int)Tokens.RPAREN)    // if meet right paren, remove spaces
+                            SpaceorEmpty = "";
                         TextSpan spaceEdit = new TextSpan();
                         spaceEdit.iStartLine = i;
                         spaceEdit.iEndLine = i;
                         spaceEdit.iStartIndex = currentToken.startIndex;
                         spaceEdit.iEndIndex = currentToken.endIndex + 1;
-                        changeList.Add(new EditSpan(spaceEdit, space));
+                        changeList.Add(new EditSpan(spaceEdit, SpaceorEmpty));
                     }
                     else if (currentToken.token == (int)Tokens.COMMA ||
                         currentToken.token == (int)Tokens.SEMICOLON)    // comma, semicolon
                     {
-                        TextSpan spaceEdit = new TextSpan();
-                        spaceEdit.iStartLine = i;
-                        spaceEdit.iEndLine = i;
-                        string space = " ";
                         if (nextToken.token != (int)Tokens.LEX_WHITE &&
                             nextToken.token != (int)Tokens.EOF)
                         {
-                            spaceEdit.iStartIndex = spaceEdit.iEndIndex = currentToken.endIndex + 1;
+                            string space = " ";
+                            TextSpan spaceEdit = new TextSpan();
+                            spaceEdit.iStartLine = i;
+                            spaceEdit.iEndLine = i;
+                            spaceEdit.iStartIndex = currentToken.endIndex + 1;
+                            spaceEdit.iEndIndex = currentToken.endIndex + 1;
                             changeList.Add(new EditSpan(spaceEdit, space));
                         }    
                     }
@@ -133,6 +142,23 @@ namespace ParaEngine.Tools.Lua
                             spaceEdit.iEndIndex = currentToken.endIndex + 1;
                             changeList.Add(new EditSpan(spaceEdit, space));
                         }
+                    }
+                    else if(currentToken.token == (int)Tokens.LPAREN && 
+                        nextToken.token == (int)Tokens.LEX_WHITE)
+                    {
+                        string empty = "";
+                        TextSpan emptyEdit = new TextSpan();
+                        emptyEdit.iStartLine = i;
+                        emptyEdit.iEndLine = i;
+                        emptyEdit.iStartIndex = nextToken.startIndex;
+                        emptyEdit.iEndIndex = nextToken.endIndex + 1;
+                        changeList.Add(new EditSpan(emptyEdit, empty));
+
+                        // get new nextToken
+                        token = lex.GetNext(ref state, out start, out end);
+                        // fix issue of last unknow space
+                        if (start > end) break;
+                        nextToken = new FormatToken(token, start, end);
                     }
 
                     lastToken = currentToken;
