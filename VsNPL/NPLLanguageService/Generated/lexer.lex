@@ -20,6 +20,7 @@
 				break;
 			case 'd':
 				if (txt.Equals("do")) return (int)Tokens.KWDO;
+				else if (txt.Equals("def")) return (int)Tokens.KWDEF;
 				break;
 			case 'e':
 				if (txt.Equals("end")) return (int)Tokens.KWEND;
@@ -121,6 +122,7 @@ Whitespace      [ \t\r\f\v\n]
 
 \(                        { return (int)Tokens.LPAREN;    }
 \)                        { return (int)Tokens.RPAREN;    }
+\+\{                      { return (int)Tokens.PLUSLBRACE;	}
 \{                        { return (int)Tokens.LBRACE;    }
 \}                        { return (int)Tokens.RBRACE;    }
 \[                        { return (int)Tokens.LBRACKET;    }
