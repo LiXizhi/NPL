@@ -108,6 +108,12 @@ Statement
 	{
 		$$ = $1;
 	}
+	| FunctionCall LBRACE Block RBRACE
+	{
+		$$ = $1;
+
+		Region(@2, @4);
+	}
 	| KWIF Expression KWTHEN ThenBlock KWEND
 	{
 		$$ = new If(@$) { Expression = $2, ThenBlock = (ThenBlock)$4 };
