@@ -52,6 +52,7 @@ namespace ParaEngine.Tools.Lua
                 //rule 3: indentation increase inside block
                 //rule 4: multiple spaces replaced by a single space
                 //rule 5: no spaces after left parentheses("(") and before right parentheses(")")
+                //rule 6: no spaces between identifier and left parentheses("(")
                 int state = 0, start = 0, end = 0;
                 int firstSpaceEnd = -1;
                 lex.SetSource(line, 0);
@@ -84,12 +85,15 @@ namespace ParaEngine.Tools.Lua
                     token = lex.GetNext(ref state, out start, out end);
                     // fix issue of last unknow space
                     if (start > end) break;
-                    FormatToken nextToken = new FormatToken(token, start, end);
+                    FormatToken nextToken = new FormatToken((int)token, start, end);
 
                     if (currentToken.token == (int)Tokens.LEX_WHITE)    // spaces
                     {
                         string SpaceorEmpty = " ";
-                        if (nextToken.token == (int)Tokens.RPAREN)    // if meet right paren, remove spaces
+                        if (nextToken.token == (int)Tokens.RPAREN ||        // if meet right paren, remove spaces
+                            (nextToken.token == (int)Tokens.LPAREN &&    // rule 6
+                            lastToken.token != (int)Tokens.KWFUNCTION) ||
+                            nextToken.token == (int)Tokens.LBRACKET)    
                             SpaceorEmpty = "";
                         TextSpan spaceEdit = new TextSpan();
                         spaceEdit.iStartLine = i;
