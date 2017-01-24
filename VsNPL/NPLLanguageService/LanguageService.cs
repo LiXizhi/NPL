@@ -660,6 +660,7 @@ namespace ParaEngine.Tools.Lua
             return sWord;
         }
 
+        //FIXME:a bug exist when getting the text of last line
         private string GetLineText(ParseRequest request)
         {
             string sLine = null;
@@ -707,12 +708,12 @@ namespace ParaEngine.Tools.Lua
         private string GetWordFromRequest(ParseRequest request, out int nColFrom, out int nColTo)
         {
             string sLine = GetLineText(request);
-            nColFrom = request.Col;
+            nColFrom = request.Col - 1;     //Zhiyuan, 2017-1-19, fixed a small bug
             nColTo = nColFrom;
 
-            if (sLine != null && nColFrom < sLine.Length)
+            if (sLine != null && nColFrom >= 0 && nColFrom < sLine.Length)
             {
-                char cChar = sLine[nColFrom];
+                char cChar = sLine[nColFrom];   
 
                 if (IsFunctionWordChar(cChar))
                 {
@@ -920,7 +921,8 @@ namespace ParaEngine.Tools.Lua
         /// <returns>An AuthoringScope containing the declarations and other information.</returns>
         public override Microsoft.VisualStudio.Package.AuthoringScope ParseSource(ParseRequest request)
         {
-            Trace.WriteLine(request.Reason);
+            if(request.Reason == ParseReason.MethodTip)
+                Trace.WriteLine("Parse Reason: " + request.Reason);
             authoringScope.Clear();
 
             if (request.ShouldParse())
