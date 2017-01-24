@@ -138,7 +138,7 @@ namespace ParaEngine.Tools.Lua
         private void GetIndents(Chunk chunk, int[] indents)
         {
             // start with -1
-            //Trace.Write(chunk.GetStringRepresentation());
+            Trace.Write(chunk.GetStringRepresentation());
             int currentIndent = -1;
 
             for (int i = 0; i < chunk.Location.sLin - 1; ++i)
@@ -169,6 +169,10 @@ namespace ParaEngine.Tools.Lua
                     indents[node.Location.sLin - 1] = currentIndent;
                 //if (indents[node.Location.eLin - 1] == -1)
                 //    indents[node.Location.eLin - 1] = currentIndent;
+            }
+            else if (node is DefBlock)
+            {
+                increment = 1;
             }
             else if (node is ThenBlock || node is ElseIfBlock)
             {

@@ -16,5 +16,10 @@ namespace ParaEngine.Tools.Lua.AST
         }
 
         public Node TokenList { get; set; }
+
+        public override IEnumerable<Node> GetChildNodes()
+        {
+            yield return TokenList;
+        }
     }
 }

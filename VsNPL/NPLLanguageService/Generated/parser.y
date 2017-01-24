@@ -110,7 +110,7 @@ Statement
 	}
 	| FunctionCall LBRACE Block RBRACE
 	{
-		$$ = $1;
+		$$ = new FunctionExpression(@$) { FunctionCall = (FunctionCall)$1, Block = (Block)$3 };
 
 		Region(@2, @4);
 	}
@@ -162,7 +162,7 @@ Statement
 	}
 	| KWDEF DefParameterList LBRACE TokenList RBRACE
 	{
-		$$ = new DefBlock(Merge(@2, @4));
+		$$ = new DefBlock(@$){ TokenList = $4 };
 
 		Region(@3, @5);
 	}

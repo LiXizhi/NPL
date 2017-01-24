@@ -646,7 +646,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
       case 11: // Statement -> FunctionCall LBRACE Block RBRACE 
 #line 112 "parser.y"
 			{
-		yyval.node = value_stack.array[value_stack.top-4].node;
+		yyval.node = new FunctionExpression(yyloc) { FunctionCall = (FunctionCall)value_stack.array[value_stack.top-4].node, Block = (Block)value_stack.array[value_stack.top-2].node };
 
 		Region(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
@@ -720,7 +720,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
       case 22: // Statement -> KWDEF DefParameterList LBRACE TokenList RBRACE 
 #line 164 "parser.y"
 			{
-		yyval.node = new DefBlock(Merge(location_stack.array[location_stack.top-4], location_stack.array[location_stack.top-2]));
+		yyval.node = new DefBlock(yyloc){ TokenList = value_stack.array[value_stack.top-2].node };
 
 		Region(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
