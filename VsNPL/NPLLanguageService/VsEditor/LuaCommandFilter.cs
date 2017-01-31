@@ -452,7 +452,14 @@ namespace ParaEngine.Tools.Lua.VsEditor
 		/// <returns></returns>
 		private int ExecVsHandler(ref Guid pguidCmdGroupRef, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
 		{
-			return VsCommandFilter.Exec(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+            try
+            {
+                return VsCommandFilter.Exec(ref pguidCmdGroupRef, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+            }
+            catch(Exception e)
+            {
+                return VSConstants.S_OK;
+            }
 		}
         
     }
