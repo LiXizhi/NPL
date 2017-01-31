@@ -34,13 +34,14 @@ namespace ParaEngine.Tools.Lua
         /// <param name="span"></param>
         /// <param name="tabSize"></param>
         /// <returns></returns>
-        internal static List<EditSpan> ReformatCode(IVsTextLines pBuffer, int[] indents, TextSpan span, int tabSize)
+        internal static List<EditSpan> ReformatCode(IVsTextLines pBuffer, int[] indents, bool[] commentsAndstrings, TextSpan span, int tabSize)
         {
             Scanner lex = new Scanner();
             List<EditSpan> changeList = new List<EditSpan>();
             string line = "";
             for (int i = span.iStartLine; i <= span.iEndLine; ++i)
             {
+                
                 int startIndex = 0;
                 int endIndex = 0;
                 pBuffer.GetLengthOfLine(i, out endIndex);
@@ -77,6 +78,9 @@ namespace ParaEngine.Tools.Lua
                     firstSpaceSpan.iEndIndex = firstSpaceEnd + 1;
                     changeList.Add(new EditSpan(firstSpaceSpan, indentation));
                 }
+
+                if (commentsAndstrings[i])
+                    continue;
 
                 FormatToken currentToken = new FormatToken((int)token, start, end);
                 FormatToken lastToken = new FormatToken((int)Tokens.EOF, start - 1, start - 1);

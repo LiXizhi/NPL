@@ -162,7 +162,7 @@ Statement
 	}
 	| KWDEF DefParameterList LBRACE TokenList RBRACE
 	{
-		$$ = new DefBlock(@$){ TokenList = $4 };
+		$$ = new DefBlock(@$){ TokenList = new Node(@4) };
 
 		Region(@3, @5);
 	}
@@ -205,7 +205,7 @@ Token
 	  | KWWHILE | KWDEF | LPAREN | RPAREN | LBRACE | RBRACE | LBRACKET | RBRACKET | SEMICOLON 
 	  | COMMA | DOTDOT | EQUAL | PLUS | MINUS | ASTERISK | SLASH | PERCENT | CARET | POUND 
 	  | ELLIPSIS | EQ | NEQ | GT | GTE | LT | LTE | IDENTIFIER | NUMBER | STRING | DOT | COLON
-	{ $$ = new Node(@1); }
+	{ $$ = new Node(@$); }
 	| PLUSLBRACE RawTokenList RBRACE
 	{ $$ = new Node(@2); }
 	;

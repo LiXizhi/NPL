@@ -720,7 +720,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
       case 22: // Statement -> KWDEF DefParameterList LBRACE TokenList RBRACE 
 #line 164 "parser.y"
 			{
-		yyval.node = new DefBlock(yyloc){ TokenList = value_stack.array[value_stack.top-2].node };
+		yyval.node = new DefBlock(yyloc){ TokenList = new Node(location_stack.array[location_stack.top-2]) };
 
 		Region(location_stack.array[location_stack.top-3], location_stack.array[location_stack.top-1]);
 	}
@@ -770,7 +770,7 @@ public partial class Parser: ShiftReduceParser<LexValue, LexLocation>
         break;
       case 82: // Token -> COLON 
 #line 208 "parser.y"
-			{ yyval.node = new Node(location_stack.array[location_stack.top-1]); }
+			{ yyval.node = new Node(yyloc); }
         break;
       case 83: // Token -> PLUSLBRACE RawTokenList RBRACE 
 #line 210 "parser.y"
