@@ -44,6 +44,7 @@ namespace ParaEngine.Tools.Lua
                 if (longStrings[i])
                     continue;
 
+                bool binaryOp = false;
                 int startIndex = 0;
                 int endIndex = 0;
                 pBuffer.GetLengthOfLine(i, out endIndex);
@@ -126,9 +127,8 @@ namespace ParaEngine.Tools.Lua
                             changeList.Add(new EditSpan(spaceEdit, space));
                         }    
                     }
-                    else if(currentToken.token == (int)Tokens.MINUS ||  // binary operators
-                        currentToken.token == (int)Tokens.PLUS ||
-                        currentToken.token == (int)Tokens.ASTERISK ||
+                    else if(currentToken.token == (int)Tokens.PLUS ||   //binary operators
+                        currentToken.token == (int)Tokens.ASTERISK ||   
                         currentToken.token == (int)Tokens.SLASH ||
                         currentToken.token == (int)Tokens.EQUAL)
                     {
@@ -154,6 +154,53 @@ namespace ParaEngine.Tools.Lua
                             spaceEdit.iStartIndex = currentToken.endIndex + 1;
                             spaceEdit.iEndIndex = currentToken.endIndex + 1;
                             changeList.Add(new EditSpan(spaceEdit, space));
+                        }
+                    }
+                    else if((currentToken.token == (int)Tokens.MINUS) &&    //binary operators
+                        binaryOp)
+                    {
+                        if (lastToken.token != (int)Tokens.LEX_WHITE &&
+                            lastToken.token != (int)Tokens.EOF)
+                        {
+                            string space = " ";
+                            TextSpan spaceEdit = new TextSpan();
+                            spaceEdit.iStartLine = i;
+                            spaceEdit.iEndLine = i;
+                            spaceEdit.iStartIndex = currentToken.startIndex;
+                            spaceEdit.iEndIndex = currentToken.startIndex;
+                            changeList.Add(new EditSpan(spaceEdit, space));
+                        }
+
+                        if (nextToken.token != (int)Tokens.LEX_WHITE &&
+                            nextToken.token != (int)Tokens.EOF)
+                        {
+                            string space = " ";
+                            TextSpan spaceEdit = new TextSpan();
+                            spaceEdit.iStartLine = i;
+                            spaceEdit.iEndLine = i;
+                            spaceEdit.iStartIndex = currentToken.endIndex + 1;
+                            spaceEdit.iEndIndex = currentToken.endIndex + 1;
+                            changeList.Add(new EditSpan(spaceEdit, space));
+                        }
+                        binaryOp = false;
+                    }
+                    else if(currentToken.token == (int)Tokens.NUMBER)
+                    {
+                        if(nextToken.token == (int)Tokens.LEX_WHITE)
+                        {
+                            // get new nextToken
+                            token = lex.GetNext(ref state, out start, out end);
+                            if (start > end) break;
+                            if(token == (int)Tokens.PLUS || token == (int)Tokens.MINUS)
+                            {
+                                binaryOp = true;
+                            }
+                            //nextToken = new FormatToken(token, start, end);
+                        }
+                        else if(nextToken.token == (int)Tokens.PLUS || 
+                            nextToken.token == (int)Tokens.MINUS)
+                        {
+                            binaryOp = true;
                         }
                     }
                     else if(currentToken.token == (int)Tokens.LPAREN && 
