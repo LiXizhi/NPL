@@ -17,7 +17,8 @@ namespace ParaEngine.Tools.Lua
     public class LuaSource : Source
     {
         private int[] indents;
-        private bool[] commentsAndstrings;
+        private bool[] comments;
+        private bool[] longStrings;
         /// <summary>
 		/// Initializes a new instance of the <see cref="LuaSource"/> class.
 		/// </summary>
@@ -78,10 +79,12 @@ namespace ParaEngine.Tools.Lua
 
         private void IndentInitialize()
         {
-            indents = new int[GetLineCount()];
-            commentsAndstrings = new bool[GetLineCount()];
+            int line = GetLineCount();
+            indents = new int[line];
+            comments = new bool[line];
+            longStrings = new bool[line];
             Chunk chunk = ParseSource(GetText());
-            GetIndents(chunk, indents, commentsAndstrings);
+            GetIndents(chunk, indents, comments, longStrings);
         }
 
         private void DoFormatting(EditArray mgr, TextSpan span)
@@ -90,7 +93,7 @@ namespace ParaEngine.Tools.Lua
             IVsTextLines pBuffer = GetTextLines();
             if (pBuffer != null)
             {
-                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, indents, commentsAndstrings, span);
+                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, indents, comments, longStrings, span);
                 if (changeList != null)
                 {
                     foreach (EditSpan editSpan in changeList)
@@ -137,7 +140,7 @@ namespace ParaEngine.Tools.Lua
         }
 
         // get indentations for each line
-        private void GetIndents(Chunk chunk, int[] indents, bool[] commentsAndstrings)
+        private void GetIndents(Chunk chunk, int[] indents, bool[] comments, bool[] longStrings)
         {
             // start with -1
             Trace.Write(chunk.GetStringRepresentation());
@@ -148,19 +151,16 @@ namespace ParaEngine.Tools.Lua
             for (int i = 0; i < indents.Length; ++i)
             {
                 indents[i] = -1;
-                commentsAndstrings[i] = false;
+                comments[i] = false;
+                longStrings[i] = false;
             }
                 
-            SetIndent(chunk, currentIndent, indents, commentsAndstrings);
+            SetIndent(chunk, currentIndent, indents, comments, longStrings);
 
             // dealed with unset lines, normally comments or blank lines
             for (int i = indents.Length - 1; i >= 0; --i)
             {
-                //if (indents[i] == -1)
-                //    commentsAndstrings[i] = true;
-                //else if(!commentsAndstrings)
-
-                commentsAndstrings[i] = indents[i] == -1 ? true : commentsAndstrings[i];
+                comments[i] = indents[i] == -1 ? true : comments[i];
                 if (i == indents.Length - 1)
                     indents[i] = indents[i] == -1 ? 0 : indents[i];
                 else
@@ -169,7 +169,7 @@ namespace ParaEngine.Tools.Lua
         }
 
         // recursively set indentation for each line in Ast tree
-        private void SetIndent(Node node, int currentIndent, int[] indents, bool[] commentsAndstrings)
+        private void SetIndent(Node node, int currentIndent, int[] indents, bool[] comments, bool[] longStrings)
         {
             int increment = 0;
             if (node is Block)
@@ -192,7 +192,7 @@ namespace ParaEngine.Tools.Lua
             {
                 // nothing 
             }
-            else if (node is Literal &&                             // Lond strings [[]]
+            else if (node is Literal &&                             // Long strings [[]]
                 ((Literal)node).Type == LuaType.String &&
                 (node.Location.eLin != node.Location.sLin))
             {
@@ -201,7 +201,7 @@ namespace ParaEngine.Tools.Lua
                 for (int i = node.Location.sLin+1; i <= node.Location.eLin; ++i)
                 {
                     indents[i - 1] = 0;
-                    commentsAndstrings[i - 1] = true;
+                    longStrings[i - 1] = true;
                 }
             }
             else
@@ -215,11 +215,11 @@ namespace ParaEngine.Tools.Lua
             foreach (var childNode in node.GetChildNodes())
             {
                 if (childNode != null)
-                    SetIndent(childNode, currentIndent + increment, indents, commentsAndstrings);
+                    SetIndent(childNode, currentIndent + increment, indents, comments, longStrings);
             }
 
             if (node.Next != null)
-                SetIndent(node.Next, currentIndent, indents, commentsAndstrings);
+                SetIndent(node.Next, currentIndent, indents, comments, longStrings);
         }
     }
 }
