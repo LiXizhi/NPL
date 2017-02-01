@@ -56,6 +56,7 @@ namespace ParaEngine.Tools.Lua
                 //rule 4: multiple spaces replaced by a single space
                 //rule 5: no spaces after left parentheses("(") and before right parentheses(")")
                 //rule 6: no spaces between identifier and left parentheses("(")
+                //rule 7: no spaces before and after colon ":"
                 int state = 0, start = 0, end = 0;
                 int firstSpaceEnd = -1;
                 lex.SetSource(line, 0);
@@ -99,7 +100,9 @@ namespace ParaEngine.Tools.Lua
                         if (nextToken.token == (int)Tokens.RPAREN ||        // if meet right paren, remove spaces
                             (nextToken.token == (int)Tokens.LPAREN &&    // rule 6
                             lastToken.token != (int)Tokens.KWFUNCTION) ||
-                            nextToken.token == (int)Tokens.LBRACKET)    
+                            nextToken.token == (int)Tokens.LBRACKET ||
+                            nextToken.token == (int)Tokens.COLON ||
+                            lastToken.token == (int)Tokens.COLON)    
                             SpaceorEmpty = "";
                         TextSpan spaceEdit = new TextSpan();
                         spaceEdit.iStartLine = i;
@@ -170,7 +173,7 @@ namespace ParaEngine.Tools.Lua
                         if (start > end) break;
                         nextToken = new FormatToken(token, start, end);
                     }
-
+   
                     lastToken = currentToken;
                     currentToken = nextToken;        
                 }
