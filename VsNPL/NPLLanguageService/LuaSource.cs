@@ -28,7 +28,7 @@ namespace ParaEngine.Tools.Lua
         public LuaSource(BaseLanguageService service, IVsTextLines textLines, Colorizer colorizer)
 			: base(service, textLines, colorizer)
 		{
-            //IndentInitialize();
+            
 		}
 
         public override void OnIdle(bool periodic)
@@ -37,10 +37,6 @@ namespace ParaEngine.Tools.Lua
             // We're not yet doing an explicit first parse and the MPF assumes that we are. 
             if (this.LastParseTime == Int32.MaxValue)
                 this.LastParseTime = this.LanguageService.Preferences.CodeSenseDelay;
-
-            // Zhiyuan: update the indents when content of text changed
-            //if (IsDirty)
-                //IndentInitialize();
 
             base.OnIdle(periodic);
         }
@@ -146,8 +142,6 @@ namespace ParaEngine.Tools.Lua
             Trace.Write(chunk.GetStringRepresentation());
             int currentIndent = -1;
 
-            //for (int i = 0; i < chunk.Location.sLin - 1; ++i)
-            //    indents[i] = 0;
             for (int i = 0; i < indents.Length; ++i)
             {
                 indents[i] = -1;
@@ -177,8 +171,6 @@ namespace ParaEngine.Tools.Lua
                 increment = 1;
                 if (indents[node.Location.sLin - 1] == -1)
                     indents[node.Location.sLin - 1] = currentIndent;
-                //if (indents[node.Location.eLin - 1] == -1)
-                //    indents[node.Location.eLin - 1] = currentIndent;
             }
             else if (node is DefBlock)
             {
