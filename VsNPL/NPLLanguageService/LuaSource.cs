@@ -18,7 +18,7 @@ namespace ParaEngine.Tools.Lua
     {
         private int[] indents;
         private bool[] comments;
-        private bool[] longStrings;
+        private bool[] unFormat;  //long strings and content in def(){}
         /// <summary>
 		/// Initializes a new instance of the <see cref="LuaSource"/> class.
 		/// </summary>
@@ -78,9 +78,9 @@ namespace ParaEngine.Tools.Lua
             int line = GetLineCount();
             indents = new int[line];
             comments = new bool[line];
-            longStrings = new bool[line];
+            unFormat = new bool[line];
             Chunk chunk = ParseSource(GetText());
-            GetIndents(chunk, indents, comments, longStrings);
+            GetIndents(chunk, indents, comments, unFormat);
         }
 
         private void DoFormatting(EditArray mgr, TextSpan span)
@@ -89,7 +89,7 @@ namespace ParaEngine.Tools.Lua
             IVsTextLines pBuffer = GetTextLines();
             if (pBuffer != null)
             {
-                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, indents, comments, longStrings, span);
+                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, indents, comments, unFormat, span);
                 if (changeList != null)
                 {
                     foreach (EditSpan editSpan in changeList)
@@ -136,7 +136,7 @@ namespace ParaEngine.Tools.Lua
         }
 
         // get indentations for each line
-        private void GetIndents(Chunk chunk, int[] indents, bool[] comments, bool[] longStrings)
+        private void GetIndents(Chunk chunk, int[] indents, bool[] comments, bool[] unFormat)
         {
             // start with -1
             Trace.Write(chunk.GetStringRepresentation());
@@ -146,10 +146,10 @@ namespace ParaEngine.Tools.Lua
             {
                 indents[i] = -1;
                 comments[i] = false;
-                longStrings[i] = false;
+                unFormat[i] = false;
             }
                 
-            SetIndent(chunk, currentIndent, indents, comments, longStrings);
+            SetIndent(chunk, currentIndent, indents, comments, unFormat);
 
             // dealed with unset lines, normally comments or blank lines
             for (int i = indents.Length - 1; i >= 0; --i)
@@ -163,7 +163,7 @@ namespace ParaEngine.Tools.Lua
         }
 
         // recursively set indentation for each line in Ast tree
-        private void SetIndent(Node node, int currentIndent, int[] indents, bool[] comments, bool[] longStrings)
+        private void SetIndent(Node node, int currentIndent, int[] indents, bool[] comments, bool[] unFormat)
         {
             int increment = 0;
             if (node is Block)
@@ -174,11 +174,12 @@ namespace ParaEngine.Tools.Lua
             }
             else if (node is DefBlock)
             {
-                increment = 1;
                 if (indents[node.Location.sLin - 1] == -1)
                     indents[node.Location.sLin - 1] = currentIndent;
                 if (indents[node.Location.eLin - 1] == -1)
                     indents[node.Location.eLin - 1] = currentIndent;
+                for (int i = node.Location.sLin; i < node.Location.eLin - 1; ++i)
+                    unFormat[i] = true;
             }
             else if (node is ThenBlock || node is ElseIfBlock)
             {
@@ -193,7 +194,7 @@ namespace ParaEngine.Tools.Lua
                 for (int i = node.Location.sLin+1; i <= node.Location.eLin; ++i)
                 {
                     indents[i - 1] = 0;
-                    longStrings[i - 1] = true;
+                    unFormat[i - 1] = true;
                 }
             }
             else
@@ -207,11 +208,11 @@ namespace ParaEngine.Tools.Lua
             foreach (var childNode in node.GetChildNodes())
             {
                 if (childNode != null)
-                    SetIndent(childNode, currentIndent + increment, indents, comments, longStrings);
+                    SetIndent(childNode, currentIndent + increment, indents, comments, unFormat);
             }
 
             if (node.Next != null)
-                SetIndent(node.Next, currentIndent, indents, comments, longStrings);
+                SetIndent(node.Next, currentIndent, indents, comments, unFormat);
         }
     }
 }

@@ -34,14 +34,14 @@ namespace ParaEngine.Tools.Lua
         /// <param name="span"></param>
         /// <param name="tabSize"></param>
         /// <returns></returns>
-        internal static List<EditSpan> ReformatCode(IVsTextLines pBuffer, int[] indents, bool[] comments, bool[] longStrings, TextSpan span)
+        internal static List<EditSpan> ReformatCode(IVsTextLines pBuffer, int[] indents, bool[] comments, bool[] unFormat, TextSpan span)
         {
             Scanner lex = new Scanner();
             List<EditSpan> changeList = new List<EditSpan>();
             string line = "";
             for (int i = span.iStartLine; i <= span.iEndLine; ++i)
             {
-                if (longStrings[i])
+                if (unFormat[i])
                     continue;
 
                 bool binaryOp = false;
