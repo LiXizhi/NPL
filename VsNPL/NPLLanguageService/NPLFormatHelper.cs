@@ -34,7 +34,7 @@ namespace ParaEngine.Tools.Lua
         /// <param name="span"></param>
         /// <param name="tabSize"></param>
         /// <returns></returns>
-        internal static List<EditSpan> ReformatCode(IVsTextLines pBuffer, int[] indents, bool[] commentsAndstrings, TextSpan span, int tabSize)
+        internal static List<EditSpan> ReformatCode(IVsTextLines pBuffer, int[] indents, bool[] commentsAndstrings, TextSpan span)
         {
             Scanner lex = new Scanner();
             List<EditSpan> changeList = new List<EditSpan>();
@@ -69,8 +69,8 @@ namespace ParaEngine.Tools.Lua
                 if( !(firstSpaceEnd == -1 && indents[i] == 0))
                 {
                     string indentation = "";
-                    for (int j = 0; j < tabSize * indents[i]; ++j)
-                        indentation = " " + indentation;
+                    for (int j = 0; j < indents[i]; ++j)
+                        indentation = "\t" + indentation;
                     TextSpan firstSpaceSpan = new TextSpan();
                     firstSpaceSpan.iStartLine = i;
                     firstSpaceSpan.iEndLine = i;

@@ -90,7 +90,7 @@ namespace ParaEngine.Tools.Lua
             IVsTextLines pBuffer = GetTextLines();
             if (pBuffer != null)
             {
-                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, indents, commentsAndstrings, span, LanguageService.GetLanguagePreferences().TabSize);
+                List<EditSpan> changeList = NPLFormatHelper.ReformatCode(pBuffer, indents, commentsAndstrings, span);
                 if (changeList != null)
                 {
                     foreach (EditSpan editSpan in changeList)
