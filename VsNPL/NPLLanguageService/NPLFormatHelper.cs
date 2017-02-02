@@ -95,7 +95,8 @@ namespace ParaEngine.Tools.Lua
                     if (start > end) break;
                     FormatToken nextToken = new FormatToken((int)token, start, end);
 
-                    if (currentToken.token == (int)Tokens.LEX_WHITE)    // spaces
+                    if (currentToken.token == (int)Tokens.LEX_WHITE &&
+                        nextToken.token != (int)Tokens.LEX_COMMENT)    // spaces, leave the space before comment
                     {
                         string SpaceorEmpty = " ";
                         if (nextToken.token == (int)Tokens.RPAREN ||        // if meet right paren, remove spaces

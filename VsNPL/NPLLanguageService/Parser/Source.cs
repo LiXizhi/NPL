@@ -10,6 +10,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 ***************************************************************************/
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Package;
 using ParaEngine.Tools.Lua.Parser;
@@ -53,6 +54,27 @@ namespace ParaEngine.Tools.Lua.Parser
 		public override CommentInfo GetCommentFormat()
         {
             return Configuration.MyCommentInfo;
+        }
+
+        /// <summary>
+        /// By Zhiyuan, commenting at the start of each line
+        /// </summary>
+        /// <param name="span"></param>
+        /// <param name="lineComment"></param>
+        /// <returns></returns>
+        public override TextSpan CommentLines(TextSpan span, string lineComment)
+        {
+            for (int i = span.iStartLine; i <= span.iEndLine; ++i)
+            {
+                TextSpan editSpan = new TextSpan();
+                editSpan.iStartLine = i;
+                editSpan.iEndLine = i;
+                editSpan.iStartIndex = 0;
+                editSpan.iEndIndex = 0;
+                SetText(editSpan, lineComment);
+            }
+            span.iEndIndex += lineComment.Length;
+            return span;
         }
     }
 }
