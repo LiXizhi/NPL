@@ -28,9 +28,9 @@
 %}
 
 %token <str> KWAND KWBREAK KWDO KWEND KWELSE KWELSEIF KWFOR KWFALSE KWFUNCTION KWIF
-%token <str> KWIN KWLOCAL KWNOT KWNIL KWOR KWREPEAT KWRETURN KWTHEN KWTRUE KWUNTIL KWWHILE
+%token <str> KWIN KWLOCAL KWNOT KWNIL KWOR KWREPEAT KWRETURN KWTHEN KWTRUE KWUNTIL KWWHILE KWDEF
 
-%token LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOTDOT
+%token LPAREN RPAREN PLUSLBRACE LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOTDOT
 
 %token <str> EQUAL PLUS MINUS ASTERISK SLASH PERCENT CARET POUND ELLIPSIS
 %token <str> EQ NEQ GT GTE LT LTE
@@ -50,6 +50,7 @@
 %type <node> IdentifierList
 %type <node> ParameterList
 %type <node> ThenBlock ElseIfBlockList
+%type <node> TokenList Token RawTokenList RawToken DefParameterList
 
 %left  ASTERISK SLASH PERCENT
 %left  PLUS MINUS
@@ -107,6 +108,12 @@ Statement
 	{
 		$$ = $1;
 	}
+	| FunctionCall LBRACE Block RBRACE
+	{
+		$$ = new FunctionExpression(@$) { FunctionCall = (FunctionCall)$1, Block = (Block)$3 };
+
+		Region(@2, @4);
+	}
 	| KWIF Expression KWTHEN ThenBlock KWEND
 	{
 		$$ = new If(@$) { Expression = $2, ThenBlock = (ThenBlock)$4 };
@@ -153,9 +160,75 @@ Statement
 	{
 		$$ = new Assignment(@$) { VariableList = $2, ExpressionList = $4, IsLocal = true };
 	}
+	| KWDEF DefParameterList LBRACE TokenList RBRACE
+	{
+		$$ = new DefBlock(@$){ TokenList = new Node(@4) };
+
+		Region(@3, @5);
+	}
 	| error
 	{
 	}
+	;
+
+DefParameterList
+	: LPAREN String RPAREN
+	{
+		Match(@1, @3);
+	}
+	| LPAREN String error { Error(@1, "Unmatched parentheses."); }
+	| LPAREN String COMMA IdentifierList RPAREN
+	{
+		$$ = new ParameterList(@$) { IdentifierList = (Identifier)$4 };
+		
+		Match(@1, @5);
+	}
+	| LPAREN String COMMA IdentifierList error { Error(@1, "Unmatched parentheses."); }
+	| LPAREN String COMMA ELLIPSIS RPAREN
+	{
+		Match(@1, @5);
+	}
+	| LPAREN String COMMA ELLIPSIS error { Error(@1, "Unmatched parentheses."); }
+	;
+
+TokenList
+	: /* empty */
+	| TokenList Token
+	{
+		$$ = AppendNode($1, $2);
+	}
+	;
+
+Token
+	: KWAND | KWBREAK | KWDO | KWEND | KWELSE | KWELSEIF | KWFOR | KWFALSE | KWFUNCTION | KWIF
+	  | KWIN | KWLOCAL | KWNOT | KWNIL | KWOR | KWREPEAT | KWRETURN | KWTHEN | KWTRUE | KWUNTIL 
+	  | KWWHILE | KWDEF | LPAREN | RPAREN | LBRACKET | RBRACKET | SEMICOLON 
+	  | COMMA | DOTDOT | EQUAL | PLUS | MINUS | ASTERISK | SLASH | PERCENT | CARET | POUND 
+	  | ELLIPSIS | EQ | NEQ | GT | GTE | LT | LTE | IDENTIFIER | NUMBER | STRING | DOT | COLON
+	{ $$ = new Node(@$); }
+	| PLUSLBRACE RawTokenList RBRACE
+	{ $$ = new Node(@2); }
+	| TableConstructor
+	{ $$ = new Node(@$); }
+	;
+
+RawTokenList
+	: /* empty */
+	| RawTokenList RawToken
+	{
+		$$ = AppendNode($1, $2);
+	}
+	;
+
+RawToken
+	: KWAND | KWBREAK | KWDO | KWEND | KWELSE | KWELSEIF | KWFOR | KWFALSE | KWFUNCTION | KWIF
+	  | KWIN | KWLOCAL | KWNOT | KWNIL | KWOR | KWREPEAT | KWRETURN | KWTHEN | KWTRUE | KWUNTIL 
+	  | KWWHILE | KWDEF | LPAREN | RPAREN | LBRACKET | RBRACKET | SEMICOLON 
+	  | COMMA | DOTDOT | EQUAL | PLUS | MINUS | ASTERISK | SLASH | PERCENT | CARET | POUND 
+	  | ELLIPSIS | EQ | NEQ | GT | GTE | LT | LTE | IDENTIFIER | NUMBER | STRING | DOT | COLON
+	{ $$ = new Node(@1); }
+	| TableConstructor
+	{ $$ = new Node(@$); }
 	;
 
 ThenBlock

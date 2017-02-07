@@ -195,6 +195,8 @@
     <Compile Include="AST\Break.cs" />
     <Compile Include="AST\Chunk.cs" />
     <Compile Include="AST\DeclarationProviderExtensions.cs" />
+    <Compile Include="AST\DefBlock.cs" />
+    <Compile Include="AST\FunctionExpression.cs" />
     <Compile Include="AST\LuaDeclaredType.cs" />
     <Compile Include="AST\ElseIfBlock.cs" />
     <Compile Include="AST\ExplicitBlock.cs" />

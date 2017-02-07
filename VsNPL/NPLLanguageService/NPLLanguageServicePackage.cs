@@ -67,6 +67,7 @@ namespace ParaEngine.NPLLanguageService
         CodeSense = true,
         EnableCommenting = true,
         MatchBraces = true,
+        MatchBracesAtCaret = true,
         ShowCompletion = true,
         ShowMatchingBrace = true,
         AutoOutlining = true,
