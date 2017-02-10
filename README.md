@@ -1,7 +1,5 @@
 ## NPL
-<a href="https://ci.appveyor.com/project/DarrenGZY/npl-bv2su">
-<img  src="https://ci.appveyor.com/api/projects/status/github/LiXizhi/NPL?branch=master&svg=true">
-</a>
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/LiXizhi/NPL?branch=master&svg=true)](https://ci.appveyor.com/project/DarrenGZY/npl-bv2su)
 
 NPL/Lua Language Service and debugger (attach to process)
 
