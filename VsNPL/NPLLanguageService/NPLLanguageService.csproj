@@ -279,6 +279,7 @@
     <Compile Include="AST\ParameterList.cs" />
     <Compile Include="AST\RepeatUntilLoop.cs" />
     <Compile Include="AST\WhileLoop.cs" />
+    <Compile Include="CommandDoc.cs" />
     <Compile Include="DeclarationAuthoringScope.cs" />
     <Compile Include="CodeSense\FrameXmlDeclarationParser.cs" />
     <Compile Include="CodeSense\ICodeSenseDeclarationProvider.cs" />
