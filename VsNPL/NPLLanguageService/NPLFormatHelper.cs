@@ -41,7 +41,7 @@ namespace ParaEngine.Tools.Lua
             string line = "";
             for (int i = span.iStartLine; i <= span.iEndLine; ++i)
             {
-                if (unFormat[i])
+                if (unFormat[i] || comments[i])
                     continue;
 
                 bool binaryOp = false;
@@ -83,8 +83,7 @@ namespace ParaEngine.Tools.Lua
                     changeList.Add(new EditSpan(firstSpaceSpan, indentation));
                 }
 
-                if (comments[i])
-                    continue;
+                
 
                 FormatToken currentToken = new FormatToken((int)token, start, end);
                 FormatToken lastToken = new FormatToken((int)Tokens.EOF, start - 1, start - 1);
