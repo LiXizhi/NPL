@@ -37,11 +37,11 @@ namespace NPLProject
         }
         public override Guid ProjectGuid
         {
-            get { return Guids.guidSimpleProjectFactory; }
+            get { return Guids.guidNPLProjectFactory; }
         }
         public override string ProjectType
         {
-            get { return "SimpleProjectType"; }
+            get { return "NPLProjectType"; }
         }
 
         public override void AddFileFromTemplate(

@@ -63,7 +63,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ZipProject Include="Templates\Projects\NPLProject\NPLProject.vstemplate" />
+    <Content Include="Templates\ProjectItems\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <ZipProject Include="Templates\Projects\3DApp\3D.ico">
+      <OutputSubPath>NPL 3D Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\3DApp\3D.nplproj">
+      <OutputSubPath>NPL 3D Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\3DApp\3D.vstemplate">
+      <OutputSubPath>NPL 3D Application</OutputSubPath>
+    </ZipProject>
+    <None Include="Templates\ProjectItems\JSON.json" />
+    <ZipProject Include="Templates\Projects\3DApp\3D.npl">
+      <OutputSubPath>NPL 3D Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\ConsoleApp\NPLProject.vstemplate">
+      <OutputSubPath>Console Application</OutputSubPath>
+    </ZipProject>
     <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
@@ -73,13 +91,19 @@
     <Content Include="Resources\NPLProjectNode.bmp" />
     <Content Include="Resources\NPLProjectNode.ico" />
     <Content Include="Resources\NPLProjectPackage.ico" />
-    <ZipProject Include="Templates\Projects\NPLProject\main.npl" />
+    <ZipProject Include="Templates\Projects\ConsoleApp\main.npl">
+      <OutputSubPath>Console Application</OutputSubPath>
+    </ZipProject>
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="stylesheet.css" />
-    <ZipProject Include="Templates\Projects\NPLProject\NPLProject.ico" />
-    <ZipProject Include="Templates\Projects\NPLProject\NPLProject.nplproj" />
+    <ZipProject Include="Templates\Projects\ConsoleApp\NPLProject.ico">
+      <OutputSubPath>Console Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\ConsoleApp\NPLProject.nplproj">
+      <OutputSubPath>Console Application</OutputSubPath>
+    </ZipProject>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

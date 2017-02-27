@@ -36,6 +36,7 @@ namespace NPLProject
     [ProvideProjectFactory(typeof(NPLProjectFactory), null,
     "NPL Project Files (*.nplproj);*.nplproj", "nplproj", "nplproj",
     ".\\NullPath", LanguageVsTemplate = "NPLProject")]
+    [ProvideProjectItem(typeof(NPLProjectFactory), "My Items", @"..\..\Templates\ProjectItems", 500)]
     [Guid(Guids.guidNPLProjectPkgString)]
     public sealed class NPLProjectPackage : ProjectPackage
     {

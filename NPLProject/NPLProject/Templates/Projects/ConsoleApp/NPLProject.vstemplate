@@ -1,0 +1,19 @@
+﻿<VSTemplate Version="2.0.0" Type="Project"
+    xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Console Application</Name>
+    <Description>
+      A project for creating a NPLProject application
+    </Description>
+    <Icon>NPLProject.ico</Icon>
+    <ProjectType>NPLProject</ProjectType>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="NPLProject.nplproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true">
+        main.npl
+      </ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
