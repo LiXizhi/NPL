@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="a85e31a8-79a8-4028-b3e0-6e8923873197" Version="2.2.6" Language="en-US" Publisher="LiXizhi" />
+    <Identity Id="a85e31a8-79a8-4028-b3e0-6e8923873197" Version="2.2.7" Language="en-US" Publisher="LiXizhi" />
     <DisplayName>NPL_LuaLanguageService</DisplayName>
     <Description>NPL/Lua language service for visual studio</Description>
   </Metadata>
