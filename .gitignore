@@ -17,3 +17,4 @@ ipch/
 packages/
 *.htm
 Backup1/
+.gitattributes
