@@ -60,26 +60,52 @@
     <Compile Include="NPLProjectFactory.cs" />
     <Compile Include="NPLProjectNode.cs" />
     <Compile Include="NPLProjectPackage.cs" />
+    <Compile Include="NPLPropertyPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\ProjectItems\index.html">
+    <ZipItem Include="Templates\ProjectItems\XML\XML.vstemplate" />
+    <Content Include="Templates\ProjectItems\XML\XML.xml" />
+    <ZipItem Include="Templates\ProjectItems\XML\XML.ico" />
+    <ZipItem Include="Templates\ProjectItems\Lua\Lua.vstemplate" />
+    <ZipItem Include="Templates\ProjectItems\npl\npl.npl" />
+    <ZipItem Include="Templates\ProjectItems\npl\npl.ico" />
+    <ZipItem Include="Templates\ProjectItems\npl\npl.vstemplate" />
+    <ZipItem Include="Templates\ProjectItems\Lua\Lua.ico" />
+    <ZipItem Include="Templates\ProjectItems\Json\Json.ico" />
+    <ZipItem Include="Templates\ProjectItems\Json\Json.vstemplate" />
+    <ZipItem Include="Templates\ProjectItems\HTML\HTML.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <ZipProject Include="Templates\Projects\3DApp\3D.ico">
+    </ZipItem>
+    <ZipItem Include="Templates\ProjectItems\HTML\HTML.ico" />
+    <ZipItem Include="Templates\ProjectItems\HTML\HTML.vstemplate" />
+    <ZipItem Include="Templates\ProjectItems\Lua\Lua.lua" />
+    <ZipProject Include="Templates\Projects\WebApplication\WebApplication.ico">
+      <OutputSubPath>Web Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\WebApplication\WebApplication.vstemplate">
+      <OutputSubPath>Web Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\WebApplication\main.npl">
+      <OutputSubPath>Web Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\WebApplication\WebApplication.nplproj">
+      <OutputSubPath>Web Application</OutputSubPath>
+    </ZipProject>
+    <ZipProject Include="Templates\Projects\3DApplication\3DApplication.ico">
       <OutputSubPath>NPL 3D Application</OutputSubPath>
     </ZipProject>
-    <ZipProject Include="Templates\Projects\3DApp\3D.nplproj">
+    <ZipProject Include="Templates\Projects\3DApplication\3DApplication.nplproj">
       <OutputSubPath>NPL 3D Application</OutputSubPath>
     </ZipProject>
-    <ZipProject Include="Templates\Projects\3DApp\3D.vstemplate">
+    <ZipProject Include="Templates\Projects\3DApplication\3DApplication.vstemplate">
       <OutputSubPath>NPL 3D Application</OutputSubPath>
     </ZipProject>
-    <None Include="Templates\ProjectItems\JSON.json" />
-    <ZipProject Include="Templates\Projects\3DApp\3D.npl">
+    <ZipItem Include="Templates\ProjectItems\Json\Json.json" />
+    <ZipProject Include="Templates\Projects\3DApplication\main.npl">
       <OutputSubPath>NPL 3D Application</OutputSubPath>
     </ZipProject>
-    <ZipProject Include="Templates\Projects\ConsoleApp\NPLProject.vstemplate">
+    <ZipProject Include="Templates\Projects\ConsoleApplication\ConsoleApplication.vstemplate">
       <OutputSubPath>Console Application</OutputSubPath>
     </ZipProject>
     <None Include="Key.snk" />
@@ -91,17 +117,17 @@
     <Content Include="Resources\NPLProjectNode.bmp" />
     <Content Include="Resources\NPLProjectNode.ico" />
     <Content Include="Resources\NPLProjectPackage.ico" />
-    <ZipProject Include="Templates\Projects\ConsoleApp\main.npl">
+    <ZipProject Include="Templates\Projects\ConsoleApplication\main.npl">
       <OutputSubPath>Console Application</OutputSubPath>
     </ZipProject>
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="stylesheet.css" />
-    <ZipProject Include="Templates\Projects\ConsoleApp\NPLProject.ico">
+    <ZipProject Include="Templates\Projects\ConsoleApplication\ConsoleApplication.ico">
       <OutputSubPath>Console Application</OutputSubPath>
     </ZipProject>
-    <ZipProject Include="Templates\Projects\ConsoleApp\NPLProject.nplproj">
+    <ZipProject Include="Templates\Projects\ConsoleApplication\ConsoleApplication.nplproj">
       <OutputSubPath>Console Application</OutputSubPath>
     </ZipProject>
   </ItemGroup>

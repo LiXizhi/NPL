@@ -44,6 +44,19 @@ namespace NPLProject
             get { return "NPLProjectType"; }
         }
 
+        protected override Guid[] GetConfigurationIndependentPropertyPages()
+        {
+            Guid[] result = new Guid[1];
+            result[0] = typeof(NPLPropertyPage).GUID;
+            return result;
+        }
+        protected override Guid[] GetPriorityProjectDesignerPages()
+        {
+            Guid[] result = new Guid[1];
+            result[0] = typeof(NPLPropertyPage).GUID;
+            return result;
+        }
+
         public override void AddFileFromTemplate(
             string source, string target)
         {

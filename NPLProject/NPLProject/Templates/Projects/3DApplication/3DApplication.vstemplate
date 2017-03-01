@@ -1,0 +1,19 @@
+﻿<VSTemplate Version="2.0.0" Type="Project"
+    xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>3D Application</Name>
+    <Description>
+      A project for creating a 3D application in npl
+    </Description>
+    <ProjectType>NPL</ProjectType>
+    <Icon>3D.ico</Icon>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="3D.nplproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true">
+        3D.npl
+      </ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

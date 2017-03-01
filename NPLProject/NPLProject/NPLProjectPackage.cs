@@ -35,9 +35,10 @@ namespace NPLProject
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideProjectFactory(typeof(NPLProjectFactory), null,
     "NPL Project Files (*.nplproj);*.nplproj", "nplproj", "nplproj",
-    ".\\NullPath", LanguageVsTemplate = "NPLProject")]
-    [ProvideProjectItem(typeof(NPLProjectFactory), "My Items", @"..\..\Templates\ProjectItems", 500)]
+    ".\\NullPath", LanguageVsTemplate = "NPL")]
+    [ProvideProjectItem(typeof(NPLProjectFactory), "NPL Items", ".\\NullPath", 500)]
     [Guid(Guids.guidNPLProjectPkgString)]
+    [ProvideObject(typeof(NPLPropertyPage))]
     public sealed class NPLProjectPackage : ProjectPackage
     {
         /// <summary>

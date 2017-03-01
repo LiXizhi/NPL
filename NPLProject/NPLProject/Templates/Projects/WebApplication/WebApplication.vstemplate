@@ -1,19 +1,20 @@
 ﻿<VSTemplate Version="2.0.0" Type="Project"
     xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
   <TemplateData>
-    <Name>3D Application</Name>
+    <Name>Web Application</Name>
     <Description>
-      A project for creating a 3D application in npl
+      A project for creating a Web application
     </Description>
-    <ProjectType>NPLProject</ProjectType>
-    <Icon>3D.ico</Icon>
+    <Icon>WebApplication.ico</Icon>
+    <ProjectType>NPL</ProjectType>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
   </TemplateData>
   <TemplateContent>
-    <Project File="3D.nplproj" ReplaceParameters="true">
+    <Project File="WebApplication.nplproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" OpenInEditor="true">
-        3D.npl
+        main.npl
       </ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
+
