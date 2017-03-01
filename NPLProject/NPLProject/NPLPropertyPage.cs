@@ -1,72 +1,95 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.OLE.Interop;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Project;
-using System.ComponentModel;
+using System.Drawing;
 
 namespace NPLProject
 {
-    [ComVisible(true)]
-    [Guid("F30D83A9-D13E-4FF2-A7BD-3685618EFA89")]
-    public class NPLPropertyPage : SettingsPage
+    [Guid("BE2402BF-92AC-4467-9455-E9615D8F569F")]
+    public class NPLPropertyPage : IPropertyPage
     {
-        private string assemblyName;
-        private OutputType outputType;
-        private string defaultNamespace;
-
+        private readonly NPLPropertyPageControl _control;
         public NPLPropertyPage()
         {
-            this.Name = "General";
+            _control = new NPLPropertyPageControl(this);
         }
 
-        [Category("AssemblyName")]
-        [DisplayName("AssemblyName")]
-        [Description("The output file holding assembly metadata.")]
-        public string AssemblyName
+        #region IPropertyPage
+        void IPropertyPage.Activate(IntPtr hWndParent, RECT[] pRect, int bModal)
         {
-            get { return this.assemblyName; }
-        }
-        [Category("Application")]
-        [DisplayName("OutputType")]
-        [Description("The type of application to build.")]
-        public OutputType OutputType
-        {
-            get { return this.outputType; }
-            set { this.outputType = value; this.IsDirty = true; }
-        }
-        [Category("Application")]
-        [DisplayName("DefaultNamespace")]
-        [Description("Specifies the default namespace for added items.")]
-        public string DefaultNamespace
-        {
-            get { return this.defaultNamespace; }
-            set { this.defaultNamespace = value; this.IsDirty = true; }
+            NativeMethods.SetParent(_control.Handle, hWndParent);
         }
 
-        protected override void BindProperties()
+        int IPropertyPage.Apply()
         {
-            this.assemblyName = this.ProjectMgr.GetProjectProperty(
-                "AssemblyName", true);
-            this.defaultNamespace = this.ProjectMgr.GetProjectProperty(
-                "RootNamespace", false);
-
-            string outputType = this.ProjectMgr.GetProjectProperty(
-                "OutputType", false);
-            this.outputType =
-                (OutputType)Enum.Parse(typeof(OutputType), outputType);
-        }
-
-        protected override int ApplyChanges()
-        {
-            this.ProjectMgr.SetProjectProperty(
-                "AssemblyName", this.assemblyName);
-            this.ProjectMgr.SetProjectProperty(
-                "OutputType", this.outputType.ToString());
-            this.ProjectMgr.SetProjectProperty(
-                "RootNamespace", this.defaultNamespace);
-            this.IsDirty = false;
-
             return VSConstants.S_OK;
         }
+
+        void IPropertyPage.Deactivate()
+        {
+            
+        }
+
+        void IPropertyPage.GetPageInfo(PROPPAGEINFO[] pPageInfo)
+        {
+            PROPPAGEINFO info = new PROPPAGEINFO();
+
+            info.cb = (uint)Marshal.SizeOf(typeof(PROPPAGEINFO));
+            info.dwHelpContext = 0;
+            info.pszDocString = null;
+            info.pszHelpFile = null;
+            info.pszTitle = "General";
+            info.SIZE.cx = _control.Width;
+            info.SIZE.cy = _control.Height;
+            pPageInfo[0] = info;
+        }
+
+        void IPropertyPage.Help(string pszHelpDir)
+        {
+            
+        }
+
+        int IPropertyPage.IsPageDirty()
+        {
+            return VSConstants.S_OK;
+        }
+
+        void IPropertyPage.Move(RECT[] pRect)
+        {
+            RECT r = pRect[0];
+
+            _control.Location = new Point(r.left, r.top);
+            _control.Size = new Size(r.right - r.left, r.bottom - r.top);
+        }
+
+        void IPropertyPage.SetObjects(uint cObjects, object[] ppunk)
+        {
+            if (ppunk == null)
+            {
+                return;
+            }
+        }
+
+        void IPropertyPage.SetPageSite(IPropertyPageSite pPageSite)
+        {
+            
+        }
+
+        void IPropertyPage.Show(uint nCmdShow)
+        {
+            _control.Visible = true;
+            _control.Show();
+        }
+
+        int IPropertyPage.TranslateAccelerator(MSG[] pMsg)
+        {
+            return VSConstants.S_OK;
+        }
+        #endregion
     }
 }

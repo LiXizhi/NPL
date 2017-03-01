@@ -56,11 +56,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="CommonProjectNodeProperties.cs" />
+    <None Include="CommonPropertyPage.cs" />
+    <Compile Include="GeneralPropertyPage.cs" />
     <Compile Include="Guids.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="NPLProjectFactory.cs" />
     <Compile Include="NPLProjectNode.cs" />
+    <Compile Include="NPLProjectNodeProperties.cs" />
     <Compile Include="NPLProjectPackage.cs" />
     <Compile Include="NPLPropertyPage.cs" />
+    <Compile Include="NPLPropertyPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NPLPropertyPageControl.Designer.cs">
+      <DependentUpon>NPLPropertyPageControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +140,7 @@
     </ZipProject>
     <ZipProject Include="Templates\Projects\ConsoleApplication\ConsoleApplication.nplproj">
       <OutputSubPath>Console Application</OutputSubPath>
+      <SubType>Designer</SubType>
     </ZipProject>
   </ItemGroup>
   <ItemGroup>
@@ -234,12 +246,16 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="NPLPropertyPageControl.resx">
+      <DependentUpon>NPLPropertyPageControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
