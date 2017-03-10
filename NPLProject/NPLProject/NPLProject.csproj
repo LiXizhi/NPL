@@ -56,10 +56,55 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="CommonProjectNodeProperties.cs" />
-    <None Include="CommonPropertyPage.cs" />
-    <Compile Include="GeneralPropertyPage.cs" />
+    <Compile Include="Debugger\BreakpointEventArgs.cs" />
+    <Compile Include="Debugger\BreakpointHitEventArgs.cs" />
+    <Compile Include="Debugger\DebugConnectionListener.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7BoundBreakpoint.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7BreakpointResolution.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7DocumentContext.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7Engine.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7EngineEventArgs.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7Enums.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7Events.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7MemoryAddress.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7Module.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7PendingBreakpoint.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7ProgramNode.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7ProgramProvider.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7Property.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7StackFrame.cs" />
+    <Compile Include="Debugger\DebugEngine\AD7Thread.cs" />
+    <Compile Include="Debugger\DebugEngine\BreakpointManager.cs" />
+    <Compile Include="Debugger\DebugEngine\DebuggerConstants.cs" />
+    <Compile Include="Debugger\DebugEngine\EngineUtils.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteDebugPort.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteDebugPortSupplier.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteDebugProcess.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteDebugProgram.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteEnumDebug.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteEnumDebugProcesses.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteEnumDebugPrograms.cs" />
+    <Compile Include="Debugger\DebugEngine\Remote\LuaRemoteProcess.cs" />
+    <Compile Include="Debugger\DebugEngine\UncalculatedAD7Expression.cs" />
+    <Compile Include="Debugger\ExceptionRaisedEventArgs.cs" />
+    <Compile Include="Debugger\Extensions.cs" />
+    <Compile Include="Debugger\FrameKind.cs" />
+    <Compile Include="Debugger\IdDispenser.cs" />
+    <Compile Include="Debugger\LuaBreakpoint.cs" />
+    <Compile Include="Debugger\LuaDebugOptions.cs" />
+    <Compile Include="Debugger\LuaEvaluationResult.cs" />
+    <Compile Include="Debugger\LuaException.cs" />
+    <Compile Include="Debugger\LuaModule.cs" />
+    <Compile Include="Debugger\LuaProcess.cs" />
+    <Compile Include="Debugger\LuaStackFrame.cs" />
+    <Compile Include="Debugger\LuaThread.cs" />
+    <Compile Include="Debugger\ModuleLoadedEventArgs.cs" />
+    <Compile Include="Debugger\OnPortOpenedHandler.cs" />
+    <Compile Include="Debugger\OutputEventArgs.cs" />
+    <Compile Include="Debugger\ProcessExitedEventArgs.cs" />
+    <Compile Include="Debugger\ThreadEventArgs.cs" />
     <Compile Include="Guids.cs" />
+    <Compile Include="LuaDebug.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="NPLProjectFactory.cs" />
     <Compile Include="NPLProjectNode.cs" />
@@ -102,6 +147,7 @@
     </ZipProject>
     <ZipProject Include="Templates\Projects\WebApplication\WebApplication.nplproj">
       <OutputSubPath>Web Application</OutputSubPath>
+      <SubType>Designer</SubType>
     </ZipProject>
     <ZipProject Include="Templates\Projects\3DApplication\3DApplication.ico">
       <OutputSubPath>NPL 3D Application</OutputSubPath>
@@ -162,6 +208,8 @@
     <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.Debugger.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Debugger.InteropA, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Designer.Interfaces, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
