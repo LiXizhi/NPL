@@ -84,6 +84,8 @@
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="Resources\CommandRun.png" />
+    <EmbeddedResource Include="Resources\Solution.png" />
+    <EmbeddedResource Include="Resources\imagelis.bmp" />
     <Content Include="Templates\ProjectItems\XML\XML.xml" />
     <ZipItem Include="Templates\ProjectItems\XML\XML.ico" />
     <ZipItem Include="Templates\ProjectItems\Lua\Lua.vstemplate" />
@@ -120,6 +122,7 @@
     </ZipProject>
     <ZipProject Include="Templates\Projects\3DApplication\3DApplication.vstemplate">
       <OutputSubPath>NPL 3D Application</OutputSubPath>
+      <SubType>Designer</SubType>
     </ZipProject>
     <ZipItem Include="Templates\ProjectItems\Json\Json.json" />
     <ZipProject Include="Templates\Projects\3DApplication\main.npl">
@@ -130,10 +133,6 @@
     </ZipProject>
     <None Include="Key.snk" />
     <None Include="packages.config" />
-    <Content Include="ProjectTemplates\3DApplication.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

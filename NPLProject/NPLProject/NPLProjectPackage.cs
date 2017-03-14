@@ -11,7 +11,6 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using Microsoft.VisualStudioTools.Project;
 using Microsoft.VisualStudioTools;
-using Microsoft.VisualStudioTools.Project;
 
 namespace NPLTools.Project
 {
@@ -71,37 +70,42 @@ namespace NPLTools.Project
 
         public override CommonEditorFactory CreateEditorFactory()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override ProjectFactory CreateProjectFactory()
         {
-            throw new NotImplementedException();
+            return new NPLProjectFactory(this);
+        }
+
+        public override CommonEditorFactory CreateEditorFactoryPromptForEncoding()
+        {
+            return null;
         }
 
         public override uint GetIconIdForAboutBox()
         {
-            throw new NotImplementedException();
+            return 400;
         }
 
         public override uint GetIconIdForSplashScreen()
         {
-            throw new NotImplementedException();
+            return 300;
         }
 
         public override string GetProductDescription()
         {
-            throw new NotImplementedException();
+            return "npl";
         }
 
         public override string GetProductName()
         {
-            throw new NotImplementedException();
+            return "npl";
         }
 
         public override string GetProductVersion()
         {
-            throw new NotImplementedException();
+            return "1.0";
         }
 
         /// <summary>

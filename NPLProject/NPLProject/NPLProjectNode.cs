@@ -76,7 +76,7 @@ namespace NPLTools.Project
         */
         public NPLProjectNode(CommonProjectPackage package)
             //            : base(package, Utilities.GetImageList(typeof(LuaProjectNode).Assembly.GetManifestResourceStream(LuaConstants.ProjectImageList))) {
-            : base(package, Utilities.GetImageList(typeof(NPLProjectNode).Assembly.GetManifestResourceStream("Microsoft.LuaTools.Resources.Solution.png")))//Images.png
+            : base(package, Utilities.GetImageList(new FileStream("../../Resources/Solution.png", FileMode.Open)))//Images.png
         {
             /*
                         Type projectNodePropsType = typeof(LuaProjectNodeProperties);
@@ -139,7 +139,7 @@ namespace NPLTools.Project
         {
             get
             {
-                return typeof(ProjectNode).Assembly.GetManifestResourceStream("Microsoft.LuaTools.Resources.imagelis.bmp");
+                return new FileStream("../../Resources/imagelis.bmp", FileMode.Open);
             }
         }
         /*
@@ -210,7 +210,7 @@ namespace NPLTools.Project
         {
             get
             {
-                return new[] { LuaConstants.FileExtension, LuaConstants.WindowsFileExtension };
+                return new[] { LuaConstants.FileExtension, ".npl"};
             }
         }
 
@@ -219,7 +219,7 @@ namespace NPLTools.Project
             var ext = Path.GetExtension(strFileName);
 
             return String.Equals(ext, LuaConstants.FileExtension, StringComparison.OrdinalIgnoreCase) ||
-                String.Equals(ext, LuaConstants.WindowsFileExtension, StringComparison.OrdinalIgnoreCase);
+                String.Equals(ext, ".npl", StringComparison.OrdinalIgnoreCase);
         }
 
         public override Type GetProjectFactoryType()
@@ -229,7 +229,7 @@ namespace NPLTools.Project
 
         public override string GetProjectName()
         {
-            return "LuaProject";
+            return "NPLProject";
         }
 
         public override string GetFormatList()

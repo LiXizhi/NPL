@@ -10,9 +10,9 @@
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
   </TemplateData>
   <TemplateContent>
-    <Project File="3D.nplproj" ReplaceParameters="true">
+    <Project File="3DApplication.nplproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" OpenInEditor="true">
-        3D.npl
+        main.npl
       </ProjectItem>
     </Project>
   </TemplateContent>
