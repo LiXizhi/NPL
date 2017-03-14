@@ -9,9 +9,11 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
-using Microsoft.VisualStudio.Project;
+using Microsoft.VisualStudioTools.Project;
+using Microsoft.VisualStudioTools;
+using Microsoft.VisualStudioTools.Project;
 
-namespace NPLProject
+namespace NPLTools.Project
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -39,12 +41,15 @@ namespace NPLProject
     [ProvideProjectItem(typeof(NPLProjectFactory), "NPL Items", ".\\NullPath", 500)]
     [Guid(Guids.guidNPLProjectPkgString)]
     [ProvideObject(typeof(NPLPropertyPage))]
-    public sealed class NPLProjectPackage : ProjectPackage
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    public sealed class NPLProjectPackage : CommonProjectPackage
     {
         /// <summary>
         /// NPLProjectPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "341ba1ac-a1ce-4ab3-b281-ae5dc002f09a";
+
+        public string nplExePath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NPLProjectPackage"/> class.
@@ -56,12 +61,47 @@ namespace NPLProject
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
         }
-
+        
         #region Package Members
 
-        public override string ProductUserContext
+        //public override string ProductUserContext
+        //{
+        //    get { return ""; }
+        //}
+
+        public override CommonEditorFactory CreateEditorFactory()
         {
-            get { return ""; }
+            throw new NotImplementedException();
+        }
+
+        public override ProjectFactory CreateProjectFactory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override uint GetIconIdForAboutBox()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override uint GetIconIdForSplashScreen()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetProductDescription()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetProductName()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetProductVersion()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -72,6 +112,7 @@ namespace NPLProject
         {
             base.Initialize();
             this.RegisterProjectFactory(new NPLProjectFactory(this));
+            CommandRun.Initialize(this);
         }
 
         #endregion

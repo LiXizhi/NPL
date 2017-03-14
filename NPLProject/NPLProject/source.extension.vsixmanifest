@@ -14,5 +14,6 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset d:Source="Project" Type="Microsoft.VisualStudio.MefComponent" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
   </Assets>
 </PackageManifest>

@@ -1,4 +1,4 @@
-﻿namespace NPLProject
+﻿namespace NPLTools.Project
 {
     partial class NPLPropertyPageControl
     {

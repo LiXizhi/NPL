@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NPLProject
+namespace NPLTools.Project
 {
     static class Guids
     {
@@ -14,7 +14,8 @@ namespace NPLProject
             "DD092ECF-972B-471B-AA9B-20845E1DFE4C";
         public const string guidNPLProjectFactoryString =
             "AFCF7665-3223-4967-A133-AD0F059C8014";
-
+        public const string ProjectNodeGuid =
+            "C0A64257-C203-4F7B-923D-0679CDCA1EA2";
         public static readonly Guid guidNPLProjectCmdSet =
             new Guid(guidNPLProjectCmdSetString);
         public static readonly Guid guidNPLProjectFactory =

@@ -7,8 +7,9 @@ using Microsoft.VisualStudio.OLE.Interop;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using System.Drawing;
+using Microsoft.VisualStudioTools.Project;
 
-namespace NPLProject
+namespace NPLTools.Project
 {
     [Guid("BE2402BF-92AC-4467-9455-E9615D8F569F")]
     public class NPLPropertyPage : IPropertyPage

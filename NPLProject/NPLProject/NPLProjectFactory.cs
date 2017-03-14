@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Project;
+using Microsoft.VisualStudioTools.Project;
 using IOleServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
 
-namespace NPLProject
+namespace NPLTools.Project
 {
     [Guid(Guids.guidNPLProjectFactoryString)]
     class NPLProjectFactory : ProjectFactory
@@ -17,7 +17,7 @@ namespace NPLProject
             this.package = package;
         }
 
-        protected override ProjectNode CreateProject()
+        internal override ProjectNode CreateProject()
         {
             NPLProjectNode project = new NPLProjectNode(this.package);
 

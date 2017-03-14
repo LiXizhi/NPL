@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NPLProject
+namespace NPLTools.Project
 {
     public partial class NPLPropertyPageControl : UserControl
     {
@@ -17,9 +17,14 @@ namespace NPLProject
             InitializeComponent();
         }
 
+        public string nplExePath
+        {
+            get { return _nplExePath.Text; }
+        }
+
         private void NPLPathChanged(object sender, EventArgs e)
         {
-
+            this._nplExePath.Text = "";
         }
 
         private void NPLPathButtonClicked(object sender, EventArgs e)
