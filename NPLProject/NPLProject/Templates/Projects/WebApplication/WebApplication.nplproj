@@ -5,7 +5,7 @@
     <NPLExePath></NPLExePath>
     <NPLArguments></NPLArguments>
     <StartupFile></StartupFile>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory></WorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

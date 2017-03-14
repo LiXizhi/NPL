@@ -6,7 +6,7 @@
     <NPLOptions></NPLOptions>
     <StartupFile></StartupFile>
     <Arguments></Arguments>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory></WorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

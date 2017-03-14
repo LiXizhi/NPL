@@ -32,11 +32,12 @@ namespace NPLTools.Project
         {
             string nplExePath = GetExePath();
             string startupFile = GetStartupFile();
+            string dir = GetWorkingDir();
             var psi = new ProcessStartInfo();
             psi.UseShellExecute = false;
             psi.FileName = nplExePath;
             psi.Arguments = startupFile;
-            psi.WorkingDirectory = @"D:\NPLTest";
+            psi.WorkingDirectory = dir;
             var process = Process.Start(psi);
             return VSConstants.S_OK;
         }
@@ -49,6 +50,16 @@ namespace NPLTools.Project
         private string GetStartupFile()
         {
             return _project.GetProjectProperty(NPLProjectConstants.StartupFile);
+        }
+
+        private string GetWorkingDir()
+        {
+            string dir = _project.GetProjectProperty(NPLProjectConstants.WorkingDirectory);
+            if(string.IsNullOrEmpty(dir))
+            {
+                dir = _project.ProjectHome;
+            }
+            return dir;
         }
     }
 }
