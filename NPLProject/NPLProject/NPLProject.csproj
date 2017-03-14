@@ -64,6 +64,7 @@
     <Compile Include="LuaConstants.cs" />
     <Compile Include="LuaDebug.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="NPLProjectConstants.cs" />
     <Compile Include="NPLProjectFactory.cs" />
     <Compile Include="NPLProjectLauncher.cs" />
     <Compile Include="NPLProjectNode.cs" />

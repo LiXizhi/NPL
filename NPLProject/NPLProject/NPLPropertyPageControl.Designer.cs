@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this._nplExePath = new System.Windows.Forms.TextBox();
-            this.nplExeArguments = new System.Windows.Forms.TextBox();
+            this._nplExeOptions = new System.Windows.Forms.TextBox();
             this._scriptFile = new System.Windows.Forms.TextBox();
             this._scriptArguments = new System.Windows.Forms.TextBox();
             this._workingDir = new System.Windows.Forms.TextBox();
@@ -50,12 +50,13 @@
             this._nplExePath.TabIndex = 0;
             this._nplExePath.TextChanged += new System.EventHandler(this.NPLPathChanged);
             // 
-            // nplExeArguments
+            // _nplExeOptions
             // 
-            this.nplExeArguments.Location = new System.Drawing.Point(117, 81);
-            this.nplExeArguments.Name = "nplExeArguments";
-            this.nplExeArguments.Size = new System.Drawing.Size(464, 20);
-            this.nplExeArguments.TabIndex = 1;
+            this._nplExeOptions.Location = new System.Drawing.Point(117, 81);
+            this._nplExeOptions.Name = "_nplExeOptions";
+            this._nplExeOptions.Size = new System.Drawing.Size(464, 20);
+            this._nplExeOptions.TabIndex = 1;
+            this._nplExeOptions.TextChanged += new System.EventHandler(this.NPLOptionsChanged);
             // 
             // _scriptFile
             // 
@@ -63,6 +64,7 @@
             this._scriptFile.Name = "_scriptFile";
             this._scriptFile.Size = new System.Drawing.Size(464, 20);
             this._scriptFile.TabIndex = 2;
+            this._scriptFile.TextChanged += new System.EventHandler(this.ScriptFileChanged);
             // 
             // _scriptArguments
             // 
@@ -70,6 +72,7 @@
             this._scriptArguments.Name = "_scriptArguments";
             this._scriptArguments.Size = new System.Drawing.Size(464, 20);
             this._scriptArguments.TabIndex = 3;
+            this._scriptArguments.TextChanged += new System.EventHandler(this.ScriptArgumentsChanged);
             // 
             // _workingDir
             // 
@@ -77,6 +80,7 @@
             this._workingDir.Name = "_workingDir";
             this._workingDir.Size = new System.Drawing.Size(413, 20);
             this._workingDir.TabIndex = 4;
+            this._workingDir.TextChanged += new System.EventHandler(this.WorkingDirChanged);
             // 
             // _nplExePathButton
             // 
@@ -158,7 +162,7 @@
             this.Controls.Add(this._workingDir);
             this.Controls.Add(this._scriptArguments);
             this.Controls.Add(this._scriptFile);
-            this.Controls.Add(this.nplExeArguments);
+            this.Controls.Add(this._nplExeOptions);
             this.Controls.Add(this._nplExePath);
             this.Name = "NPLPropertyPageControl";
             this.Size = new System.Drawing.Size(605, 308);
@@ -170,7 +174,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox _nplExePath;
-        private System.Windows.Forms.TextBox nplExeArguments;
+        private System.Windows.Forms.TextBox _nplExeOptions;
         private System.Windows.Forms.TextBox _scriptFile;
         private System.Windows.Forms.TextBox _scriptArguments;
         private System.Windows.Forms.TextBox _workingDir;

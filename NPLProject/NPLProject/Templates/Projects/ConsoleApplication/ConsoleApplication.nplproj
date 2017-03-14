@@ -2,24 +2,17 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid></ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>MyRootNamespace</RootNamespace>
-    <AssemblyName>MyAssemblyName</AssemblyName>
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <NPLExePath></NPLExePath>
+    <NPLOptions></NPLOptions>
+    <StartupFile></StartupFile>
+    <Arguments></Arguments>
+    <WorkingDirectory>.</WorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugSymbols>false</DebugSymbols>
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.npl">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="main.npl"/>
   </ItemGroup>
 </Project>

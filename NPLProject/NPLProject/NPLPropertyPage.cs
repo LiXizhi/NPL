@@ -8,11 +8,12 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using System.Drawing;
 using Microsoft.VisualStudioTools.Project;
+using System.Windows.Forms;
 
 namespace NPLTools.Project
 {
     [Guid("BE2402BF-92AC-4467-9455-E9615D8F569F")]
-    public class NPLPropertyPage : IPropertyPage
+    public class NPLPropertyPage : CommonPropertyPage
     {
         private readonly NPLPropertyPageControl _control;
         public NPLPropertyPage()
@@ -20,77 +21,47 @@ namespace NPLTools.Project
             _control = new NPLPropertyPageControl(this);
         }
 
-        #region IPropertyPage
-        void IPropertyPage.Activate(IntPtr hWndParent, RECT[] pRect, int bModal)
+        public override Control Control
         {
-            NativeMethods.SetParent(_control.Handle, hWndParent);
-        }
-
-        int IPropertyPage.Apply()
-        {
-            return VSConstants.S_OK;
-        }
-
-        void IPropertyPage.Deactivate()
-        {
-            
-        }
-
-        void IPropertyPage.GetPageInfo(PROPPAGEINFO[] pPageInfo)
-        {
-            PROPPAGEINFO info = new PROPPAGEINFO();
-
-            info.cb = (uint)Marshal.SizeOf(typeof(PROPPAGEINFO));
-            info.dwHelpContext = 0;
-            info.pszDocString = null;
-            info.pszHelpFile = null;
-            info.pszTitle = "General";
-            info.SIZE.cx = _control.Width;
-            info.SIZE.cy = _control.Height;
-            pPageInfo[0] = info;
-        }
-
-        void IPropertyPage.Help(string pszHelpDir)
-        {
-            
-        }
-
-        int IPropertyPage.IsPageDirty()
-        {
-            return VSConstants.S_OK;
-        }
-
-        void IPropertyPage.Move(RECT[] pRect)
-        {
-            RECT r = pRect[0];
-
-            _control.Location = new Point(r.left, r.top);
-            _control.Size = new Size(r.right - r.left, r.bottom - r.top);
-        }
-
-        void IPropertyPage.SetObjects(uint cObjects, object[] ppunk)
-        {
-            if (ppunk == null)
+            get
             {
-                return;
+                return _control;
             }
         }
 
-        void IPropertyPage.SetPageSite(IPropertyPageSite pPageSite)
+        public override string Name
         {
+            get
+            {
+                return "NPL Settings";
+            }
+        }
+
+        public override void Apply()
+        {
+            Project.SetProjectProperty(NPLProjectConstants.NPLExePath, _control.nplExePath);
+            Project.SetProjectProperty(NPLProjectConstants.NPLOptions, _control.nplExeOptions);
+            Project.SetProjectProperty(NPLProjectConstants.StartupFile, _control.scriptFile);
+            Project.SetProjectProperty(NPLProjectConstants.Arguments, _control.scriptArguments);
+            Project.SetProjectProperty(NPLProjectConstants.WorkingDirectory, _control.workingDir);
+            IsDirty = false;
+        }
+
+        public override void LoadSettings()
+        {
+            Loading = true;
+            try
+            {
+                _control.nplExePath = Project.GetUnevaluatedProperty(NPLProjectConstants.NPLExePath);
+                _control.nplExeOptions = Project.GetUnevaluatedProperty(NPLProjectConstants.NPLOptions);
+                _control.scriptFile = Project.GetUnevaluatedProperty(NPLProjectConstants.StartupFile);
+                _control.scriptArguments = Project.GetUnevaluatedProperty(NPLProjectConstants.Arguments);
+                _control.workingDir = Project.GetUnevaluatedProperty(NPLProjectConstants.WorkingDirectory);
+            }finally
+            {
+                Loading = false;
+            }
             
         }
-
-        void IPropertyPage.Show(uint nCmdShow)
-        {
-            _control.Visible = true;
-            _control.Show();
-        }
-
-        int IPropertyPage.TranslateAccelerator(MSG[] pMsg)
-        {
-            return VSConstants.S_OK;
-        }
-        #endregion
     }
 }
