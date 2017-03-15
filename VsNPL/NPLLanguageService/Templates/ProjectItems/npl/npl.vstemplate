@@ -1,0 +1,13 @@
+﻿<VSTemplate Type="Item" Version="2.0.0"
+    xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>npl File</Name>
+    <Description>npl</Description>
+    <Icon>npl.ico</Icon>
+    <ProjectType>NPL</ProjectType>
+    <DefaultName>NPLFile.npl</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem>npl.npl</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
