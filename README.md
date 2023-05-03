@@ -3,7 +3,9 @@
 
 NPL/Lua Language Service and debugger (attach to process)
 
-This is NPL/Lua extension for visual studio 2010/2012/2013/2015
+This is NPL/Lua extension for visual studio 2010/2012/2013/2015/2017
+
+:point_right: See also the [new NPL/Lua extension](https://github.com/LiXizhi/NPLForVisualStudio) for visual studio 2022 or above. 
 
 Install here or directly from visual studio:
 http://visualstudiogallery.msdn.microsoft.com/7782dc20-924a-4726-8656-d876cdbb3417
